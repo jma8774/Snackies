@@ -1,5 +1,5 @@
 import React from 'react';
-import { lightTheme, darkTheme } from './components/theme'
+import { lightTheme, darkTheme } from './theme'
 import ThemeSwitch from './components/ThemeSwitch';
 import { useSelector, useDispatch } from 'react-redux'
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,13 +17,13 @@ const App = () => {
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <CssBaseline />
       <ThemeSwitch />
-      <Button onClick={() => dispatch(add(cart.length+1))}> 
+      <Button onClick={() => dispatch(add(cart.length))}> 
         Cart Add 
       </Button>
-      <Button onClick={() => dispatch(remove(10))}> 
+      <Button onClick={() => dispatch(remove(cart.length-1))}> 
         Cart Delete 
       </Button>
-      Hello World
+      {cart.length}
     </ThemeProvider>
   )
 }

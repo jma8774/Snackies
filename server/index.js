@@ -6,6 +6,7 @@ const path = require("path")
 const morgan = require("morgan");
 const cors = require("cors");
 const port = process.env.PORT || 5000;
+const db = require('./database/mongoose')
 const app = express();
 
 // Middleware to allow express to parse requests as JSON
@@ -32,3 +33,5 @@ if (process.env.NODE_ENV === 'production') {
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+db.connect().catch(err => console.log(err));
