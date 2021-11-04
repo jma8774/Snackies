@@ -9,7 +9,7 @@ function authenticateToken(req, res, next) {
   
   if (token === undefined) return res.sendStatus(401)
   
-  console.log("Authenticate Token:", token.substring(0,7)+"...")
+  // console.log("Authenticate Token:", token.substring(0,7)+"...")
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, email) => {
     if (err) {
@@ -18,7 +18,7 @@ function authenticateToken(req, res, next) {
     }
 
     req.email = email
-    console.log("Authenticate User Email:", email)
+    // console.log("Authenticate User Email:", email)
     next()
   })
 }

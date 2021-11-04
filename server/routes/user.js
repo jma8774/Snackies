@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwtAuth = require("../jwtAuth")
+const googleOAuth = require("../googleOAuth")
 const db = require("../database/mongoose")
 
 function cartCount(cart) {
@@ -30,15 +31,44 @@ router.get('/', jwtAuth.authenticateToken, async function (req, res) {
   }
 })
 
-// User logs in 
-router.post('/login', function (req, res) {
+// User login
+router.post('/login', async function (req, res) {
   const {email, password} = req.body
-  // Do database to confirm login
-  // If good then give them a JWT token, which would authenticate them
+  // Confirm with database
+  const user = await db.User.findOne({email: email}).exec()
+  if(user === null || user.password !== password) 
+    return res.json();
+  // Save JWT token in cookies
   const token = jwtAuth.generateAccessToken(email)
   res.cookie('token', token);
-  console.log("Login: Generated Token Cookie")
-  res.json({ token });
+  // console.log("Login: Generated Token Cookie")
+  res.json(token);
+})
+
+// Google oauth login 
+router.post('/googleAuth', async function (req, res) {
+  const {tokenId} = req.body
+  // Get profile info from Google using Token
+  const profile = await googleOAuth.verify(tokenId)
+  const userData = {
+    email: profile.email,
+    password: undefined,
+    first_name: profile.given_name,
+    last_name: profile.family_name
+  }
+  // Check if user email exist, if not we make a new user
+  const user = await db.User.findOne({email: profile.email}).exec()
+  if(user === null) {
+    let newUser = new db.User(userData)
+    newUser = await newUser.save()
+  }
+  // Generate token using email and set it 
+  if(!userData.email)
+    return res.json();
+  const token = jwtAuth.generateAccessToken(userData.email)
+  res.cookie('token', token);
+  // console.log("Google Login: Generated Token Cookie")
+  res.json(token);
 })
 
 module.exports = router;
