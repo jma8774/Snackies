@@ -161,21 +161,21 @@ addWish(testUserId, '61837d502ee1ece76ca6f932')
 //   address: address
 // })
 
-User.findById(testUserId)
-.populate({ 
-  path: 'history',
-  populate: {
-    path: 'items',
-    populate: {
-      path: 'itemId',
-    } 
-  } 
-})
-.exec(function (err, user) {
-  if (err) return handleError(err);
-  console.log(user.history[0]);
+// User.findById(testUserId)
+// .populate({ 
+//   path: 'history',
+//   populate: {
+//     path: 'items',
+//     populate: {
+//       path: 'itemId',
+//     } 
+//   } 
+// })
+// .exec(function (err, user) {
+//   if (err) return handleError(err);
+//   console.log("Testing populating History:\n", user.history[0]);
 
-});
+// });
 
 const doritos = new Item({
   name: "Dorito Spicy",
@@ -197,4 +197,4 @@ const doritos = new Item({
 
 
 
-module.exports = { connect }
+module.exports = { connect, User, Item, Order}
