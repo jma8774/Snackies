@@ -10,6 +10,113 @@ async function connect() {
 
 connect().catch(err => console.log(err));
 
+// Create a new user when they sign up
+async function createUser(userData) {
+  try {
+    const person = new User(userData)
+    newUser = await person.save()
+    console.log("Create User: Success"); 
+    return newUser
+  } catch (err) {
+    console.log('Create User: Error (user exist?)');
+    // console.log(err)
+  }
+}
+
+// User can add items to the cart
+// The items will be represented as an array of such objects:
+// [{  
+//    itemId: "someId",
+//    quantity: [ { size: "small", qty: 2 }, { size: "large", qty: 5 } ]
+//  },
+//  {  
+//    itemId: "someId2",
+//    quantity: [ { size: "medium", qty: 2 } ]
+//  },
+async function addCart(userId, newItem) {
+  try {
+    const user = await User.findById(userId)
+    if (user === null) {
+      console.log("Add Cart: User not found")
+      return
+    }
+    // See if this item is already in cart, if not we create it
+    const match = user.cart.filter(x => x["itemId"].toString() === newItem["itemId"])
+    if(match.length === 0) {
+      user.cart.push({  
+        itemId: newItem["itemId"],
+        quantity: [ { size: newItem["size"], qty: newItem["qty"] } ]
+      })
+    }
+    // If already in cart, then we can add another size/quantity to it or update quantity of existing size
+    user.cart.forEach(cartItem => {
+      if(cartItem["itemId"].toString() === newItem["itemId"]) {
+        let updated = false
+        cartItem["quantity"].forEach(quantity => {
+          if(quantity["size"] === newItem["size"]) {
+            quantity["qty"] += newItem["qty"]
+            updated = true
+          }
+        })
+        if(!updated)
+          cartItem["quantity"].push({ size: newItem["size"], qty: newItem["qty"]})
+      }
+    })
+    user.save()
+    console.log("Add Cart: Cart updated")
+  } catch (err) {
+    console.log('Add Cart: Error \n', err);
+  }
+}
+
+// User can add an item to their wishlist
+async function addWish(userId, itemId) {
+  try {
+    const user = await User.findById(userId)
+    if (user === null) {
+      console.log("Add Wish: User not found")
+      return
+    }
+    user.wishlist.addToSet(itemId)
+    user.save()
+    console.log("Add Wishlist: Wishlist updated")
+  } catch (err) {
+    console.log('Add Wishlist: Error \n', err);
+  }
+}
+
+// Used by createOrder, when an order is created, the user will get it on their history
+async function addHistory(userId, orderId) {
+  try {
+    const user = await User.findById(userId)
+    if (user === null) {
+      console.log("Add History: User not found")
+      return
+    }
+    user.history.addToSet(orderId)
+    user.save()
+    console.log("Add History: History updated")
+  } catch (err) {
+    console.log('Add History: Error \n', err);
+  }
+}
+
+// After payment call this to create a new order
+async function createOrder(orderData) {
+  try {
+    const order = new Order(orderData)
+    console.log()
+    newOrder = await order.save()
+    await addHistory(orderData["user"], newOrder.id)
+    console.log("Create Order: Success"); 
+    return newOrder
+  } catch (err) {
+    console.log('Create Order: Error');
+    // console.log(err)
+  }
+}
+
+// Testing here
 const address = {
   street: "2369 W 11th St",
   apt: "Apt 2A",
@@ -18,28 +125,60 @@ const address = {
   zip: 11223
 }
 
-const person = new User({
+const person = {
   email: "jma8774@bths.edu",
   password: "somehash", // need to hash it
   first_name: "Jia Ming",
   last_name: "Ma",
-})
-
-
-async function createUser(userData) {
-  try {
-    const person = new User(userData)
-    newUser = await person.save()
-    console.log("Created new user\n", newUser); 
-  } catch (err) {
-    console.log('Create user error (user exist?)\n', err);
-  }
 }
 
-// createUser(person)
+const testUserId = "618381afb73a7612f5ba0deb"
+createUser(person)
+addCart(testUserId, {
+  itemId: "61836b3e62c0270ab506bd43",
+  size: "big",
+  qty: 2
+})
+addCart(testUserId, {
+  itemId: "61836b3e62c0270ab506bd43",
+  size: "small",
+  qty: 2
+})
+addCart(testUserId, {
+  itemId: "61837d502ee1ece76ca6f932",
+  size: "big",
+  qty: 2
+})
+addWish(testUserId, '61837d502ee1ece76ca6f932')
+// createOrder({
+//   user: testUserId,
+//   totalPrice: 0,
+//   items: [{
+//     itemId: "61837d502ee1ece76ca6f932",
+//     quantity: [ { size: "small", qty: 5 } ]
+//   }],
+//   status: "Delivered",
+//   address: address
+// })
+
+User.findById(testUserId)
+.populate({ 
+  path: 'history',
+  populate: {
+    path: 'items',
+    populate: {
+      path: 'itemId',
+    } 
+  } 
+})
+.exec(function (err, user) {
+  if (err) return handleError(err);
+  console.log(user.history[0]);
+
+});
 
 const doritos = new Item({
-  name: "Dorito Not Spicy",
+  name: "Dorito Spicy",
   brand: "Dorito",
   description: "Spicy Dorito, wow!",
   rating: 2.5,
@@ -50,49 +189,12 @@ const doritos = new Item({
     created: new Date()
   }],
   prices: [{ size: "small", price: 1}, { size: "big", price: 2 }],
+  basePrice: 1,
   image: "/spicyDorito.png"
 })
 
 // doritos.save()
 
-// User.findById("61832d4dba2e41ef9f0ed22c", (err, user) => {
-//   if (err) {
-//     console.log("Find error\n", err)
-//     return
-//   }
-//   if (user === null) {
-//     console.log("User not found")
-//     return
-//   }
-//   // user.cart.push("618321db42383a4692b7ccdb")
-//   user.history.push("61832c473e1ab468528d7e93")
-//   user.save()
-//   console.log("User updated")
-// })
 
-// User.findById("618314d5c283e1c2ec589ec8").populate('cart').
-// exec(function (err, user) {
-//   if (err) return handleError(err);
-//   console.log(user.cart);
-// });
-
-const order = new Order({
-  user: "618314d5c283e1c2ec589ec8",
-  totalPrice: 0,
-  items: ["618321db42383a4692b7ccdb"],
-  status: "Delivered",
-  address: address
-})
-
-// order.save()
-
-// Order.findById("61832c473e1ab468528d7e93").
-// populate('user').
-// populate('items').
-// exec(function (err, order) {
-//   if (err) return handleError(err);
-//   console.log(order.user);
-//   console.log(order.items);
-// });
 
 module.exports = { connect }

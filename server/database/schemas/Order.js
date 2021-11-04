@@ -10,12 +10,17 @@ const addressSchema = Schema({
   zip: Number
 })
 
+const cartItemSchema = Schema({
+  itemId: { type: ObjectId, ref: 'Item' },
+  quantity: [ { size: String, qty: Number } ]
+})
+
 const orderSchema = Schema({
   user: { type: ObjectId, ref: 'User' },
   created: { type: mongoose.Date, default: new Date() },
   arrivalDate: { type: mongoose.Date, default: moment(new Date()).add(30, 'm')  },
   totalPrice: Number,
-  items: [{ type: ObjectId, ref: 'Item' }],
+  items: [cartItemSchema],
   status: String,
   address: addressSchema
 });

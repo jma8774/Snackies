@@ -9,12 +9,17 @@ const addressSchema = Schema({
   zip: Number
 })
 
+const cartItemSchema = Schema({
+  itemId: { type: ObjectId, ref: 'Item' },
+  quantity: [ { size: String, qty: Number } ]
+})
+
 const userSchema = Schema({
   email: { type: String, unique: true },
   password: String, // need to hash it
   first_name: String,
   last_name: String,
-  cart: [{ type: ObjectId, ref: 'Item' }],
+  cart: [cartItemSchema],
   wishlist: [{ type: ObjectId, ref: 'Item' }],
   history: [{ type: ObjectId, ref: 'Order' }],
   address: [addressSchema],

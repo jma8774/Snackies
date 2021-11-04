@@ -15,11 +15,12 @@ const priceSchema = Schema({
 
 const itemSchema = Schema({
   name: String,
-  brand: String,
+  brand: { type: String, index: true},
   description: String,
-  rating: { type: Number, default: 0 },
+  rating: { type: Number, default: 0, index: true },
   reviews: [reviewSchema],
   prices: [priceSchema],
+  basePrice: Number,
   image: String
 });
 
