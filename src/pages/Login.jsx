@@ -20,10 +20,7 @@ const Login = () => {
   
   const login = async () => {
     try {
-      await axios.post(`/api/user/login`, {
-        email: loginInfo.email,
-        password: loginInfo.password,
-      });
+      await axios.post(`/api/user/login`, loginInfo);
       console.log("Token cookie now:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
@@ -55,7 +52,6 @@ const Login = () => {
       ...prevState,
       email: e.target.value
     }))
-    console.log(loginInfo)
   }
 
   const updatePassword = (e) => {
@@ -63,7 +59,6 @@ const Login = () => {
       ...prevState,
       password: e.target.value
     }))
-    console.log(loginInfo)
   }
 
   return (

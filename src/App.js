@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from "axios"
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Cart from './pages/Cart';
 import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist';
@@ -50,12 +51,14 @@ const App = () => {
       <Button onClick={() => logout()}> Logout </Button>
       <Button onClick={() => getUserInfo()}> Get User Info </Button>
       <Button component={Link} to="/login"> Login Page </Button>
+      <Button component={Link} to="/signup"> Sign up Page </Button>
       <Button component={Link} to="/cart"> Cart </Button>
       <Button component={Link} to="/wishlist"> Wishlist </Button>
       <Button component={Link} to="/orders"> Order </Button>
 
       <Switch>
           <Route path="/login" component={Login} exact/>
+          <Route path="/signup" component={Signup} exact/>
           <PrivateRoute path="/cart" component={Cart} exact/>
           <PrivateRoute path="/orders" component={OrderHistory} exact/>
           <PrivateRoute path="/wishlist" component={Wishlist} exact/>

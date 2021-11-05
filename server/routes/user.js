@@ -42,7 +42,7 @@ router.post('/login', async function (req, res) {
   const token = jwtAuth.generateAccessToken(email)
   res.cookie('token', token);
   // console.log("Login: Generated Token Cookie")
-  res.json(token);
+  res.json({token});
 })
 
 // Google oauth login 
@@ -68,7 +68,27 @@ router.post('/googleAuth', async function (req, res) {
   const token = jwtAuth.generateAccessToken(userData.email)
   res.cookie('token', token);
   // console.log("Google Login: Generated Token Cookie")
-  res.json(token);
+  res.json({token});
+})
+
+// User signup
+router.post('/signup', async function (req, res) {
+  const {email, password, first_name, last_name} = req.body   
+  const exist = await db.User.findOne({email: email}).exec() 
+  if(exist)
+    return res.json({ error: "Email exist"}) 
+  let user = new db.User({
+    email: email,
+    password: password,
+    first_name: first_name,
+    last_name: last_name
+  })
+  await user.save()
+  // Save JWT token in cookies
+  const token = jwtAuth.generateAccessToken(email)
+  res.cookie('token', token);
+  // console.log("Signup: Generated Token Cookie")
+  res.json({token});
 })
 
 module.exports = router;
