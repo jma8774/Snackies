@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const jwtAuth = require("../jwtAuth")
-const googleOAuth = require("../googleOAuth")
+const jwtAuth = require("../middleware/jwtAuth")
+const googleOAuth = require("../middleware/googleOAuth")
 const db = require("../database/mongoose")
 
 function cartCount(cart) {
@@ -47,11 +47,10 @@ router.post('/login', async function (req, res) {
 })
 
 // Google oauth login 
-router.post('/googleAuth', async function (req, res) {
+router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (req, res) {
   try {
-    const {tokenId} = req.body
     // Get profile info from Google using Token
-    const profile = await googleOAuth.verify(tokenId)
+    const profile = req.payload
     const userData = {
       email: profile.email,
       password: undefined,
