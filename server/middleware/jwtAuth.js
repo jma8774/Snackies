@@ -7,18 +7,15 @@ function generateAccessToken(email) {
 function authenticateToken(req, res, next) {
   const token = req.cookies.token
   
-  if (token === undefined) return res.sendStatus(401)
-  
-  // console.log("Authenticate Token:", token.substring(0,7)+"...")
+  if (token === undefined) return res.status(401).send({message: "Undefined JWT token"})
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, email) => {
     if (err) {
-      console.log(err)
-      return res.sendStatus(403)
+      console.log("JWT Token Error:", err.response ? err.response.data : err)
+      return res.status(403).send({message: "Bad JWT token"})
     }
 
     req.email = email
-    // console.log("Authenticate User Email:", email)
     next()
   })
 }

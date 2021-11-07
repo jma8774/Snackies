@@ -20,31 +20,29 @@ const Login = () => {
   
   const login = async () => {
     try {
-      await axios.post(`/api/user/login`, loginInfo);
-      console.log("Token cookie now:", cookies.getAll().token)
+      const response = await axios.post(`/api/user/login`, loginInfo);
+      console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
     } catch(err) {
-      console.log("Login Error\n", err)
+      console.log("Login Error\n", err.response ? err.response.data : err)
     }
     dispatch(setLoading(false))
-    console.log("User data loaded (if provided with a valid JWT token)")
   }
 
   const googleLogin = async (response) => {
     const { tokenId } = response
     try {
-      const { token } = await axios.post(`/api/user/googleAuth`, {
+      const res = await axios.post(`/api/user/googleAuth`, {
         tokenId: tokenId,
       });
-      console.log("Token cookie now:", cookies.getAll().token)
+      console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
     } catch(err) {
-      console.log("Login Error\n", err)
+      console.log("Google Login Error\n", err.response ? err.response.data : err)
     }
     dispatch(setLoading(false))
-    console.log("User data loaded (if provided with a valid JWT token)")
   }
 
   const updateEmail = (e) => {

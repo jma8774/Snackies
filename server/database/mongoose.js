@@ -10,6 +10,14 @@ async function connect() {
 
 connect().catch(err => console.log(err));
 
+function cartCount(cart) {
+  let count = 0
+  for(const item of cart) {
+    count += item.quantity.length
+  }
+  return count
+}
+
 // Create a new user when they sign up
 async function createUser(userData) {
   try {
@@ -133,23 +141,23 @@ const person = {
 }
 
 const testUserId = "618381afb73a7612f5ba0deb"
-createUser(person)
-addCart(testUserId, {
-  itemId: "61836b3e62c0270ab506bd43",
-  size: "big",
-  qty: 2
-})
-addCart(testUserId, {
-  itemId: "61836b3e62c0270ab506bd43",
-  size: "small",
-  qty: 2
-})
-addCart(testUserId, {
-  itemId: "61837d502ee1ece76ca6f932",
-  size: "big",
-  qty: 2
-})
-addWish(testUserId, '61837d502ee1ece76ca6f932')
+// createUser(person)
+// addCart(testUserId, {
+//   itemId: "61836b3e62c0270ab506bd43",
+//   size: "big",
+//   qty: 2
+// })
+// addCart(testUserId, {
+//   itemId: "61836b3e62c0270ab506bd43",
+//   size: "small",
+//   qty: 2
+// })
+// addCart(testUserId, {
+//   itemId: "61837d502ee1ece76ca6f932",
+//   size: "big",
+//   qty: 2
+// })
+// addWish(testUserId, '61837d502ee1ece76ca6f932')
 // createOrder({
 //   user: testUserId,
 //   totalPrice: 0,
@@ -197,4 +205,4 @@ const doritos = new Item({
 
 
 
-module.exports = { connect, User, Item, Order}
+module.exports = { connect, User, Item, Order, cartCount}

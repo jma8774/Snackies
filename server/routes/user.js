@@ -4,15 +4,8 @@ const jwtAuth = require("../middleware/jwtAuth")
 const googleOAuth = require("../middleware/googleOAuth")
 const db = require("../database/mongoose")
 
-function cartCount(cart) {
-  let count = 0
-  for(const item of cart) {
-    count += item.quantity.length
-  }
-  return count
-}
-
-// Check if user has token, then we can just give front-end the user infos
+// Check if user has sent a valid JWT token
+// On Success: Log the user in with all their information
 router.get('/', jwtAuth.authenticateToken, async function (req, res) {
   try {
     // req.email is set by jwtAuth.authenticateToken after it has verified the JWT
@@ -22,31 +15,32 @@ router.get('/', jwtAuth.authenticateToken, async function (req, res) {
       email: user.email,
       first_name: user.first_name,
       last_name: user.last_name,
-      cart_count: cartCount(user.cart),
+      cart_count: db.cartCount(user.cart),
       addresses: user.address
     }
     res.json(userData)
   } catch (err) {
     console.log('Get User Info Error:\n', err)
-    res.json({error: "Something went wrong"})
+    res.status(400).send({ message: 'Error has occurred' })
   }
 })
 
-// User login
+// User login to check their username and password
+// On Success: Generate a JWT to store in their cookies
 router.post('/login', async function (req, res) {
   const {email, password} = req.body
   // Confirm with database
   const user = await db.User.findOne({email: email}).exec()
   if(user === null || user.password !== password) 
-    return res.json({error: "Wrong username/password"});
+    return res.status(401).send({ message: "Incorrect username/password" })
   // Save JWT token in cookies
   const token = jwtAuth.generateAccessToken(email)
   res.cookie('token', token);
-  // console.log("Login: Generated Token Cookie")
-  res.json({token});
+  res.send({token});
 })
 
-// Google oauth login 
+// Google OAuth login by verifying the Google OAuth token ID sent
+// On Success: Generate a JWT to store in their cookies
 router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (req, res) {
   try {
     // Get profile info from Google using Token
@@ -63,23 +57,23 @@ router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (
       let newUser = new db.User(userData)
       newUser = await newUser.save()
     }
-    // Generate token using email and set it 
+    // Save JWT token in cookies
     const token = jwtAuth.generateAccessToken(userData.email)
     res.cookie('token', token);
-    // console.log("Google Login: Generated Token Cookie")
-    res.json({token});
+    res.send({token});
   } catch (err) {
     console.log('Google Login Error:\n', err)
-    res.json({error: "Something went wrong"})
+    return res.status(400).send({ message: 'Error has occurred' })
   }
 })
 
-// User signup
+// User signup to check that the email doesn't exist in the database
+// On Success: Create a new user in our MongoDB database and generate a JWT to store in their cookies
 router.post('/signup', async function (req, res) {
   const {email, password, first_name, last_name} = req.body   
   const exist = await db.User.findOne({email: email}).exec() 
   if(exist)
-    return res.json({ error: "Email exist"}) 
+    return res.sendStatus(403) // Already Exist Status Code 
   let user = new db.User({
     email: email,
     password: password,
@@ -90,8 +84,7 @@ router.post('/signup', async function (req, res) {
   // Save JWT token in cookies
   const token = jwtAuth.generateAccessToken(email)
   res.cookie('token', token);
-  // console.log("Signup: Generated Token Cookie")
-  res.json({token});
+  res.send({token});
 })
 
 module.exports = router;

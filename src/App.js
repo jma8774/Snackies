@@ -20,12 +20,12 @@ import { initialize, setLoading, reset} from './redux/features/userSlice'
 const App = () => {
   const cookies = new Cookies();
   const theme = useSelector((state) => state.theme.value)
-  const user = useSelector((state) => state.user.value)
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
   const logout = async () => {
     cookies.remove("token")
-    console.log("Token cookie now:", cookies.getAll().token)
+    console.log("Token cookie:", cookies.getAll().token)
     dispatch(reset())
   }
 
@@ -33,11 +33,11 @@ const App = () => {
     try {
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
+      console.log("User data loaded (if provided with a valid JWT token)")
     } catch(err) {
-      console.log(err)
+      console.log("Get User Info Error:\n", err.response ? err.response.data : err)
     }
     dispatch(setLoading(false))
-    console.log("User data loaded (if provided with a valid JWT token)")
   }
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const App = () => {
       <Button component={Link} to="/cart"> Cart </Button>
       <Button component={Link} to="/wishlist"> Wishlist </Button>
       <Button component={Link} to="/orders"> Order </Button>
-
+      <div>{user.first_name ? "Hello " + user.first_name : "No one is logged in"}</div>
       <Switch>
           <Route path="/login" component={Login} exact/>
           <Route path="/signup" component={Signup} exact/>
