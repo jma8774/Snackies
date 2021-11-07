@@ -1,9 +1,9 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { toggle } from '../redux/features/themeSlice'
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
-
+import Cookies from 'universal-cookie';
 
 // Override Switch Component
 // add my own custom icons  
@@ -48,13 +48,18 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const ThemeSwitch = ({setTheme}) => {
+const ThemeSwitch = () => {
+  const cookies = new Cookies();
   const dispatch = useDispatch()
+  const theme = useSelector((state) => state.theme)
 
   return (
     <MaterialUISwitch
-      defaultChecked
-      onChange={() => dispatch(toggle())}
+      checked = {theme}
+      onChange={() => { 
+        cookies.set("theme", !theme)
+        dispatch(toggle())
+      }}
     >
     </MaterialUISwitch>
   )

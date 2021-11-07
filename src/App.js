@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useEffect }from 'react';
 import { lightTheme, darkTheme } from './theme'
 import ThemeSwitch from './components/ThemeSwitch';
 import PrivateRoute from './components/PrivateRoute';
@@ -19,7 +19,7 @@ import { initialize, setLoading, reset} from './redux/features/userSlice'
 
 const App = () => {
   const cookies = new Cookies();
-  const theme = useSelector((state) => state.theme.value)
+  const theme = useSelector((state) => state.theme)
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 

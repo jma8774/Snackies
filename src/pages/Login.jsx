@@ -20,7 +20,7 @@ const Login = () => {
   
   const login = async () => {
     try {
-      const response = await axios.post(`/api/user/login`, loginInfo);
+      await axios.post(`/api/user/login`, loginInfo);
       console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
@@ -33,9 +33,7 @@ const Login = () => {
   const googleLogin = async (response) => {
     const { tokenId } = response
     try {
-      const res = await axios.post(`/api/user/googleAuth`, {
-        tokenId: tokenId,
-      });
+      await axios.post(`/api/user/googleAuth`, { tokenId: tokenId, });
       console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))

@@ -1,16 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 // createSlice is part of the Redux Toolkit which is the recommended way to use Redux
 // It simplifies the old ways of creating reducers and then having to create actions for each
 // Better file managment this way
 export const themeSlice = createSlice({
   name: 'theme',
-  initialState: {
-    value: true,
-  },
+  // Cookie doesn't get stored as a bool but as a string, so we have to do
+  //    "true" === "true" --> true
+  //    "false" === "true" --> false
+  initialState: cookies.get("theme") === undefined ? true : cookies.get("theme") === "true",
   reducers: {
     toggle: (state) => {
-      state.value = !state.value
+      return !state
     },
   },
 })
