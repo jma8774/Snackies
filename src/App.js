@@ -8,8 +8,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Button from '@mui/material/Button';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from "axios"
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Reset from './pages/Reset';
 import Cart from './pages/Cart';
 import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist';
@@ -24,7 +26,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   const logout = async () => {
-    cookies.remove("token")
+    cookies.remove("token", { path: '/' })
     console.log("Token cookie:", cookies.getAll().token)
     dispatch(reset())
   }
@@ -54,10 +56,15 @@ const App = () => {
       <Button component={Link} to="/cart"> Cart </Button>
       <Button component={Link} to="/wishlist"> Wishlist </Button>
       <Button component={Link} to="/orders"> Order </Button>
+      <Button component={Link} to="/reset"> Reset </Button>
+      <Button component={Link} to="/reset/yowhatup"> Reset Test </Button>
+
       <div>{user.first_name ? "Hello " + user.first_name : "No one is logged in"}</div>
       <Switch>
+          <Route path="/" component={Home} exact/>
           <Route path="/login" component={Login} exact/>
           <Route path="/signup" component={Signup} exact/>
+          <Route path="/reset" component={Reset} exact/>
           <PrivateRoute path="/cart" component={Cart} exact/>
           <PrivateRoute path="/orders" component={OrderHistory} exact/>
           <PrivateRoute path="/wishlist" component={Wishlist} exact/>

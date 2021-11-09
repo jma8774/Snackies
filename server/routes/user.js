@@ -42,7 +42,7 @@ router.post('/login', async function (req, res) {
   if(!correct) return res.status(401).send({ message: "Incorrect username/password" })
   // Save JWT token in cookies
   const token = jwtAuth.generateAccessToken(email)
-  res.cookie('token', token);
+  res.cookie('token', token, { path: '/' });
   res.send({token});
 })
 
@@ -68,7 +68,7 @@ router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (
     }
     // Save JWT token in cookies
     const token = jwtAuth.generateAccessToken(userData.email)
-    res.cookie('token', token);
+    res.cookie('token', token,  { path: '/' });
     res.send({token});
   } catch (err) {
     console.log('Google Login Error:\n', err)
@@ -81,8 +81,7 @@ router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (
 router.post('/signup', async function (req, res) {
   const {email, password, first_name, last_name} = req.body   
   const exist = await db.User.findOne({email: email}).exec() 
-  if(exist)
-    return res.status(409).send({ message: "Email already exist" }) // Already Exist Status Code 
+  if(exist) return res.status(409).send({ message: "Email already exist" }) // Already Exist Status Code 
   // Generate a hash password to store in database
   const passwordHash = await bcrypt.hash(password, saltRounds)
   // Creating new database entry
@@ -98,8 +97,36 @@ router.post('/signup', async function (req, res) {
   // Save JWT token in cookies
   const token = jwtAuth.generateAccessToken(email)
   // Send Email
-  res.cookie('token', token);
+  res.cookie('token', token,  { path: '/' });
   res.send({token});
+})
+
+// User password reset by inputting an email
+// On Success: Check if email exist in DB, if it does send an email to that email for reset
+router.get('/sendReset', async function (req, res) {
+  const email = req.query.email
+  const user = await db.User.findOne({email: email}).exec() 
+  if(!user) return res.status(404).send({ message: "Email not found" })
+  // Generate JW token to use to reset password
+  const resetToken = jwtAuth.generateResetToken({ id: user.id, password: user.password })
+  // Send email out
+  mailer.resetPassword({ to: email, name: user.first_name, url: process.env.DOMAIN_NAME + "/reset/" + resetToken })
+  res.status(200).send({ message: "Success, reset link has been sent"})
+})
+
+// User clicks on the reset link sent to their email
+// On Success: User will input the new password and it will be reset
+router.post('/resetPassword', jwtAuth.authenticateResetToken, async function (req, res) {
+  const { id, password } = req.data
+  const { newPassword } = req.body
+  const user = await db.User.findById(id).exec() 
+  console.log(user)
+  // If password hash in JWT is different from database, then that means link has been used before
+  if(password !== user.password) return res.status(403).send({ message: "Link has been used once already"})
+  // Save hash(newPassword)
+  user.password = await bcrypt.hash(newPassword, saltRounds)
+  await user.save()
+  res.status(200).send({ message: "Success, password has been reset" })
 })
 
 module.exports = router;

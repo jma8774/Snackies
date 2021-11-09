@@ -3,12 +3,14 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from "axios"
 import { useDispatch } from 'react-redux'
+import { useHistory  } from 'react-router-dom';
 import { initialize, setLoading} from '../redux/features/userSlice'
 import Cookies from 'universal-cookie';
 
 const Signup = () => {
   const cookies = new Cookies();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [signUpInfo, setSignUpInfo] = useState({
     email: '',
     password: '',
@@ -52,6 +54,7 @@ const Signup = () => {
       console.log("Token cookie now:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
+      history.push('/')
     } catch(err) {
       console.log("Login Error\n", err.response ? err.response.data : err)
     }

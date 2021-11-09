@@ -57,7 +57,7 @@ const ThemeSwitch = () => {
     <MaterialUISwitch
       checked = {theme}
       onChange={() => { 
-        cookies.set("theme", !theme)
+        cookies.set("theme", !theme, { path: '/' })
         dispatch(toggle())
       }}
     >

@@ -3,12 +3,14 @@ import GoogleLogin from 'react-google-login';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from "axios"
+import { useHistory  } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { initialize, setLoading} from '../redux/features/userSlice'
 import Cookies from 'universal-cookie';
 
 
 const Login = () => {
+  const history = useHistory();
   const [loginInfo, setLoginInfo] = useState({
     email: "jma8774@bths.edu",
     password: 'somehash',
@@ -24,6 +26,7 @@ const Login = () => {
       console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
+      history.push('/')
     } catch(err) {
       console.log("Login Error\n", err.response ? err.response.data : err)
     }
@@ -37,6 +40,7 @@ const Login = () => {
       console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
+      history.push('/')
     } catch(err) {
       console.log("Google Login Error\n", err.response ? err.response.data : err)
     }
