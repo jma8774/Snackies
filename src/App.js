@@ -1,11 +1,13 @@
 import React, { useEffect }from 'react';
 import { lightTheme, darkTheme } from './theme'
-import ThemeSwitch from './components/ThemeSwitch';
 import PrivateRoute from './components/PrivateRoute';
+import Navbar from './components/Navbar';
 import { useSelector, useDispatch } from 'react-redux'
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from "axios"
 import Home from './pages/Home';
@@ -25,12 +27,6 @@ const App = () => {
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
-  const logout = async () => {
-    cookies.remove("token", { path: '/' })
-    console.log("Token cookie:", cookies.getAll().token)
-    dispatch(reset())
-  }
-
   const getUserInfo = async () => {
     try {
       const { data } = await axios.get(`/api/user/`);
@@ -48,27 +44,20 @@ const App = () => {
   return (
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <CssBaseline />
-      <ThemeSwitch />
-      <Button onClick={() => logout()}> Logout </Button>
-      <Button onClick={() => getUserInfo()}> Get User Info </Button>
-      <Button component={Link} to="/login"> Login Page </Button>
-      <Button component={Link} to="/signup"> Sign up Page </Button>
-      <Button component={Link} to="/cart"> Cart </Button>
-      <Button component={Link} to="/wishlist"> Wishlist </Button>
-      <Button component={Link} to="/orders"> Order </Button>
-      <Button component={Link} to="/reset"> Reset </Button>
-      <Button component={Link} to="/reset/yowhatup"> Reset Test </Button>
-
-      <div>{user.first_name ? "Hello " + user.first_name : "No one is logged in"}</div>
-      <Switch>
-          <Route path="/" component={Home} exact/>
-          <Route path="/login" component={Login} exact/>
-          <Route path="/signup" component={Signup} exact/>
-          <Route path="/reset" component={Reset} exact/>
-          <PrivateRoute path="/cart" component={Cart} exact/>
-          <PrivateRoute path="/orders" component={OrderHistory} exact/>
-          <PrivateRoute path="/wishlist" component={Wishlist} exact/>
-      </Switch>
+      <Navbar/>
+      <Container maxWidth="xl" sx={{ mt: 3}}>
+        <div>{user.first_name ? "Hello " + user.first_name : "No one is logged in"}</div>
+        <Switch>
+            <Route path="/" component={Home} exact/>
+            <Route path="/login" component={Login} exact/>
+            <Route path="/signup" component={Signup} exact/>
+            <Route path="/reset" component={Reset} exact/>
+            <Route path="/reset/:token" component={Reset} />
+            <PrivateRoute path="/cart" component={Cart} exact/>
+            <PrivateRoute path="/orders" component={OrderHistory} exact/>
+            <PrivateRoute path="/wishlist" component={Wishlist} exact/>
+        </Switch>
+      </Container>
     </ThemeProvider>
   )
 }

@@ -120,7 +120,6 @@ router.post('/resetPassword', jwtAuth.authenticateResetToken, async function (re
   const { id, password } = req.data
   const { newPassword } = req.body
   const user = await db.User.findById(id).exec() 
-  console.log(user)
   // If password hash in JWT is different from database, then that means link has been used before
   if(password !== user.password) return res.status(403).send({ message: "Link has been used once already"})
   // Save hash(newPassword)

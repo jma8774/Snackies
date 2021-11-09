@@ -18,6 +18,8 @@ async function initializeTransporter() {
 
 initializeTransporter()
 
+const resetLink = process.env.DOMAIN_NAME + "/reset"
+
 async function signup(data) {
   let info = await transporter.sendMail({
     from: '"Snackies 🍪" ' + process.env.YAHOO_USER, 
@@ -26,7 +28,8 @@ async function signup(data) {
     text: "Your registration for Snackies is complete, we hope you enjoy your stay!",
     html: "Dear " + data.name + ',' +
           "<p>Your registration for Snackies is complete, we hope you enjoy your stay!</p>" +
-          '<p>Here\'s a nyan cat for you 😊 <br/><img src="cid:nyan"/></p><br/>' +
+          "<p>If you ever forget your password, you can reset it here: <a href=" + resetLink + "> " + resetLink + "</a> </p>" +
+          '<p>Also, here\'s a nyan cat for you 😊 <br/><img src="cid:nyan"/></p><br/>' +
           "Best,<br/>Snackies",
     attachments: [
       // File Stream attachment
