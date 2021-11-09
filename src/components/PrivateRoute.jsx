@@ -12,10 +12,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   // console.log("Authorization User Id", user.id)
   return (
     cookies.get('token') !== undefined && user.loading
-      ?
-        <div>LOADING</div>
-      :
-        <Route {...rest} render={props => (
+      ? <div>LOADING</div>
+      : <Route {...rest} render={props => (
           user.id !== ""
             ? <Component {...props} />
             : <Redirect to='/login' />

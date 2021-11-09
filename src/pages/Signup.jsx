@@ -53,10 +53,9 @@ const Signup = () => {
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
     } catch(err) {
-      console.log("Login Error\n", err)
+      console.log("Login Error\n", err.response ? err.response.data : err)
     }
     dispatch(setLoading(false))
-    console.log("User data loaded (if provided with a valid JWT token)")
   }
 
   return (

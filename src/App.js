@@ -33,7 +33,6 @@ const App = () => {
     try {
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
-      console.log("User data loaded (if provided with a valid JWT token)")
     } catch(err) {
       console.log("Get User Info Error:\n", err.response ? err.response.data : err)
     }
