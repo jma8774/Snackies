@@ -16,7 +16,10 @@ import Divider from '@mui/material/Divider';
 import GoogleButton from 'react-google-button'
 import { keyframes } from '@mui/system';
 import logo from '../assets/icon.png';
-import background from '../assets/background.png';
+import LockIcon from '@mui/icons-material/Lock';
+import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const shakeBag = keyframes`
   0% { transform: translate(1px, 1px) rotate(-3deg); }
@@ -26,16 +29,18 @@ const shakeBag = keyframes`
   100% { transform: translate(0px, 0px) rotate(0deg); }
 `;
 
-const Login = () => {
+const Login = (props) => {
   const history = useHistory();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
     tokenId: ''
   })
+  console.log(history.location)
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [waiting, setWaiting] = useState(false)
+  const [showSnack, setShowSnack] = useState(history.location.goLogin)
 
   const cookies = new Cookies();
   const dispatch = useDispatch()
@@ -100,6 +105,7 @@ const Login = () => {
       mx: "auto",
       mt: 7,
       pb: 4,
+      position: "relative",
       width: {
         xs: 300, 
         sm: 400, 
@@ -108,6 +114,21 @@ const Login = () => {
         xl: 700, 
       },
     }} >
+      <Snackbar
+        open={showSnack}
+        autoHideDuration={2000}
+        onClose={() => {setShowSnack(false)}}
+      >
+        <Alert severity="error" variant="filled" sx={{ width: '100%' }}> You need to sign in first! </Alert>
+      </Snackbar>
+      <Tooltip title={<Typography variant="body2">Don't worry, I won't store your password as plaintext! 😊</Typography>} >
+        <LockIcon sx={{
+          display: "block",
+          position: "absolute",
+          right: 10 , 
+          top: 10
+        }}/>
+      </Tooltip>
       <Box component="img" src={logo} sx={{width: 55, mt: 6, animation: `${shakeBag} 5s infinite ease`}}/>
       <Typography variant="h2" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif'}}>
         Snackies

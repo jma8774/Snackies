@@ -16,7 +16,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       : <Route {...rest} render={props => (
           user.id !== ""
             ? <Component {...props} />
-            : <Redirect to='/login' />
+            : <Redirect to={{
+              pathname: '/login',
+              goLogin: true
+            }}/>
         )} />
   )
 }
