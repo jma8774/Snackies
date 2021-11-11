@@ -5,7 +5,7 @@ const Item = require('./schemas/Item').Item;
 const Order = require('./schemas/Order').Order;
 
 async function connect() {
-  await mongoose.connect('mongodb://localhost:27017/snacksDev');
+  await mongoose.connect(process.env.MONGO_URI);
 }
 
 connect().catch(err => console.log(err));

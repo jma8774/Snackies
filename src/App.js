@@ -1,5 +1,5 @@
 import React, { useEffect }from 'react';
-import { lightTheme, darkTheme } from './theme'
+import { lightTheme, darkTheme } from './themes/theme'
 import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/Navbar';
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,7 +19,7 @@ import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist';
 import Cookies from 'universal-cookie';
 import { initialize, setLoading, reset} from './redux/features/userSlice'
-
+import stars from "./assets/stars.svg"
 
 const App = () => {
   const cookies = new Cookies();
@@ -45,11 +45,28 @@ const App = () => {
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <CssBaseline />
       <Navbar/>
-      <Container maxWidth="xl" sx={{ mt: 3}}>
-        <div>{user.first_name ? "Hello " + user.first_name : "No one is logged in"}</div>
+      <Container maxWidth="xl" sx={{ mt: 5}}>
         <Switch>
             <Route path="/" component={Home} exact/>
-            <Route path="/login" component={Login} exact/>
+            <Route path="/login" exact>
+              <Box sx={{ 
+                zIndex: -1,
+                height: "100%",
+                width: "100%",
+                backgroundSize: {
+                  xs: "0px 0px",
+                  sm: "450px 450px",
+                  md: "600px 600px",
+                  lg: "700px 700px",
+                  xl: "700px 700px"
+                },
+                backgroundImage: `url(${stars})`,
+                backgroundRepeat: 'no-repeat',
+                textAlign: "center",
+              }}>
+                <Login />
+              </Box>
+            </Route>
             <Route path="/signup" component={Signup} exact/>
             <Route path="/reset" component={Reset} exact/>
             <Route path="/reset/:token" component={Reset} />

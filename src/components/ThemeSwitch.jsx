@@ -5,6 +5,7 @@ import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import Cookies from 'universal-cookie';
 
+
 // Override Switch Component
 // add my own custom icons  
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({

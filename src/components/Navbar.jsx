@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
@@ -27,6 +27,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import ListSubheader from '@mui/material/ListSubheader';
 import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
+import { keyframes } from '@mui/system';
+import logo from '../assets/icon.png';
 
 
 const NavList = ({setDrawerOpen, logout}) => {
@@ -34,7 +36,7 @@ const NavList = ({setDrawerOpen, logout}) => {
   const history = useHistory()
   return(
     <Box component={List} 
-      sx={{ width: 300 }} 
+      sx={{ width: {xs: 250, md: 300} }} 
       subheader={
         <ListSubheader component={Typography} sx={{ bgcolor: "primary.dark", fontSize: 16, color: "#fff"}}>
           {"Hello " + (user.id ? user.first_name : "Guest")}
@@ -99,7 +101,7 @@ const NavList = ({setDrawerOpen, logout}) => {
           <ListItemText primary={"Sign Out"} />
         </ListItem>
       : <React.Fragment>
-          <ListItem button onClick={() => {
+          {/* <ListItem button onClick={() => {
             history.push('/signup')
             setDrawerOpen(false)
           }}>
@@ -107,7 +109,7 @@ const NavList = ({setDrawerOpen, logout}) => {
               <AddIcon/>
             </ListItemIcon>
             <ListItemText primary={"Sign up"} />
-          </ListItem>
+          </ListItem> */}
           <ListItem button onClick={() => {
             history.push('/login')
             setDrawerOpen(false)
@@ -122,8 +124,25 @@ const NavList = ({setDrawerOpen, logout}) => {
     </Box>
   )
 }
+
+const shakeBag = keyframes`
+  0% { transform: translate(1px, 1px) rotate(-3deg); }
+  2% { transform: translate(-1px, -1px) rotate(-10deg); }
+  4% { transform: translate(-1px, 1px) rotate(5deg); }
+  6% { transform: translate(0px, 0px) rotate(0deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+`;
+
+const shakeCart = keyframes`
+  0% { transform: rotate(0deg); }
+  33% { transform: rotate(-5deg); }
+  66% { transform: rotate(5deg); }
+  100% { transform: rotate(0deg); }
+`;
+
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [cartShake, setShakeAni] = useState(true)
   const cart = useSelector((state) => state.user.cart_count)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -140,11 +159,13 @@ const Navbar = () => {
       <AppBar position="static">
         <Toolbar>
           {/* App Icon */}
-          <Box component={Link} to="/" sx={{mr: 1.5}}>
-            <img src="icon.png" height="40  px"/>
+          <Box component={Link} to="/" sx={{mr: 1.5, animation: `${shakeBag} 10s infinite ease`}}>
+            <img alt="Snack Icon" src={logo} height="40 px" />
           </Box>  
           {/* Snackies Name */}
-          <Typography variant="h6" sx={{ flexGrow: 1 }}> Snackies </Typography>
+          <Typography variant="h5" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif', flexGrow: 1}}>
+            {/* Snackies */}
+          </Typography>
           {/* Dark/Light Mode Switch */}
           <ThemeSwitch />
           {/* Cart */}
@@ -152,7 +173,7 @@ const Navbar = () => {
             size="large"
             edge="start"
             color="inherit"
-            sx={{ ml: 1}}
+            sx={{ ml: 1, '&:hover': { animation: `${shakeCart} 0.5s 1 ease`}}}
             onClick={() => history.push('/cart')}
           >
             <Badge badgeContent={cart} color="error">
