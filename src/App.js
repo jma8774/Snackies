@@ -5,10 +5,8 @@ import Navbar from './components/Navbar';
 import { useSelector, useDispatch } from 'react-redux'
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import axios from "axios"
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -18,12 +16,11 @@ import Cart from './pages/Cart';
 import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist';
 import Cookies from 'universal-cookie';
-import { initialize, setLoading, reset} from './redux/features/userSlice'
+import { initialize, setLoading} from './redux/features/userSlice'
 
 const App = () => {
   const cookies = new Cookies();
   const theme = useSelector((state) => state.theme)
-  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
   const getUserInfo = async () => {

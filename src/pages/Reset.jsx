@@ -1,23 +1,14 @@
 import React, { useState } from 'react'
-import GoogleLogin from 'react-google-login';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from "axios"
-import { useHistory, useParams, Link  } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { initialize, setLoading} from '../redux/features/userSlice'
-import Cookies from 'universal-cookie';
+import { useHistory, useParams  } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import GoogleButton from 'react-google-button'
 import { keyframes } from '@mui/system';
 import logo from '../assets/icon.png';
-import LockIcon from '@mui/icons-material/Lock';
-import Tooltip from '@mui/material/Tooltip';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import passwordSvg from "../assets/password.svg"
@@ -96,11 +87,11 @@ const Reset = () => {
             >
               <Alert severity="error" variant="filled" sx={{ width: '100%' }}> Invalid reset link. </Alert>
             </Snackbar>
-            {/* Forms */}
-            <Typography variant="h4" textAlign="left"> Enter your new password</Typography>
+            <Typography variant="h4" textAlign="left" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif'}}> Enter your new password</Typography>
             <Typography variant="body1" textAlign="left" color="text.secondary" sx={{mt: 2}}>
               Remember that a password must be at least 8 characters, no spaces and must contain an uppercase letter, a number and a special character
             </Typography>
+            {/* Forms */}
             <Box component="form" onSubmit={resetPassword} sx={{mt:2}}>
               <Grid container rowSpacing={2} >
                 <Grid item xs={12} >

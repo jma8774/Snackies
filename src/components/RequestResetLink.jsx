@@ -1,26 +1,14 @@
 import React, { useState } from 'react'
-import GoogleLogin from 'react-google-login';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from "axios"
-import { useHistory, useParams, Link  } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { initialize, setLoading} from '../redux/features/userSlice'
 import Cookies from 'universal-cookie';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import GoogleButton from 'react-google-button'
-import { keyframes } from '@mui/system';
-import logo from '../assets/icon.png';
-import LockIcon from '@mui/icons-material/Lock';
-import Tooltip from '@mui/material/Tooltip';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import passwordSvg from "../assets/password.svg"
 import { reset } from '../redux/features/userSlice'
 
 const RequestResetLink = () => {
@@ -32,6 +20,7 @@ const RequestResetLink = () => {
   const [emailError, setEmailError] = useState(false)
 
   function validateEmail(email) {
+    // eslint-disable-next-line
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const status = re.test(email)
     setEmailError(!status)
@@ -66,7 +55,7 @@ const RequestResetLink = () => {
       >
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Success, password reset information will be sent shortly. </Alert>
       </Snackbar>
-      <Typography variant="h4" textAlign="left"> Forgot your password </Typography>
+      <Typography variant="h4" textAlign="left" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif'}}> Forgot your password </Typography>
       <Typography variant="body1" textAlign="left" color="text.secondary" sx={{mt:2}}> Please enter the email address you'd like your password reset information sent to </Typography>
       <Box component="form" onSubmit={sendReset} sx={{mt: 2}}>
         <Grid container spacing={2}>

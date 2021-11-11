@@ -10,14 +10,11 @@ import Cookies from 'universal-cookie';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import GoogleButton from 'react-google-button'
 import { keyframes } from '@mui/system';
 import logo from '../assets/icon.png';
-import LockIcon from '@mui/icons-material/Lock';
-import Tooltip from '@mui/material/Tooltip';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import stars from "../assets/stars.svg"
@@ -48,6 +45,7 @@ const Login = (props) => {
   const dispatch = useDispatch()
   
   function validateEmail(email) {
+    // eslint-disable-next-line
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const status = re.test(email)
     setEmailError(!status)
@@ -144,14 +142,6 @@ const Login = (props) => {
             xl: 700, 
           },
         }} >
-          <Tooltip title={<Typography variant="body2">Don't worry, I won't store your password as plaintext! 😊</Typography>} >
-            <LockIcon sx={{
-              display: "block",
-              position: "absolute",
-              right: 10 , 
-              top: 10
-            }}/>
-          </Tooltip>
           <Box component="img" src={logo} sx={{width: 55, mt: 6, animation: `${shakeBag} 5s infinite ease`}}/>
           <Typography variant="h2" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif'}}>
             Snackies
