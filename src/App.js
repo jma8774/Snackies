@@ -19,7 +19,6 @@ import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist';
 import Cookies from 'universal-cookie';
 import { initialize, setLoading, reset} from './redux/features/userSlice'
-import stars from "./assets/stars.svg"
 
 const App = () => {
   const cookies = new Cookies();
@@ -28,6 +27,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   const getUserInfo = async () => {
+    if(!cookies.get("token")) return
     try {
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
@@ -48,25 +48,7 @@ const App = () => {
       <Container maxWidth="xl" sx={{ mt: 5}}>
         <Switch>
             <Route path="/" component={Home} exact/>
-            <Route path="/login" exact>
-              <Box sx={{ 
-                zIndex: -1,
-                height: "100%",
-                width: "100%",
-                backgroundSize: {
-                  xs: "0px 0px",
-                  sm: "450px 450px",
-                  md: "600px 600px",
-                  lg: "700px 700px",
-                  xl: "700px 700px"
-                },
-                backgroundImage: `url(${stars})`,
-                backgroundRepeat: 'no-repeat',
-                textAlign: "center",
-              }}>
-                <Login />
-              </Box>
-            </Route>
+            <Route path="/login" component={Login} exact/>
             <Route path="/signup" component={Signup} exact/>
             <Route path="/reset" component={Reset} exact/>
             <Route path="/reset/:token" component={Reset} />

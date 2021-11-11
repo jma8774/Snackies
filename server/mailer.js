@@ -25,9 +25,9 @@ async function signup(data) {
     from: '"Snackies 🍪" ' + process.env.YAHOO_USER, 
     to: data.to,
     subject: "Snackies Registration Confirmation", 
-    text: "Your registration for Snackies is complete, we hope you enjoy your stay!",
+    text: "Your registration for Snackies is complete, I hope you enjoy your stay!",
     html: "Dear " + data.name + ',' +
-          "<p>Your registration for Snackies is complete, we hope you enjoy your stay!</p>" +
+          "<p>Your registration for Snackies is complete, I hope you enjoy your stay!</p>" +
           "<p>If you ever forget your password, you can reset it here: <a href=" + resetLink + "> " + resetLink + "</a> </p>" +
           '<p>Also, here\'s a nyan cat for you 😊 <br/><img src="cid:nyan"/></p><br/>' +
           "Best,<br/>Snackies",

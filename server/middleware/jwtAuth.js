@@ -10,12 +10,13 @@ function generateResetToken(data) {
 
 async function authenticateResetToken(req, res, next) {
   const { token } = req.body
+  console.log(token)
   
   if (token === undefined) return res.status(401).send({message: "Undefined JWT token"})
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, data) => {
     if (err) {
-      console.log("JWT Token Error:", err.response ? err.response.data : err)
+      // console.log("JWT Token Error:", err.response ? err.response.data : err)
       return res.status(403).send({message: "Bad JWT token"})
     }
 

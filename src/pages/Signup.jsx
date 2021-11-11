@@ -18,7 +18,7 @@ const Signup = () => {
     last_name: '',
   })
   const [passwordError, setPasswordError] = useState(false)
-  // helperText={passwordError ? "Password must be at least 8 characters, no spaces and must contain an uppercase letter, a number and a symbol" : ""}
+  // helperText={passwordError ? "Password must be at least 8 characters, no spaces and must contain an uppercase letter, a number and a special character" : ""}
 
 
   function validatePassword(password) {

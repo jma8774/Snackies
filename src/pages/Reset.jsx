@@ -1,63 +1,153 @@
 import React, { useState } from 'react'
+import GoogleLogin from 'react-google-login';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { useParams, useHistory  } from 'react-router-dom';
 import axios from "axios"
+import { useHistory, useParams, Link  } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { initialize, setLoading} from '../redux/features/userSlice'
+import Cookies from 'universal-cookie';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import GoogleButton from 'react-google-button'
+import { keyframes } from '@mui/system';
+import logo from '../assets/icon.png';
+import LockIcon from '@mui/icons-material/Lock';
+import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import passwordSvg from "../assets/password.svg"
+import RequestResetLink from "../components/RequestResetLink"
 
-const SendEmail = () => {
-  const [email, setEmail] = useState("")
-
-  const sendReset = async () => {
-    try {
-      await axios.get("/api/user/sendReset?email=" + email)
-    } catch(err) {
-      console.log(err.response ? err.response.data : err)
-    }
-    console.log("If the email is registered, a reset link will be sent to it.")
-  }
-
-  return(
-    <div>
-    <TextField
-      label="Email"
-      onChange={(e) => setEmail(e.target.value)}
-    />
-    <Button onClick={sendReset}>
-      Submit
-    </Button>
-    </div>
-  )
-}
+const shakeBag = keyframes`
+  0% { transform: translate(1px, 1px) rotate(-3deg); }
+  5% { transform: translate(-1px, -1px) rotate(-10deg); }
+  10% { transform: translate(-1px, 1px) rotate(5deg); }
+  15% { transform: translate(0px, 0px) rotate(0deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+`;
 
 const Reset = () => {
   const history = useHistory();
   const { token } = useParams()
   const [password, setPassword] = useState("")
+  // Password don't pass validation
+  const [passwordError, setPasswordError] = useState(false)
+  // Password and confirmation don't match
+  const [password2, setPassword2] = useState("")
+  const [passSame, setPassSame] = useState(true)
+  const [badJWT, setBadJWT] = useState(false)
 
-  const resetPassword = async () => {
+  function validatePassword(password) {
+    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ 
+    const success = re.test(password)
+    // Show error message when it is not successful
+    setPasswordError(!success)
+    return success;
+  }
+
+  function validateSame(password, password2) {
+    const same = password === password2
+    setPassSame(same)
+    return same
+  }
+
+  const resetPassword = async (e) => {
+    e.preventDefault();
+    if(!validatePassword(password) || !validateSame(password, password2)) return
     try {
       await axios.post("/api/user/resetPassword", { token: token, newPassword: password })
-      console.log("Password has been reset, will redirect to login in 3 seconds")
-      history.push('/login')
+      history.push({pathname: '/login', resetSuccess: true})
     } catch(err) {
+      setBadJWT(true)
       console.log(err.response ? err.response.data : err)
     }
   }
 
   return (
-    token === undefined 
-    ? <SendEmail />
-    :
-      <div>
-      <TextField
-        label="Password"
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button onClick={resetPassword}>
-        Reset
-      </Button>
-      </div>
+    <Paper elevation={3} sx={{
+      textAlign: "center",
+      mx: "auto",
+      mt: 10,
+      mb: 5,
+      position: "relative",
+      width: {
+        xs: 300, 
+        sm: 400, 
+        md: 500, 
+        lg: 600, 
+        xl: 700, 
+      },
+    }}>
+      <Box component="img" src={logo} sx={{width: 55, mt: 8, animation: `${shakeBag} 5s infinite ease`}}/>
+      {token === undefined 
+        ? <RequestResetLink />
+        :
+          <Box sx={{width: "80%", mx: "auto", my: 5}}>
+            {/* Bad JWT error */}
+            <Snackbar
+              open={badJWT}
+              autoHideDuration={4000}
+              onClose={() => {setBadJWT(false)}}
+            >
+              <Alert severity="error" variant="filled" sx={{ width: '100%' }}> Invalid reset link. </Alert>
+            </Snackbar>
+            {/* Forms */}
+            <Typography variant="h4" textAlign="left"> Enter your new password</Typography>
+            <Typography variant="body1" textAlign="left" color="text.secondary" sx={{mt: 2}}>
+              Remember that a password must be at least 8 characters, no spaces and must contain an uppercase letter, a number and a special character
+            </Typography>
+            <Box component="form" onSubmit={resetPassword} sx={{mt:2}}>
+              <Grid container rowSpacing={2} >
+                <Grid item xs={12} >
+                  <TextField label="Password" type="password"
+                    error={passwordError}
+                    helperText={passwordError ? "Please follow the password requirements" : ""}
+                    onChange={(e) => setPassword(e.target.value)}
+                    sx={{width: "100%"}}
+                  />
+                </Grid>
+                <Grid item xs={12} >
+                  <TextField label="Confirm password" type="password"
+                    error={!passSame}
+                    helperText={!passSame ? "Passwords are not the same" : ""}
+                    onChange={(e) => setPassword2(e.target.value)}
+                    sx={{width: "100%"}}
+                  />
+                </Grid>
+                <Grid item xs={12} >
+                  <Button 
+                    type="submit"
+                    color="secondary"
+                    variant="contained"
+                    size="large"
+                    sx={{width: "100%"}}
+                  >
+                    Reset Password
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+      } 
+      {/* Image on the bottom */}
+      <Box component="img" src={passwordSvg} 
+        sx={{
+          width: {
+            xs: 200,
+            sm: 300,
+            md: 300,
+            lg: 300,
+            xl: 300
+          },
+          display: "block", 
+          ml: 4
+      }}/>
+    </Paper>
   )
 }
 

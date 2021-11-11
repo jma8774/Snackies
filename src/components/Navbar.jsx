@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Cookies from 'universal-cookie';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,117 +13,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
 import Badge from '@mui/material/Badge';
 import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import HistoryIcon from '@mui/icons-material/History';
-import StarIcon from '@mui/icons-material/Star';
-import BuildIcon from '@mui/icons-material/Build';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import LoginIcon from '@mui/icons-material/Login';
-import ListSubheader from '@mui/material/ListSubheader';
-import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
 import { keyframes } from '@mui/system';
 import logo from '../assets/icon.png';
-
-
-const NavList = ({setDrawerOpen, logout}) => {
-  const user = useSelector((state) => state.user)
-  const history = useHistory()
-  return(
-    <Box component={List} 
-      sx={{ width: {xs: 250, md: 300} }} 
-      subheader={
-        <ListSubheader component={Typography} sx={{ bgcolor: "primary.dark", fontSize: 16, color: "#fff"}}>
-          {"Hello " + (user.id ? user.first_name : "Guest")}
-        </ListSubheader>
-      }
-    >
-      {/* Home */}
-      <ListItem button onClick={() => {
-        history.push('/')
-        setDrawerOpen(false)
-      }}>
-        <ListItemIcon>
-          <HomeIcon/>
-        </ListItemIcon>
-        <ListItemText primary={"Home"} />
-      </ListItem>
-
-      {/* Order History */}
-      <ListItem button onClick={() => {
-        history.push('/orders')
-        setDrawerOpen(false)
-      }}>
-        <ListItemIcon>
-          <HistoryIcon/>
-        </ListItemIcon>
-        <ListItemText primary={"Order History"} />
-      </ListItem>
-
-      {/* Wishlist */}
-      <ListItem button onClick={() => {
-        history.push('/wishlist')
-        setDrawerOpen(false)
-      }}>
-        <ListItemIcon>
-          <StarIcon/>
-        </ListItemIcon>
-        <ListItemText primary={"Wishlist"} />
-      </ListItem>
-      <Divider />
-
-      {/* Reset Password */}
-      <ListItem button onClick={() => {
-        history.push('/reset')
-        setDrawerOpen(false)
-      }}>
-        <ListItemIcon>
-          <BuildIcon/>
-        </ListItemIcon>
-        <ListItemText primary={"Reset Password"} />
-      </ListItem>
-      
-      {/* Sign Out / Sign Up and Sign In */}
-      { user.id
-      ? <ListItem button onClick={() => {
-          logout()
-          history.push('/')
-          setDrawerOpen(false)
-        }}>
-          <ListItemIcon>
-            <ExitToAppIcon/>
-          </ListItemIcon>
-          <ListItemText primary={"Sign Out"} />
-        </ListItem>
-      : <React.Fragment>
-          {/* <ListItem button onClick={() => {
-            history.push('/signup')
-            setDrawerOpen(false)
-          }}>
-            <ListItemIcon>
-              <AddIcon/>
-            </ListItemIcon>
-            <ListItemText primary={"Sign up"} />
-          </ListItem> */}
-          <ListItem button onClick={() => {
-            history.push('/login')
-            setDrawerOpen(false)
-          }}>
-            <ListItemIcon>
-              <LoginIcon/>
-            </ListItemIcon>
-            <ListItemText primary={"Sign In"} />
-          </ListItem>
-        </React.Fragment>
-      }
-    </Box>
-  )
-}
+import DrawerList from './DrawerList'
 
 const shakeBag = keyframes`
   0% { transform: translate(1px, 1px) rotate(-3deg); }
@@ -142,7 +35,6 @@ const shakeCart = keyframes`
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [cartShake, setShakeAni] = useState(true)
   const cart = useSelector((state) => state.user.cart_count)
   const history = useHistory()
   const dispatch = useDispatch()
@@ -195,7 +87,7 @@ const Navbar = () => {
             open={drawerOpen}
             onClose={() => setDrawerOpen(false)}
           >
-            <NavList setDrawerOpen={setDrawerOpen} logout={logout}/>
+            <DrawerList setDrawerOpen={setDrawerOpen} logout={logout}/>
           </Drawer>
         </Toolbar>
       </AppBar>
