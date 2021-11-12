@@ -155,7 +155,7 @@ const Login = (props) => {
               clientId="766162828005-efnc6r8ufsla9t4ter3ep7tt1t0q8ulb.apps.googleusercontent.com"
               buttonText="Login"
               onSuccess={googleLogin}
-              onFailure={() => console.log("Google Login failed")}
+              onFailure={(err) => console.log(err.response ? err.response.data : err)}
               cookiePolicy={'single_host_origin'}
               render={renderProps => (
                 <GoogleButton style={{width: "100%"}} label='Continue with Google' onClick={renderProps.onClick} disabled={renderProps.disabled}/> 
