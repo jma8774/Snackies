@@ -103,7 +103,7 @@ const Login = (props) => {
     <React.Fragment>
       {/* Alert Snackbars */}
       <Snackbar open={showError} autoHideDuration={5000} onClose={() => {setShowError(false)}} >
-        <Alert severity="error" variant="filled" sx={{ width: '100%' }}> You need to sign in first! </Alert>
+        <Alert severity="error" variant="filled" sx={{ width: '100%' }}> You need to log in first! </Alert>
       </Snackbar>
       <Snackbar open={resetSuccess} autoHideDuration={5000} onClose={() => {setResetSuccess(false)}} >
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Password has been reset successfully! </Alert>
@@ -123,9 +123,11 @@ const Login = (props) => {
         backgroundImage: `url(${stars})`,
         backgroundRepeat: 'no-repeat',
         textAlign: "center",
-        transition: "transform 0.5s ease-in",
-        ":hover": {
-          transform: 'translate(0px, -5px)'
+        "& .MuiPaper-root": {
+          transition: "transform 1s ease",
+        },
+        "& .MuiPaper-root:hover": {
+          transform: 'translate(0px, -15px)'
         }
       }}>
         <Paper elevation={3} sx={{
@@ -152,7 +154,7 @@ const Login = (props) => {
           <Grid container rowSpacing={2} justifyContent="center" sx={{mx: "auto", mt: 4, width: "70%"}}>
             <Grid item xs={12} >
               <GoogleLogin  
-              clientId="766162828005-efnc6r8ufsla9t4ter3ep7tt1t0q8ulb.apps.googleusercontent.com"
+              clientId="305329395376-rkplg1snf07kq9b7otnkvp16ialcqj6t.apps.googleusercontent.com"
               buttonText="Login"
               onSuccess={googleLogin}
               onFailure={(err) => console.log(err.response ? err.response.data : err)}

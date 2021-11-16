@@ -128,7 +128,7 @@ const Signup = () => {
         },
         transition: "transform 1s ease",
         ":hover": {
-          transform: 'translate(0px, -10px)'
+          transform: 'translate(0px, -15px)'
         }
       }}>
         <Box component="img" src={dreamer} sx={{

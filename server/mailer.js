@@ -26,9 +26,9 @@ async function signup(data) {
     to: data.to,
     subject: "Snackies Registration Confirmation", 
     text: "Your registration for Snackies is complete, I hope you enjoy your stay!",
-    html: "Dear " + data.name + ',' +
+    html: `Dear ${data.name}, ` +
           "<p>Your registration for Snackies is complete, I hope you enjoy your stay!</p>" +
-          "<p>If you ever forget your password, you can reset it here: <a href=" + resetLink + "> " + resetLink + "</a> </p>" +
+          `<p>If you ever forget your password, you can reset it here: <a href=${resetLink}> ${resetLink} </a> </p>` +
           '<p>Also, here\'s a nyan cat for you 😊 <br/><img src="cid:nyan"/></p><br/>' +
           "Best,<br/>Snackies",
     attachments: [
@@ -48,8 +48,8 @@ async function resetPassword(data) {
     to: data.to,
     subject: "Snackies Password Reset", 
     text: "Here is the link to reset your Snackies password",
-    html: "Dear " + data.name + ',' +
-          "<p>Click this <a href=" + data.url + ">link</a> to reset your password.<p/>" +
+    html: `Dear ${data.name}, ` +
+          `<p>Click this <a href=${data.url}">link</a> to reset your password.<p/>` +
           '<p>It will expire in 15 minutes and may only be used once to change your password.</p><br/>' +
           "Best,<br/>Snackies",
   });

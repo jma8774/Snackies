@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux'
 
 
@@ -19,6 +20,16 @@ const Home = () => {
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Hi {user.first_name}, login successful!</Alert>
       </Snackbar>
       Home
+      <TextField
+        id="outlined-textarea"
+        label="Multiline Placeholder"
+        placeholder="Placeholder"
+        multiline
+        minRows={5}
+        maxRows={7}
+        onChange={(e) => console.log(e.target.value)}
+        sx={{width: "500px"}}
+      />
     </div>
   )
 }
