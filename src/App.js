@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import { Route, Switch } from 'react-router-dom';
 import axios from "axios"
 import Home from './pages/Home';
-import Banner from './components/Banner';
 import Product from './pages/Product';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -44,10 +43,6 @@ const App = () => {
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <CssBaseline />
       <Navbar/>
-      {/* Banner for Home page */}
-      {/* <Switch>
-        <Route path="/" component={Banner} exact/>
-      </Switch> */}
       <Container maxWidth="xl" sx={{ mt: 5, pb: 8}}>
         <Switch>
             <Route path="/" component={Home} exact/>

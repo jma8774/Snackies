@@ -69,8 +69,8 @@ const Navbar = (props) => {
             <img alt="Snack Icon" src={logo} height="40 px" />
           </Box>  
           {/* Snackies Name */}
-          <Typography variant="h5" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif', flexGrow: 1}}>
-            {/* Snackies */}
+          <Typography variant="h5" color="text.primary" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif', flexGrow: 1}}>
+            Snackies
           </Typography>
           {/* Dark/Light Mode Switch */}
           <ThemeSwitch />
