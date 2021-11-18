@@ -45,9 +45,9 @@ const App = () => {
       <CssBaseline />
       <Navbar/>
       {/* Banner for Home page */}
-      <Switch>
+      {/* <Switch>
         <Route path="/" component={Banner} exact/>
-      </Switch>
+      </Switch> */}
       <Container maxWidth="xl" sx={{ mt: 5, pb: 8}}>
         <Switch>
             <Route path="/" component={Home} exact/>

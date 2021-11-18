@@ -17,6 +17,7 @@ import { useHistory } from 'react-router-dom';
 import { keyframes } from '@mui/system';
 import logo from '../assets/icon.png';
 import DrawerList from './DrawerList'
+import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 const shakeBag = keyframes`
   0% { transform: translate(1px, 1px) rotate(-3deg); }
@@ -33,14 +34,18 @@ const shakeCart = keyframes`
   100% { transform: rotate(0deg); }
 `;
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const {window} = props;
   const [drawerOpen, setDrawerOpen] = useState(false)
   const cart = useSelector((state) => state.user.cart_count)
   const history = useHistory()
   const dispatch = useDispatch()
   const cookies = new Cookies()
   const theme = useSelector((state) => state.theme)
-
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
 
   const logout = async () => {
     cookies.remove("token", { path: '/' })
@@ -49,9 +54,16 @@ const Navbar = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1}} >
-      <AppBar position="static" sx={{background: "transparent", boxShadow: 0}}>
-        <Toolbar height="500px">
+    <Box sx={{ flexGrow: 1, mb: "200px"}} >
+      <AppBar position="fixed" sx={{ 
+        ".MuiToolbar-root": {
+          backgroundColor: "background.default", 
+        },
+        transition: "boxShadow 1s ease",
+        boxShadow: trigger ? 2 : 0,
+        height: 100
+      }}>
+        <Box component={Toolbar} height="500px" sx={{display: "flex", alignItems: "center"}}>
           {/* App Icon */}
           <Box component={Link} to="/" sx={{mr: 1.5, animation: `${shakeBag} 10s infinite ease`}}>
             <img alt="Snack Icon" src={logo} height="40 px" />
@@ -94,7 +106,7 @@ const Navbar = () => {
           >
             <DrawerList setDrawerOpen={setDrawerOpen} logout={logout}/>
           </Drawer>
-        </Toolbar>
+        </Box>
       </AppBar>
     </Box>
   )
