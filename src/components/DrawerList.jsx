@@ -27,13 +27,18 @@ const ListItemHoverIconFloat = styled(ListItem)(({ theme }) => ({
 }));
 
 const DrawerList = ({setDrawerOpen, logout}) => {
+  const theme = useSelector((state) => state.theme)
   const user = useSelector((state) => state.user)
   const history = useHistory()
   return(
     <Box component={List} 
       sx={{ width: {xs: 250, md: 300} }} 
       subheader={
-        <ListSubheader component={Typography} sx={{ bgcolor: "primary.dark", fontSize: 16, color: "#fff"}}>
+        <ListSubheader component={Typography} sx={{ 
+          bgcolor: "Background.default", 
+          fontSize: 16, 
+          color: theme ? "#fff" : "#000"
+        }}>
           {"Hello " + (user.id ? user.first_name : "Guest")}
         </ListSubheader>
       }

@@ -9,6 +9,8 @@ import Container from '@mui/material/Container';
 import { Route, Switch } from 'react-router-dom';
 import axios from "axios"
 import Home from './pages/Home';
+import Banner from './components/Banner';
+import Product from './pages/Product';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Reset from './pages/Reset';
@@ -23,18 +25,18 @@ const App = () => {
   const theme = useSelector((state) => state.theme)
   const dispatch = useDispatch()
 
-  const getUserInfo = async () => {
-    if(!cookies.get("token")) return
-    try {
-      const { data } = await axios.get(`/api/user/`);
-      dispatch(initialize(data))
-    } catch(err) {
-      console.log("Get User Info Error:\n", err.response ? err.response.data : err)
-    }
-    dispatch(setLoading(false))
-  }
-
   useEffect(() => {
+    const getUserInfo = async () => {
+      if(!cookies.get("token")) return
+      try {
+        const { data } = await axios.get(`/api/user/`);
+        dispatch(initialize(data))
+      } catch(err) {
+        console.log("Get User Info Error:\n", err.response ? err.response.data : err)
+      }
+      dispatch(setLoading(false))
+    }
+
     getUserInfo()
   }, []);
 
@@ -42,9 +44,14 @@ const App = () => {
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <CssBaseline />
       <Navbar/>
-      <Container maxWidth="xl" sx={{ mt: 5}}>
+      {/* Banner for Home page */}
+      <Switch>
+        <Route path="/" component={Banner} exact/>
+      </Switch>
+      <Container maxWidth="xl" sx={{ mt: 5, pb: 8}}>
         <Switch>
             <Route path="/" component={Home} exact/>
+            <Route path="/product/:itemId" component={Product} />
             <Route path="/login" component={Login} exact/>
             <Route path="/signup" component={Signup} exact/>
             <Route path="/reset" component={Reset} exact/>

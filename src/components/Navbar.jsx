@@ -38,7 +38,9 @@ const Navbar = () => {
   const cart = useSelector((state) => state.user.cart_count)
   const history = useHistory()
   const dispatch = useDispatch()
-  const cookies = new Cookies();
+  const cookies = new Cookies()
+  const theme = useSelector((state) => state.theme)
+
 
   const logout = async () => {
     cookies.remove("token", { path: '/' })
@@ -47,9 +49,9 @@ const Navbar = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+    <Box sx={{ flexGrow: 1}} >
+      <AppBar position="static" sx={{background: "transparent", boxShadow: 0}}>
+        <Toolbar height="500px">
           {/* App Icon */}
           <Box component={Link} to="/" sx={{mr: 1.5, animation: `${shakeBag} 10s infinite ease`}}>
             <img alt="Snack Icon" src={logo} height="40 px" />
@@ -64,7 +66,6 @@ const Navbar = () => {
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             sx={{ ml: 1, '&:hover': { animation: `${shakeCart} 0.5s 1 ease`}}}
             onClick={() => history.push('/cart')}
           >
@@ -76,7 +77,6 @@ const Navbar = () => {
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             sx={{ ml: 1}}
             onClick={() => setDrawerOpen(true)}
           >
@@ -86,6 +86,11 @@ const Navbar = () => {
             anchor="right"
             open={drawerOpen}
             onClose={() => setDrawerOpen(false)}
+            sx={{
+              "& .MuiPaper-root":  {
+                backgroundColor: theme ? "background.default" : "#fff"
+              }
+            }}
           >
             <DrawerList setDrawerOpen={setDrawerOpen} logout={logout}/>
           </Drawer>

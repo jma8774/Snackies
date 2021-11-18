@@ -12,18 +12,18 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
-  const getUserInfo = async () => {
-    if(!cookies.get("token")) return
-    try {
-      const { data } = await axios.get(`/api/user/`);
-      dispatch(initialize(data))
-    } catch(err) {
-      console.log("Get User Info Error:\n", err.response ? err.response.data : err)
-    }
-    dispatch(setLoading(false))
-  }
-
   useEffect(() => {
+    const getUserInfo = async () => {
+      if(!cookies.get("token")) return
+      try {
+        const { data } = await axios.get(`/api/user/`);
+        dispatch(initialize(data))
+      } catch(err) {
+        console.log("Get User Info Error:\n", err.response ? err.response.data : err)
+      }
+      dispatch(setLoading(false))
+    }
+
     if(cookies.get('token') && user.loading)
       getUserInfo()
   }, []);

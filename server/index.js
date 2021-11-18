@@ -23,7 +23,9 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Define my routes here
 const user = require('./routes/user.js');
+const item = require('./routes/item.js');
 app.use('/api/user', user);
+app.use('/api/item', item);
 
 // Needed for Heroku
 if (process.env.NODE_ENV === 'production') {
