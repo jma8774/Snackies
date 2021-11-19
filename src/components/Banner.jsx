@@ -35,7 +35,7 @@ const float = keyframes`
 const Banner = (props) => {
   const history = useHistory()
   const { startBrowsingRef } = props
-  
+
   const executeScroll = () => {
     const top = startBrowsingRef.current.offsetTop - 200
     window.scrollTo({
@@ -52,12 +52,12 @@ const Banner = (props) => {
             Enjoy a wide variety of snacks from your favorite brands
           </Typography>
           <Box component={Typography} variant="body1" sx={{fontSize: 22, mt: 2}}>
-            Try our new snacks that you've never had before!
+            Try out new snacks that you've never had before!
           </Box>
-          <Button size="large" variant="contained" color="secondary" sx={{mt: 4}} onClick={() => history.push('/login')}>
+          <Button size="large" variant="contained" color="secondary" sx={{mt: 4, mr: 3}} onClick={() => history.push('/login')}>
             Create an Account
           </Button>
-          <Button size="large" variant="outlined" color="secondary" sx={{mt: 4, ml: {xs: 0, sm: 3}}} onClick={executeScroll}>
+          <Button size="large" variant="outlined" color="secondary" sx={{mt: 4}} onClick={executeScroll}>
             Start browsing
           </Button>
         </Grid>

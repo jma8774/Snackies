@@ -30,7 +30,7 @@ const brands = [lays, pringles, kitkats, nature, doritos, pocky, cheetos, snicke
 
 const Brands = () => {
   return (
-    <Paper sx={{backgroundColor: "background.paper2", color: "white", py: 7, my: 10}}>
+    <Paper elevation={0} sx={{backgroundColor: "background.paper2", color: "white", py: 3, my: 12}}>
       <Typography variant="body1" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif', textAlign: "center", mb: 5, mx: 3}}> 
         WE OFFER THE MOST POPULAR BRANDS 
       </Typography>
