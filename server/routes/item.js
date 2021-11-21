@@ -7,7 +7,11 @@ const db = require("../database/mongoose")
 // On Success: Loads 10 items
 router.get('/', async function (req, res) {
   try {
-    const items = await db.Item.find().limit(12)
+    const { itemsPerPage, page, sort, filter } = req.query
+    const items = await db.Item.find(filter === "All" ? {} : { brand: filter })
+      .sort(JSON.parse(sort))
+      .skip((page-1) * parseInt(itemsPerPage)) // how many items to skip
+      .limit(parseInt(itemsPerPage)) // how many items per page
     res.json(items)
   } catch (err) {
     console.log('Get Items Error:\n', err)
@@ -15,4 +19,14 @@ router.get('/', async function (req, res) {
   }
 })
 
+router.get('/length', async function (req, res) {
+  try {
+    const { filter } = req.query
+    const totalItems = await db.Item.find(filter === "All" ? {} : { brand: filter })
+    res.json(totalItems.length)
+  } catch (err) {
+    console.log('Get Length Error:\n', err)
+    res.status(400).send({ message: 'Error has occurred' })
+  }
+})
 module.exports = router;

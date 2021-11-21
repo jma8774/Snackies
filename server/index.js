@@ -23,8 +23,10 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Define my routes here
 const user = require('./routes/user.js');
+const wishlist = require('./routes/wishlist.js');
 const item = require('./routes/item.js');
 app.use('/api/user', user);
+app.use('/api/user/wishlist', wishlist);
 app.use('/api/item', item);
 
 // Needed for Heroku

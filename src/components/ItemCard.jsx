@@ -11,6 +11,7 @@ import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import { useSelector, useDispatch } from 'react-redux'
 import { keyframes } from '@mui/system';
+import axios from 'axios';
 
 
 const animateHeart = keyframes`
@@ -27,8 +28,25 @@ const animateHeartOut = keyframes`
 
 const ItemCard = (props) => {
   const history = useHistory()
-  const { item } = props
-  const [favorite, setFavorite] = useState(false)
+  const { item, isWish, setUserWishlist} = props
+  const user = useSelector((state) => state.user)
+
+  const handleWishClick = async () => {
+    if(user.email === '') return history.push({ pathname: '/login', goLogin: true })
+    try{
+      let res;
+      if(isWish)
+        // Remove item
+        res = await axios.post('/api/user/wishlist/remove', {email: user.email, itemId: item._id })
+      else
+      // Add item
+        res = await axios.post('/api/user/wishlist/add', {email: user.email, itemId: item._id })
+      setUserWishlist(res.data)
+    } catch(err) {
+      setUserWishlist([])
+      console.log("Handle Heart Click Error:\n", err.response ? err.response.data : err)
+    }
+  }
 
   return (
     <Paper elevation={0} sx={{
@@ -47,8 +65,8 @@ const ItemCard = (props) => {
       }}
     >
       <Box display="flex" justifyContent="flex-end">
-        <IconButton color="error" onClick={() => setFavorite(!favorite)}> 
-          {favorite 
+        <IconButton color="error" onClick={handleWishClick}> 
+          {isWish 
           ? <FavoriteIcon sx={{ animation: `${animateHeart} 0.3s 1 linear`}}/> 
           : <FavoriteBorderIcon sx={{ animation: `${animateHeartOut} 0.3s 1 linear` }}/>}
         </IconButton>

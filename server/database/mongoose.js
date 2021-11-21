@@ -14,7 +14,7 @@ connect().catch(err => console.log(err));
 
 const doritos = {
   name: "Dorito Chips",
-  brand: "Dorito",
+  brand: "Doritos",
   description: "Very good chips!",
   rating: 2.5,
   reviews: [{
@@ -30,9 +30,9 @@ const doritos = {
 
 const pringles = {
   name: "Pringle Chips",
-  brand: "Pringle",
+  brand: "Pringles",
   description: "Very good chips!",
-  rating: 2.5,
+  rating: 5,
   reviews: [{
     name: "Jeemong",
     rating: 2.5,
@@ -40,12 +40,12 @@ const pringles = {
     created: new Date()
   }],
   prices: [{ size: "small", price: 1}, { size: "big", price: 2 }],
-  basePrice: 1,
+  basePrice: 2,
   image: "/pringle.png"
 }
 
 // initSnacks.clearSnacks()
-// initSnacks.addSnacks([doritos, pringles, pringles, doritos, doritos, pringles, doritos, pringles, doritos])
+// initSnacks.addSnacks([doritos, pringles, pringles, doritos, doritos, pringles, doritos, pringles, doritos, doritos, doritos])
 
 function cartCount(cart) {
   let count = 0

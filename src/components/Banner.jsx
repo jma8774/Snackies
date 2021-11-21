@@ -34,15 +34,7 @@ const float = keyframes`
 
 const Banner = (props) => {
   const history = useHistory()
-  const { startBrowsingRef } = props
-
-  const executeScroll = () => {
-    const top = startBrowsingRef.current.offsetTop - 200
-    window.scrollTo({
-      top: top,
-      behavior: 'smooth'
-    });
-  }
+  const { executeScroll } = props
 
   return (
     <Box sx={{ml: 3, pb: 5}}>

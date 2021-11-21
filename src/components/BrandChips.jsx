@@ -17,17 +17,19 @@ import { keyframes } from '@mui/system';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import { useTheme } from '@mui/material/styles';
 
-const brands = ["All", "Lays", "Pringle", "Kitkat", "Nature Valley", "Doritos", "Pocky", "Cheetos", "Snickers", "Oreo", "Hershey"]
+const brands = ["All", "Lays", "Pringles", "KitKat", "Nature Valley", "Doritos", "Pocky", "Cheetos", "Snickers", "Oreo", "Hershey"]
 
 const BrandChips = (props) => {
+  const theme = useTheme();
   const {filterBrand, handleFilterChange} = props
   return (
     <Box>
       <Stack direction="row" spacing={1}>
         {brands.map((brand, i) => {
           return (
-            <Chip key={i} label={brand} color={filterBrand === brand ? "success" : "secondary"} onClick={handleFilterChange}/>
+            <Chip key={i} label={brand} variant="filled" color={filterBrand === brand ? "success" : "secondary"} onClick={handleFilterChange} />
           )
         })}
       </Stack>
