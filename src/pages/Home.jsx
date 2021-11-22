@@ -57,8 +57,9 @@ const Home = () => {
   }
 
   const handleFilterChange = (e) => {
+    executeScroll()
     setPage(1)
-    setFilterBrand(e.target.textContent)
+    setFilterBrand(e.target.alt || e.target.textContent)
   }
   
   useEffect(() => {
@@ -121,7 +122,7 @@ const Home = () => {
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Hello {user.first_name}! </Alert>
       </Snackbar>
       <Banner executeScroll={executeScroll} />
-      <Brands/>
+      <Brands handleFilterChange={handleFilterChange} />
       <Box sx={{mt: 5}}/>
       <Grid container width="100%" spacing={2} alignItems="center" >
         <Grid item xs={12} lg={9} sx={{overflowX: 'auto', pb: { xs: 2, md: 0}}}>

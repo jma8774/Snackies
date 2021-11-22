@@ -26,24 +26,38 @@ import snickers from '../assets/brands/snickers.png'
 import oreos from '../assets/brands/oreos.png'
 import hershey from '../assets/brands/hershey.png'
 
-const brands = [lays, pringles, kitkats, nature, doritos, pocky, cheetos, snickers, oreos, hershey]
+const brands = new Map([
+  ["Lays", lays],
+  ["Pringles", pringles],
+  ["KitKat", kitkats], 
+  ["Nature Valley", nature], 
+  ["Doritos", doritos],
+  ["Pocky", pocky], 
+  ["Cheetos", cheetos], 
+  ["Snickers", snickers], 
+  ["Oreo", oreos], 
+  ["Hershey", hershey]
+])
 
-const Brands = () => {
+
+const Brands = (props) => {
+  const { handleFilterChange } = props
   return (
     <Paper elevation={0} sx={{backgroundColor: "background.paper2", color: "white", py: 3, my: 12}}>
       <Typography variant="body1" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif', textAlign: "center", mb: 5, mx: 3}}> 
         WE OFFER THE MOST POPULAR BRANDS 
       </Typography>
       <Grid container justifyContent="center" rowSpacing={3} textAlign="center" width="80%" mx="auto">
-        {brands.map((brand, i) => {
+        {Array.from(brands.keys()).map((brand, i) => {
           return (
           <Grid item key={i} xs={6} sm={4} md={3} lg={2} sx={{
             transition: "transform 0.2s linear",
             ":hover": {
+              cursor: "pointer",
               transform: "scale(1.2, 1.2)"
             }
           }}>
-            <img src={brand} height={80} />
+            <img alt={brand} src={brands.get(brand)} height={80} onClick={handleFilterChange}/>
           </Grid>
         )})}
       </Grid>
