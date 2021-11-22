@@ -10,13 +10,13 @@ const SortItemsSelect = (props) => {
   return (
     <Box sx={{ width: 250}} >
       <FormControl fullWidth>
-        <InputLabel variant="filled" color="secondary">Sort By</InputLabel>
+        <InputLabel variant="filled" color="success">Sort By</InputLabel>
         <Select
           value={sort}
           label="Sort By"
           onChange={handleSortChange}
           variant="filled"
-          color="secondary"
+          color="success"
         >
           <MenuItem value={0}>Rating: High to Low </MenuItem>
           <MenuItem value={1}>Rating: Low to High</MenuItem>

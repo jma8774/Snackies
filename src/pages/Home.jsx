@@ -25,6 +25,7 @@ const Home = () => {
   const history = useHistory()
   const startBrowsingRef = useRef(null)
   const user = useSelector((state) => state.user)
+  const [showBrands, setShowBrands] = useState(true)
   const [userWishlist, setUserWishlist] = useState([])
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
@@ -39,7 +40,7 @@ const Home = () => {
   const downXl = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   
   const executeScroll = () => {
-    const top = startBrowsingRef.current.offsetTop - 200
+    const top = startBrowsingRef.current.offsetTop - 150
     window.scrollTo({
       top: top,
       behavior: 'smooth'
@@ -57,9 +58,9 @@ const Home = () => {
   }
 
   const handleFilterChange = (e) => {
-    executeScroll()
     setPage(1)
     setFilterBrand(e.target.alt || e.target.textContent)
+    executeScroll()
   }
   
   useEffect(() => {
@@ -122,11 +123,11 @@ const Home = () => {
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Hello {user.first_name}! </Alert>
       </Snackbar>
       <Banner executeScroll={executeScroll} />
-      <Brands handleFilterChange={handleFilterChange} />
+      {showBrands && <Brands handleFilterChange={handleFilterChange} setShowBrands={setShowBrands}/> }
       <Box sx={{mt: 5}}/>
-      <Grid container width="100%" spacing={2} alignItems="center" >
+      <Grid ref={ startBrowsingRef } container width="100%" spacing={2} alignItems="center" >
+        {downSm && <Typography ml={2}> Scroll horizontally to view more brands </Typography>}
         <Grid item xs={12} lg={9} sx={{overflowX: 'auto', pb: { xs: 2, md: 0}}}>
-          {downSm && <Typography> Scroll horizontally to view more brands </Typography>}
           <Box mt={0.5}>
             <BrandChips filterBrand={filterBrand} handleFilterChange={handleFilterChange} />
           </Box>
@@ -135,7 +136,7 @@ const Home = () => {
           <SortItemsSelect sort={sort} handleSortChange={handleSortChange} />
         </Grid>
       </Grid>
-      <Box ref={ startBrowsingRef } sx={{mt: 4, minHeight: 300}}>
+      <Box sx={{mt: 4, minHeight: 500}}>
         {items.length > 0
         ? <Grid container rowSpacing={3} justifyContent="flex-start" sx={{mx: "auto"}}>
             {items.map((item, i) => {

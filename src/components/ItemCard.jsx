@@ -39,7 +39,7 @@ const ItemCard = (props) => {
         // Remove item
         res = await axios.post('/api/user/wishlist/remove', {email: user.email, itemId: item._id })
       else
-      // Add item
+        // Add item
         res = await axios.post('/api/user/wishlist/add', {email: user.email, itemId: item._id })
       setUserWishlist(res.data)
     } catch(err) {
@@ -50,11 +50,14 @@ const ItemCard = (props) => {
 
   return (
     <Paper elevation={0} sx={{
-      transition: "transform 0.25s ease",
+      display: "flex",
+      flexDirection: "column",
+      transition: "transform 0.15s ease",
       ":hover": {
         transform: "scale(1.1,1.1 )",
         boxShadow: 2,
       },
+      height: "100%",
       width: {
         xs: "300px",
         sm: "250px",
@@ -81,16 +84,16 @@ const ItemCard = (props) => {
         </Link>
       </Box>
       {/* Labels */}
-        <Box sx={{ml: 4, pb: 3}}>
-          <Link component={RouterLink} to={`/product/${item._id}`} underline="none" color="inherit" > 
-            <Typography variant="h6"> {item.name} </Typography> 
-          </Link>
-          <Typography variant="body1" color="text.secondary"> ${parseFloat(item.basePrice).toFixed(2)} </Typography>
-          <Box display="flex" alignItems="center" sx={{mt: 2}}>
-            <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
-            <Box component={Typography} variant="body1" color="text.secondary" sx={{ ml: 1}}> ({item.reviews.length}) </Box>
-          </Box>
+      <Box sx={{display: "flex", flexDirection: "column", mx: 4, pb: 3, flexGrow: 1 }}>
+        <Link component={RouterLink} to={`/product/${item._id}`} underline="none" color="inherit" > 
+          <Typography variant="h6"> {item.name} </Typography> 
+        </Link>
+        <Typography variant="body1" color="text.secondary" flexGrow={1} > ${parseFloat(item.basePrice).toFixed(2)} </Typography>
+        <Box display="flex" alignItems="center" mt={2}>
+          <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
+          <Box component={Typography} variant="body1" color="text.secondary" sx={{ ml: 1}}> ({item.reviews.length}) </Box>
         </Box>
+      </Box>
     </Paper>
   )
 }
