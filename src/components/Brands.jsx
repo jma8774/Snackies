@@ -30,9 +30,9 @@ const brands = new Map([
   ["Lays", lays],
   ["Pringles", pringles],
   ["KitKat", kitkats], 
-  ["Nature Valley", nature], 
   ["Doritos", doritos],
   ["Pocky", pocky], 
+  ["Nature Valley", nature], 
   ["Cheetos", cheetos], 
   ["Snickers", snickers], 
   ["Oreo", oreos], 
@@ -45,7 +45,7 @@ const Brands = (props) => {
   return (
     <Paper elevation={0} sx={{backgroundColor: "background.paper2", color: "white", py: 3, my: 12}}>
       <Typography variant="body1" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif', textAlign: "center", mb: 5, mx: 3}}> 
-        WE OFFER THE MOST POPULAR BRANDS 
+        WE OFFER SOME OF THE MOST POPULAR BRANDS 
       </Typography>
       <Grid container justifyContent="center" rowSpacing={3} textAlign="center" width="80%" mx="auto">
         {Array.from(brands.keys()).map((brand, i) => {

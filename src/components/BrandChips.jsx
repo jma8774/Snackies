@@ -19,7 +19,7 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 
-const brands = ["All", "Lays", "Pringles", "KitKat", "Nature Valley", "Doritos", "Pocky", "Cheetos", "Snickers", "Oreo", "Hershey"]
+const brands = ["All", "Lays", "Pringles", "KitKat", "Doritos", "Pocky", "Nature Valley", "Cheetos", "Snickers", "Oreo", "Hershey"]
 
 const BrandChips = (props) => {
   const theme = useTheme();

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment')
-const initSnacks = require('./initializeSnacks')
+const initSnacks = require('./initialize/initializeSnacks')
 const User = require('./schemas/User').User;
 const Item = require('./schemas/Item').Item;
 const Order = require('./schemas/Order').Order;
@@ -11,41 +11,8 @@ async function connect() {
 
 connect().catch(err => console.log(err));
 
-
-const doritos = {
-  name: "Dorito Chips",
-  brand: "Doritos",
-  description: "Very good chips!",
-  rating: 2.5,
-  reviews: [{
-    name: "Jeemong",
-    rating: 2.5,
-    message: "Very good chips!",
-    created: new Date()
-  }],
-  prices: [{ size: "small", price: 1}, { size: "big", price: 2 }],
-  basePrice: 1,
-  image: "/dorito.png"
-}
-
-const pringles = {
-  name: "Pringle Chips",
-  brand: "Pringles",
-  description: "Very good chips!",
-  rating: 5,
-  reviews: [{
-    name: "Jeemong",
-    rating: 2.5,
-    message: "Very good chips!",
-    created: new Date()
-  }],
-  prices: [{ size: "small", price: 1}, { size: "big", price: 2 }],
-  basePrice: 2,
-  image: "/pringle.png"
-}
-
 // initSnacks.clearSnacks()
-// initSnacks.addSnacks([doritos, pringles, pringles, doritos, doritos, pringles, doritos, pringles, doritos, doritos, doritos])
+// initSnacks.addSnacks()
 
 function cartCount(cart) {
   let count = 0

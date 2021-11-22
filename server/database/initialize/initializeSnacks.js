@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Item = require('./schemas/Item').Item;
+const Item = require('../schemas/Item').Item;
+const allSnacks = require('./snacks').snacks;
 
 async function clearSnacks() {
   try {
@@ -9,9 +10,9 @@ async function clearSnacks() {
   }
 }
 
-async function addSnacks(snacks) {
+async function addSnacks() {
   try {
-    await Item.create(snacks)
+    await Item.create(allSnacks)
   } catch(e) {
     console.log(e)
   }

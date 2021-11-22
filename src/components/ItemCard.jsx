@@ -85,7 +85,7 @@ const ItemCard = (props) => {
           <Link component={RouterLink} to={`/product/${item._id}`} underline="none" color="inherit" > 
             <Typography variant="h6"> {item.name} </Typography> 
           </Link>
-          <Typography variant="body1" color="text.secondary"> ${item.basePrice} </Typography>
+          <Typography variant="body1" color="text.secondary"> ${parseFloat(item.basePrice).toFixed(2)} </Typography>
           <Box display="flex" alignItems="center" sx={{mt: 2}}>
             <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
             <Box component={Typography} variant="body1" color="text.secondary" sx={{ ml: 1}}> ({item.reviews.length}) </Box>

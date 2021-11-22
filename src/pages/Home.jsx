@@ -15,7 +15,7 @@ import SortItemsSelect from '../components/SortItemsSelect'
 import Banner from '../components/Banner';
 import Brands from '../components/Brands';
 import Pagination from '@mui/material/Pagination';
-import Divider from '@mui/material/Divider';
+import Paper from '@mui/material/Paper';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 
@@ -126,7 +126,10 @@ const Home = () => {
       <Box sx={{mt: 5}}/>
       <Grid container width="100%" spacing={2} alignItems="center" >
         <Grid item xs={12} lg={9} sx={{overflowX: 'auto', pb: { xs: 2, md: 0}}}>
-          <BrandChips filterBrand={filterBrand} handleFilterChange={handleFilterChange} />
+          {downSm && <Typography> Scroll horizontally to view more brands </Typography>}
+          <Box mt={0.5}>
+            <BrandChips filterBrand={filterBrand} handleFilterChange={handleFilterChange} />
+          </Box>
         </Grid>
         <Grid item xs={12} lg={3} display="flex" justifyContent="flex-end">
           <SortItemsSelect sort={sort} handleSortChange={handleSortChange} />
