@@ -19,13 +19,14 @@ import Paper from '@mui/material/Paper';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 
+
 const sortObjects = [{ rating: -1}, {rating: 1}, {basePrice: -1}, {basePrice: 1}, {name: 1}, {name: -1}]
 
 const Home = () => {
   const history = useHistory()
   const startBrowsingRef = useRef(null)
   const user = useSelector((state) => state.user)
-  const [showBrands, setShowBrands] = useState(true)
+  const [bannerTransform, setBannerTransform] = useState(0)
   const [userWishlist, setUserWishlist] = useState([])
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
@@ -62,7 +63,7 @@ const Home = () => {
     setFilterBrand(e.target.alt || e.target.textContent)
     executeScroll()
   }
-  
+    
   useEffect(() => {
     setItemsPerPage(downXl ? 6 : 8)
   }, [downXl])
@@ -113,7 +114,7 @@ const Home = () => {
   }, [filterBrand]);
 
   return (
-    <React.Fragment>
+    <Box>
       {/* Close successful login message box after x seconds */}
       <Snackbar
         open={showLogin}
@@ -123,7 +124,7 @@ const Home = () => {
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Hello {user.first_name}! </Alert>
       </Snackbar>
       <Banner executeScroll={executeScroll} />
-      {showBrands && <Brands handleFilterChange={handleFilterChange} setShowBrands={setShowBrands}/> }
+      <Brands handleFilterChange={handleFilterChange} />
       <Box sx={{mt: 5}}/>
       <Grid ref={ startBrowsingRef } container width="100%" spacing={2} alignItems="center" >
         {downSm && <Typography ml={2}> Scroll horizontally to view more brands </Typography>}
@@ -139,10 +140,10 @@ const Home = () => {
       <Box sx={{mt: 4, minHeight: 500}}>
         {items.length > 0
         ? <Grid container rowSpacing={3} justifyContent="flex-start" sx={{mx: "auto"}}>
-            {items.map((item, i) => {
+            {items.map((item) => {
               return(
-                <Grid key={i} item xs={12} sm={6} md={4} xl={3} > 
-                  <ItemCard item={item} isWish={userWishlist.includes(item._id)} setUserWishlist={setUserWishlist} />
+                <Grid key={item._id} item xs={12} sm={6} md={4} xl={3} > 
+                    <ItemCard item={item} isWish={userWishlist.includes(item._id)} setUserWishlist={setUserWishlist} />
                 </Grid>
               )
             })}
@@ -153,7 +154,7 @@ const Home = () => {
       <Box sx={{mt: 5, pb: 15, display: "flex", justifyContent: "center"}}>
         <Pagination color="secondary"page={page} onChange={handlePageChange} count={Math.ceil(totalItems/itemsPerPage)} size={downSm ? "small" : "large"} />
       </Box>
-    </React.Fragment>
+    </Box>
   )
 }
 

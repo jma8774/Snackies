@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Link from '@mui/material/Link';
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryIcon from '@mui/icons-material/History';
 import StarIcon from '@mui/icons-material/Star';
@@ -32,7 +33,7 @@ const DrawerList = ({setDrawerOpen, logout}) => {
   const history = useHistory()
   return(
     <Box component={List} 
-      sx={{ width: {xs: 250, md: 300} }} 
+      sx={{ width: {xs: 225, md: 300}, height: "100%" }}
       subheader={
         <ListSubheader component={Typography} sx={{ 
           bgcolor: "Background.default", 
@@ -42,6 +43,8 @@ const DrawerList = ({setDrawerOpen, logout}) => {
           {"Hello " + (user.id ? user.first_name : "Guest")}
         </ListSubheader>
       }
+      display="flex"
+      flexDirection="column"
     >
       {/* Home */}
       <ListItemHoverIconFloat 
@@ -123,6 +126,11 @@ const DrawerList = ({setDrawerOpen, logout}) => {
           </ListItemHoverIconFloat>
         </React.Fragment>
       }
+
+    <Box sx={{flexGrow: 1}}/>
+    <Typography variant="body1" textAlign="center" sx={{ my: 1 }}>
+      Created by <Link href="https://github.com/jma8774" underline="hover" target="_blank" rel="noopener">Jia Ming</Link> © 2021
+    </Typography>
     </Box>
   )
 }

@@ -44,7 +44,7 @@ const Brands = (props) => {
   return (
     // SVG generated at https://doodad.dev/pattern-generator/ #5d4037 #3e2723 #795548
     <Paper elevation={3} sx={{
-      py: 3,
+      py: 7,
       my: 12, 
       background: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='100%25'%3E%3Cdefs%3E%3Cpattern id='doodad' width='66' height='66' viewBox='0 0 40 40' patternUnits='userSpaceOnUse' patternTransform='rotate(135)'%3E%3Crect width='100%25' height='100%25' fill='%235D4037'/%3E%3Ccircle cx='20' cy='20' r='0' fill='%233E2723'/%3E%3Ccircle cx='20' cy='40' r='3' fill='%23795548'/%3E%3Ccircle cx='60' cy='0' r='3' fill='%23795548'/%3E%3Ccircle cx='20' cy='0' r='3' fill='%23795548'/%3E%3Ccircle cx='60' cy='40' r='3' fill='%23795548'/%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23doodad)' height='200%25' width='200%25'/%3E%3C/svg%3E ")`,
     }}>
@@ -52,17 +52,17 @@ const Brands = (props) => {
         WE OFFER SOME OF THE MOST POPULAR BRANDS 
       </Typography> */}
       <Grid container justifyContent="center" rowSpacing={3} textAlign="center" width="80%" mx="auto">
-        {Array.from(brands.keys()).map((brand, i) => {
+        {Array.from(brands.keys()).map((brand) => {
           return (
-          <Grid item key={i} xs={6} sm={4} md={3} lg={2} sx={{
-            transition: "transform 0.2s linear",
-            ":hover": {
-              cursor: "pointer",
-              transform: "scale(1.2, 1.2)"
-            }
-          }}>
-            <img alt={brand} src={brands.get(brand)} height={70} onClick={handleFilterChange}/>
-          </Grid>
+            <Grid item key={brand} xs={6} sm={4} md={3} lg={2} sx={{
+              transition: "transform 0.2s linear",
+              ":hover": {
+                cursor: "pointer",
+                transform: "scale(1.2, 1.2)"
+              }
+            }}>
+                <img alt={brand} src={brands.get(brand)} height={70} onClick={handleFilterChange}/>
+            </Grid>
         )})}
       </Grid>
     </Paper>

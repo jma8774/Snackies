@@ -101,7 +101,7 @@ const Navbar = (props) => {
             sx={{
               "& .MuiPaper-root":  {
                 backgroundColor: theme ? "background.default" : "#fff"
-              }
+              },
             }}
           >
             <DrawerList setDrawerOpen={setDrawerOpen} logout={logout}/>

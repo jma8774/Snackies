@@ -27,9 +27,9 @@ const BrandChips = (props) => {
   return (
     <Box>
       <Stack direction="row" spacing={1}>
-        {brands.map((brand, i) => {
+        {brands.map((brand) => {
           return (
-            <Chip key={i} label={brand} variant="filled" color={filterBrand === brand ? "success" : "default"} onClick={handleFilterChange} />
+            <Chip key={brand} label={brand} variant="filled" color={filterBrand === brand ? "success" : "default"} onClick={handleFilterChange} />
           )
         })}
       </Stack>
