@@ -26,7 +26,6 @@ const Home = () => {
   const history = useHistory()
   const startBrowsingRef = useRef(null)
   const user = useSelector((state) => state.user)
-  const [bannerTransform, setBannerTransform] = useState(0)
   const [userWishlist, setUserWishlist] = useState([])
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
@@ -49,6 +48,7 @@ const Home = () => {
   }
   
   const handlePageChange = (e, newPage) => {
+    if(newPage === page) return
     setPage(newPage)
     executeScroll()
   }
@@ -58,12 +58,23 @@ const Home = () => {
     setSort(e.target.value)
   }
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e, brand) => {
     setPage(1)
-    setFilterBrand(e.target.alt || e.target.textContent)
     executeScroll()
+    if(brand) {
+      setFilterBrand(brand)
+      return
+    }
+    if(e.target.alt === filterBrand || e.target.textContent === filterBrand) return
+    setFilterBrand(e.target.alt || e.target.textContent)
   }
     
+  useEffect(() => {
+    const toBrandFilter = history.location.toBrandFilter
+    if(toBrandFilter) 
+      handleFilterChange(null, toBrandFilter)
+  }, [])
+
   useEffect(() => {
     setItemsPerPage(downXl ? 6 : 8)
   }, [downXl])

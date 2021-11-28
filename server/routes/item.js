@@ -29,4 +29,16 @@ router.get('/length', async function (req, res) {
     res.status(400).send({ message: 'Error has occurred' })
   }
 })
+
+router.get('/getById', async function (req, res) {
+  try {
+    const { itemId } = req.query
+    const item = await db.Item.findById(itemId)
+    res.json(item)
+  } catch (err) {
+    console.log('Get Item By Id Error:\n', err)
+    res.status(400).send({ message: 'Error has occurred' })
+  }
+})
+
 module.exports = router;

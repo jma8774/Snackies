@@ -79,13 +79,13 @@ const ItemCard = (props) => {
         my: 2,
         height: "200px"
       }}>
-        <Link component={RouterLink} to={`/product/${item._id}`} underline="none">
+        <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none">
           <Box component="img" src={`/snacks${item.image}`} sx={{ height: "100%", maxWidth: "100%"}}/>
         </Link>
       </Box>
       {/* Labels */}
       <Box sx={{display: "flex", flexDirection: "column", mx: 4, pb: 3, flexGrow: 1 }}>
-        <Link component={RouterLink} to={`/product/${item._id}`} underline="none" color="inherit" > 
+        <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none" color="inherit" > 
           <Typography variant="h6"> {item.name} </Typography> 
         </Link>
         <Typography variant="body1" color="text.secondary" flexGrow={1} > ${parseFloat(item.basePrice).toFixed(2)} </Typography>

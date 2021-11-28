@@ -40,7 +40,6 @@ const Login = (props) => {
   const [waiting, setWaiting] = useState(false)
   const [showError, setShowError] = useState(history.location.goLogin)
   const [resetSuccess, setResetSuccess] = useState(history.location.resetSuccess)
-
   const cookies = new Cookies();
   const dispatch = useDispatch()
   

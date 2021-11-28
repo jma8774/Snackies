@@ -65,7 +65,7 @@ const Banner = (props) => {
   const { executeScroll } = props
 
   return (
-    <Box position="relative" sx={{ml: 3, pb: 5}}>
+    <Box position="relative" sx={{mx: 3, pb: 5}}>
       {/* Particles floating */}
       <Particles left="-10%" top="20%" color="#ffd15c"/>
       <Particles left="-5%" top="80%" color="#699772"/>
@@ -76,21 +76,27 @@ const Banner = (props) => {
       <Particles left="30%" top="60%" color="#ffffff"/>
 
       <Grid container >
-        <Grid item xs={12} md={5} >
+        <Grid item xs={12} md={6} >
             <Typography variant="h3" sx={{fontWeight: "500"}}>
               Enjoy a wide variety of snacks from your favorite brands
             </Typography>
           <Box component={Typography} variant="body1" sx={{fontSize: 22, mt: 2}}>
             Try out new snacks that you've never had before!
           </Box>
-          <Button size="large" variant="contained" color="secondary" sx={{mt: 4, mr: 3}} onClick={() => history.push('/login')}>
-            Create an Account
-          </Button>
-          <Button size="large" variant="outlined" color="secondary" sx={{mt: 4}} onClick={executeScroll}>
-            Start browsing
-          </Button>
+          <Grid container sx={{mt: 2}} spacing={2}>
+            <Grid item xs={12} sm="auto"> 
+              <Button size="large" variant="contained" color="secondary" onClick={() => history.push('/login')}>
+                Create an Account
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm> 
+              <Button size="large" variant="outlined" color="secondary" onClick={executeScroll}>
+                Start browsing
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={7} position="relative" sx={{minHeight: "300px", mt: {xs: 5, md: 0}}}>
+        <Grid item xs={12} md={6} position="relative" sx={{minHeight: "300px", mt: {xs: 5, md: 0}}}>
             <Box component="img" src={chip} sx={{
               position: "absolute",
               height: 50,

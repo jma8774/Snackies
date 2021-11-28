@@ -47,7 +47,7 @@ const snickers_ice_cream = {
   name: "Snickers Ice Cream Bar",
   brand: "Snickers",
   description: "You aren't you when you're hungry. That's why there's SNICKERS® Full Size Chocolate Bars. Packed with roasted peanuts, nougat, caramel and milk chocolate, SNICKERS® Candy handles your hunger so you can handle things that don't relate to hunger at all.",
-  prices: [{size: "2.00oz", price: 1.49}],
+  prices: [{size: "2.00 oz", price: 1.49}],
   basePrice: 0.49,
   image: "/snickers-ice-cream.png"
 }
