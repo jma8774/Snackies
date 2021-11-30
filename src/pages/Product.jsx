@@ -18,6 +18,34 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Divider from '@mui/material/Divider';
+import { setCartCount } from '../redux/features/userSlice'
+import CircularProgress from '@mui/material/CircularProgress';
+import Skeleton from '@mui/material/Skeleton';
+
+
+
+const SortReviews = (props) => {
+  const { sort, handleSortChange } = props
+  return (
+    <Box sx={{ width: 200}} >
+      <FormControl fullWidth>
+        <InputLabel variant="filled" color="secondary">Sort By</InputLabel>
+        <Select
+          value={sort}
+          label="Sort By"
+          onChange={handleSortChange}
+          variant="filled"
+          color="secondary"
+        >
+          <MenuItem value={0}>Date: New to Old </MenuItem>
+          <MenuItem value={1}>Rating: High to Low </MenuItem>
+          <MenuItem value={2}>Rating: Low to High</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  )
+}
 
 const QuantitySelect = (props) => {
   const { quantity, setQuantity } = props
@@ -34,13 +62,14 @@ const QuantitySelect = (props) => {
           color="primary"
         >
           { options.map((option) => {
-            return <MenuItem value={option}> {option} </MenuItem>
+            return <MenuItem key={option} value={option}> {option} </MenuItem>
           })}
         </Select>
       </FormControl>
     </Box>
   )
 }
+
 function ProductBreadcrumbs(props) {
   const { item } = props
   return (
@@ -81,17 +110,33 @@ function SizeButton(props) {
 
 const Product = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const { itemId } = useParams()
   const [item, setItem] = useState({})
   const [loading, setLoading] = useState(true)
   const [sizeSelected, setSizeSelected] = useState(0)
   const [quantity, setQuantity] = useState(1)
-  const [showLogin, setShowLogin] = useState(history.location.loggedIn)
+  const [addLoading, setAddLoading] = useState(false)
+  const [successCart, setSuccessCart] = useState(false)
+  const [sortReview, setSortReview] = useState(0)
 
-  const handleAddToCart = (e) => {
+  const handleSortViewChange = async (e) => {
+    setSortReview(e.target.value)
+    console.log(sortReview)
+  }
+
+  const handleAddToCart = async () => {
     if(user.email === '') return history.push({ pathname: '/login', goLogin: true })
-    // TODO Handle Add Cart
+    try {
+      setAddLoading(true)
+      const { data } = await axios.post(`/api/cart/add`, { userId: user.id, itemId: item._id, size: item.prices[sizeSelected].size, quantity: quantity });
+      dispatch(setCartCount(data))
+      setAddLoading(false)
+      setSuccessCart(true)
+    } catch(err) {
+      console.log("Add Cart Item Error:\n", err.response ? err.response.data : err)
+    }
   }
 
   useEffect(() => {
@@ -107,15 +152,25 @@ const Product = () => {
       }
     }
     fetchProduct()
+    window.scrollTo({
+      top: 0,
+    });
   }, [])
 
   return (
-    <Box>
+    <Box sx={{pb: "200px"}}>
+      <Snackbar
+        open={successCart}
+        autoHideDuration={2000}
+        onClose={() => {setSuccessCart(false)}}
+      >
+        <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Item added to cart! </Alert>
+      </Snackbar>
     {!loading 
         ?
         <Box>
           <ProductBreadcrumbs item={item} />
-          <Box mb={5  } />
+          <Box mb={5} />
           <Grid container rowSpacing={5}>
             <Grid item xs={12} md={5} textAlign="center" >
               <Paper variant="outlined" sx={{ height: "500px", maxWidth: "90%", mx: "auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -143,12 +198,22 @@ const Product = () => {
               <Typography variant="body1" flexGrow={1} sx={{fontSize: 17, mt: 4}}>  
                 {item.description}
               </Typography>
-              <Box display="flex" justifyContent="flex-end" sx={{mt: 7}}>
+              <Box display="flex" flexWrap="wrap" justifyContent="flex-end" sx={{mt: 7}}>
                   <QuantitySelect quantity={quantity} setQuantity={setQuantity} />
-                  <Button variant="contained" sx={{ml: 2}} onClick={handleAddToCart}> Add to Cart </Button>
+                  <Button disabled={addLoading} variant="contained" sx={{ml: 2}} onClick={handleAddToCart}> Add to Cart </Button>
               </Box>
             </Grid>
           </Grid>
+          <Divider sx={{mt: 10, mb: 2}} />
+          <Box>
+            <Typography variant="h4"> Community Reviews </Typography>
+            <Box display="flex" flexWrap="wrap" alignItems="center" sx={{mt: 5}}> 
+                <Box flexGrow={1} sx={{mb: 2}}> 
+                  <Button variant="contained" color="secondary" size="large" > <Typography variant="inherit" noWrap> Write a review </Typography> </Button> 
+                </Box>
+                <SortReviews sort={sortReview} handleSortChange={handleSortViewChange} />
+            </Box>
+          </Box>
           {/* <TextField
             id="outlined-textarea"
             label="Multiline Placeholder"
@@ -161,7 +226,35 @@ const Product = () => {
           /> */}
         </Box>
         : 
-        <Typography> Loading </Typography>
+        <Box>
+          <Skeleton width={250} height={35} />
+          <Box mb={5} />
+          <Grid container rowSpacing={5}>
+            <Grid item xs={12} md={5} >
+              <Skeleton sx={{height: 500, width: "90%", mx: "auto"}} />
+            </Grid>
+            <Grid item xs={12} md={7} display="flex" flexDirection="column">
+              <Typography variant="h3">  
+                <Skeleton />
+              </Typography>
+              <Box mt={1}>
+                <Skeleton width={100} height={35} />
+              </Box>
+              <Box sx={{mt: 3}}>
+                <Typography variant="h6" sx={{ mb: 1}}> <Skeleton width={50} /> </Typography>
+                <Skeleton />
+              </Box>
+              <Typography variant="body1" flexGrow={1} sx={{fontSize: 17, mt: 4}}>  
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+              </Typography>
+              <Box display="flex" flexWrap="wrap" justifyContent="flex-end" sx={{mt: 7}}>
+                  <Skeleton height={75} width={150} />
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
     }
     </Box>
   )

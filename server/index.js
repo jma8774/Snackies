@@ -25,9 +25,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 const user = require('./routes/user.js');
 const wishlist = require('./routes/wishlist.js');
 const item = require('./routes/item.js');
+const cart = require('./routes/cart.js');
 app.use('/api/user', user);
 app.use('/api/user/wishlist', wishlist);
 app.use('/api/item', item);
+app.use('/api/cart', cart);
 
 // Needed for Heroku
 if (process.env.NODE_ENV === 'production') {

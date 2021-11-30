@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema, model, Date, ObjectId} = mongoose
 
 const reviewSchema = Schema({
-  name: String,
+  user: { type: ObjectId, ref: 'User' },
   rating: Number,
   message: String,
   created: Date

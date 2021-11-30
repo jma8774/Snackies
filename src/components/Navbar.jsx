@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
@@ -35,7 +35,6 @@ const shakeCart = keyframes`
 `;
 
 const Navbar = (props) => {
-  const {window} = props;
   const [drawerOpen, setDrawerOpen] = useState(false)
   const cart = useSelector((state) => state.user.cart_count)
   const history = useHistory()
@@ -78,7 +77,11 @@ const Navbar = (props) => {
           <IconButton
             size="large"
             edge="start"
-            sx={{ ml: 1, '&:hover': { animation: `${shakeCart} 0.5s 1 ease`}}}
+            sx={{ 
+              ml: 1, 
+              animation: `${shakeCart} 0.5s 1 ease`,
+              '&:hover': { animation: `${shakeCart} 0.5s 1 ease`}}
+            }
             onClick={() => history.push('/cart')}
           >
             <Badge badgeContent={cart} color="error">

@@ -35,11 +35,14 @@ export const userSlice = createSlice({
     },
     setLoading: (state, action) => {
       state.loading = action.payload
+    },
+    setCartCount: (state, action) => {
+      state.cart_count = action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { initialize, setLoading, reset } = userSlice.actions
+export const { initialize, setLoading, setCartCount, reset } = userSlice.actions
 
 export default userSlice.reducer
