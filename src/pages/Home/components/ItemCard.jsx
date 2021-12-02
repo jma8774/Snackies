@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useHistory, useParams, Link as RouterLink} from 'react-router-dom';
+import { useHistory, Link as RouterLink} from 'react-router-dom';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { keyframes } from '@mui/system';
 import axios from 'axios';
 

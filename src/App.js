@@ -9,11 +9,11 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { Route, Switch } from 'react-router-dom';
 import axios from "axios"
-import Home from './pages/Home';
-import Product from './pages/Product';
+import Home from './pages/Home/Home';
+import Product from './pages/Product/Product';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Reset from './pages/Reset';
+import Reset from './pages/Reset/Reset';
 import Cart from './pages/Cart';
 import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist';
@@ -36,8 +36,8 @@ const App = () => {
       }
       dispatch(setLoading(false))
     }
-
     getUserInfo()
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

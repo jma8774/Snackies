@@ -8,11 +8,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { keyframes } from '@mui/system';
-import logo from '../assets/icon.png';
+import logo from '../../assets/icon.png';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import passwordSvg from "../assets/password.svg"
-import RequestResetLink from "../components/RequestResetLink"
+import passwordSvg from "../../assets/password.svg"
+import RequestResetLink from "./components/RequestResetLink"
 
 const shakeBag = keyframes`
   0% { transform: translate(1px, 1px) rotate(-3deg); }

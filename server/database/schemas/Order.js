@@ -17,8 +17,8 @@ const cartItemSchema = Schema({
 
 const orderSchema = Schema({
   user: { type: ObjectId, ref: 'User' },
-  created: { type: mongoose.Date, default: new Date() },
-  arrivalDate: { type: mongoose.Date, default: moment(new Date()).add(30, 'm')  },
+  created: { type: Date, default: new Date() },
+  arrivalDate: { type: Date, default: moment(new Date()).add(30, 'm')  },
   subTotal: Number,
   tax: Number,
   totalPrice: Number,

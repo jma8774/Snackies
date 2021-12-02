@@ -1,30 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
-import Box from '@mui/material/Box';
+import React from 'react'
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux'
-import axios from "axios"
-import Cookies from 'universal-cookie';
-import ItemCard from '../components/ItemCard'
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { keyframes } from '@mui/system';
 import Paper from '@mui/material/Paper';
-import cheetos from '../assets/brands/cheetos.png'
-import kitkats from '../assets/brands/kitkat.png'
-import lays from '../assets/brands/lays.png'
-import nature from '../assets/brands/nature-valley.png'
-import pringles from '../assets/brands/pringles.png'
-import doritos from '../assets/brands/doritos.png'
-import pocky from '../assets/brands/pocky.png'
-import snickers from '../assets/brands/snickers.png'
-import oreos from '../assets/brands/oreos.png'
-import hershey from '../assets/brands/hershey.png'
+import cheetos from '../../../assets/brands/cheetos.png'
+import kitkats from '../../../assets/brands/kitkat.png'
+import lays from '../../../assets/brands/lays.png'
+import nature from '../../../assets/brands/nature-valley.png'
+import pringles from '../../../assets/brands/pringles.png'
+import doritos from '../../../assets/brands/doritos.png'
+import pocky from '../../../assets/brands/pocky.png'
+import snickers from '../../../assets/brands/snickers.png'
+import oreos from '../../../assets/brands/oreos.png'
+import hershey from '../../../assets/brands/hershey.png'
 
 const brands = new Map([
   ["Lays", lays],
@@ -40,7 +26,7 @@ const brands = new Map([
 ])
 
 const Brands = (props) => {
-  const { handleFilterChange, setShowBrands} = props
+  const { handleFilterChange} = props
   return (
     // SVG generated at https://doodad.dev/pattern-generator/ #5d4037 #3e2723 #795548
     <Paper elevation={3} sx={{

@@ -5,17 +5,14 @@ import Snackbar from '@mui/material/Snackbar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import axios from "axios"
-import Cookies from 'universal-cookie';
-import ItemCard from '../components/ItemCard'
-import BrandChips from '../components/BrandChips'
-import SortItemsSelect from '../components/SortItemsSelect'
-import Banner from '../components/Banner';
-import Brands from '../components/Brands';
+import ItemCard from './components/ItemCard'
+import BrandChips from './components/BrandChips'
+import SortItemsSelect from './components/SortItemsSelect'
+import Banner from './components/Banner';
+import Brands from './components/Brands';
 import Pagination from '@mui/material/Pagination';
-import Paper from '@mui/material/Paper';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 
@@ -73,7 +70,8 @@ const Home = () => {
     const toBrandFilter = history.location.toBrandFilter
     if(toBrandFilter) 
       handleFilterChange(null, toBrandFilter)
-  }, [])
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location])
 
   useEffect(() => {
     setItemsPerPage(downXl ? 6 : 8)

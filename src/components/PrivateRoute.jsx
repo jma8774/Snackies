@@ -26,6 +26,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
     if(cookies.get('token') && user.loading)
       getUserInfo()
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // console.log(cookies.get('token'))

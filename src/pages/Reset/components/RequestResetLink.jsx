@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import { reset } from '../redux/features/userSlice'
+import { reset } from '../../../redux/features/userSlice'
 
 const RequestResetLink = () => {
   const dispatch = useDispatch()

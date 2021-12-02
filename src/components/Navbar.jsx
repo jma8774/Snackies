@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Cookies from 'universal-cookie';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
@@ -79,7 +79,6 @@ const Navbar = (props) => {
             edge="start"
             sx={{ 
               ml: 1, 
-              animation: `${shakeCart} 0.5s 1 ease`,
               '&:hover': { animation: `${shakeCart} 0.5s 1 ease`}}
             }
             onClick={() => history.push('/cart')}

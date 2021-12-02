@@ -26,10 +26,13 @@ const user = require('./routes/user.js');
 const wishlist = require('./routes/wishlist.js');
 const item = require('./routes/item.js');
 const cart = require('./routes/cart.js');
+const review = require('./routes/review.js');
 app.use('/api/user', user);
 app.use('/api/user/wishlist', wishlist);
 app.use('/api/item', item);
 app.use('/api/cart', cart);
+app.use('/api/review', review);
+
 
 // Needed for Heroku
 if (process.env.NODE_ENV === 'production') {
