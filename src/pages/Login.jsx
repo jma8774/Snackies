@@ -40,6 +40,7 @@ const Login = (props) => {
   const [waiting, setWaiting] = useState(false)
   const [showError, setShowError] = useState(history.location.goLogin)
   const [resetSuccess, setResetSuccess] = useState(history.location.resetSuccess)
+  const [googleError, setGoogleError] = useState(false)
   const cookies = new Cookies();
   const dispatch = useDispatch()
   
@@ -156,10 +157,13 @@ const Login = (props) => {
               clientId="305329395376-rkplg1snf07kq9b7otnkvp16ialcqj6t.apps.googleusercontent.com"
               buttonText="Login"
               onSuccess={googleLogin}
-              onFailure={(err) => console.log(err.response ? err.response.data : err)}
+              onFailure={(err) => {
+                setGoogleError(true)
+                console.log("Google Error", err.response ? err.response.data : err)}
+              }
               cookiePolicy={'single_host_origin'}
               render={renderProps => (
-                <GoogleButton style={{width: "100%"}} label='Continue with Google' onClick={renderProps.onClick} disabled={renderProps.disabled}/> 
+                <GoogleButton style={{width: "100%"}} label='Continue with Google' onClick={renderProps.onClick} disabled={renderProps.disabled || googleError}/> 
               )}
               />
             </Grid>

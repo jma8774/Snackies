@@ -32,7 +32,7 @@ const Product = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-  const [noUserError, setNoUserError] = useState(false)
+  const [error, setError] = useState({error: false, message: ''})
   const { itemId } = useParams()
   const [item, setItem] = useState({})
   const [loading, setLoading] = useState(true)
@@ -80,7 +80,7 @@ const Product = () => {
   const handleSubmitReview = async () => {
     // Make sure logged in (Maybe error snackbar if not logged in)
     if(user.id === '') {
-      setNoUserError(true)
+      setError({error: true, message: "You must login to leave a review."})
       return
     }
     if(newReview.noComment) newReview.message = ''
@@ -98,7 +98,10 @@ const Product = () => {
   }
 
   const handleAddToCart = async () => {
-    if(user.email === '') return history.push({ pathname: '/login', goLogin: true })
+    if(user.id === '') {
+      setError({error: true, message: "You must login to add to cart."})
+      return
+    }
     try {
       setAddLoading(true)
       const { data } = await axios.post(`/api/cart/add`, { userId: user.id, itemId: item._id, size: item.prices[sizeSelected].size, quantity: quantity });
@@ -160,11 +163,11 @@ const Product = () => {
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Item added to cart! </Alert>
       </Snackbar>
       <Snackbar
-        open={noUserError}
+        open={error.error}
         autoHideDuration={3000}
-        onClose={() => {setNoUserError(false)}}
+        onClose={ () => {setError(prevState => ({...prevState, error: false}))} } 
       >
-        <Alert severity="error" variant="filled" sx={{ width: '100%' }}> You must login to leave a review. </Alert>
+        <Alert severity="error" variant="filled" sx={{ width: '100%' }}> {error.message} </Alert>
       </Snackbar>
       <Snackbar
         open={reviewSubmitted}
