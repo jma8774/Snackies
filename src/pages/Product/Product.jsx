@@ -25,13 +25,28 @@ import EditIcon from '@mui/icons-material/Edit';
 import CommentIcon from '@mui/icons-material/Comment';
 import Tooltip from '@mui/material/Tooltip';
 import Pagination from '@mui/material/Pagination';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import IconButton from '@mui/material/IconButton';
+import { keyframes } from '@mui/system';
 
 const reviewsPerPage = 5
+const animateHeart = keyframes`
+  0%{transform:scale(.2);}
+  40%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+`;
+const animateHeartOut = keyframes`
+  0%{transform:scale(1.4);}
+  100%{transform:scale(1);}
+`;
 
 const Product = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
+  const [userWishlist, setUserWishlist] = useState([])
+  const [wishLoading, setWishLoading] = useState(false)
   const [error, setError] = useState({error: false, message: ''})
   const { itemId } = useParams()
   const [item, setItem] = useState({})
@@ -113,6 +128,29 @@ const Product = () => {
     }
   }
 
+  // Add/Remove to wishlist
+  const handleWishClick = async () => {
+    if(user.id === '') {
+      setError({error: true, message: "You must login to add an item to your wishlist."})
+      return
+    }
+
+    try{
+      setWishLoading(true)
+      let res;
+      if(userWishlist.includes(itemId))
+        // Remove item
+        res = await axios.post('/api/user/wishlist/remove', {email: user.email, itemId: item._id })
+      else
+        // Add item
+        res = await axios.post('/api/user/wishlist/add', {email: user.email, itemId: item._id })
+      setUserWishlist(res.data)
+    } catch(err) {
+      setUserWishlist([])
+      console.log("Handle Heart Click Error:\n", err.response ? err.response.data : err)
+    }
+    setWishLoading(false)
+  }
 
   const fetchReviews = async () => {
     try {
@@ -149,9 +187,19 @@ const Product = () => {
     fetchReviews()
   }, [curPage, sortReview])
 
-  // useEffect(() => {
-  //   console.log(newReview)
-  // }, [newReview])
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      if(user.id === '') return setUserWishlist([])
+      try {
+        const params = { email: user.email }
+        const { data } = await axios.get(`/api/user/wishlist`, { params: params });
+        setUserWishlist(data)
+      } catch(err) {
+        console.log("Fetch Wishlist Error:\n", err.response ? err.response.data : err)
+      }
+    }
+    fetchWishlist()
+  }, [user.id])
 
   return (
     <Box sx={{pb: "50px"}}>
@@ -192,9 +240,16 @@ const Product = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={7} display="flex" flexDirection="column">
-                <Typography variant="h4">  
-                  {item.name}
-                </Typography>
+                <Box display="flex">
+                  <Typography variant="h4" flexGrow={1}>  
+                    {item.name}
+                  </Typography>
+                  <IconButton color="error" disabled={wishLoading} onClick={handleWishClick}> 
+                    {userWishlist.includes(itemId) 
+                    ? <FavoriteIcon sx={{ animation: `${animateHeart} 0.3s 1 linear`}}/> 
+                    : <FavoriteBorderIcon sx={{ animation: `${animateHeartOut} 0.3s 1 linear` }}/>}
+                  </IconButton>
+                </Box>
                 <Box display="flex" alignItems="center" mt={1}>
                   <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
                   <Tooltip title={`${parseFloat(item.rating).toFixed(2)} stars`}>

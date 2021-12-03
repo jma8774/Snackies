@@ -17,6 +17,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
+
 const sortObjects = [{ rating: -1}, {rating: 1}, {basePrice: -1}, {basePrice: 1}, {name: 1}, {name: -1}]
 
 const Home = () => {

@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import cheetos from '../../../assets/brands/cheetos.png'
 import kitkats from '../../../assets/brands/kitkat.png'
 import lays from '../../../assets/brands/lays.png'
-import nature from '../../../assets/brands/nature-valley.png'
 import pringles from '../../../assets/brands/pringles.png'
 import doritos from '../../../assets/brands/doritos.png'
 import pocky from '../../../assets/brands/pocky.png'
@@ -18,7 +17,6 @@ const brands = new Map([
   ["KitKat", kitkats], 
   ["Doritos", doritos],
   ["Pocky", pocky], 
-  ["Nature Valley", nature], 
   ["Cheetos", cheetos], 
   ["Snickers", snickers], 
   ["Oreo", oreos], 

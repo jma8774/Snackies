@@ -79,6 +79,6 @@ const doritos_flamin_limon = {
   image: "/doritos-flamin-limon.png"
 }
 
-const allDoritos = [doritos, doritos_ranch, doritos_sweet_spicy, doritos_jalapeno, doritos_spicy_nacho, doritos_buffalo, doritos_flamas, doritos_flamin_nacho, doritos_flamin_limon]
+const all = [doritos, doritos_ranch, doritos_sweet_spicy, doritos_jalapeno, doritos_spicy_nacho, doritos_buffalo, doritos_flamas, doritos_flamin_nacho, doritos_flamin_limon]
 
-module.exports = { allDoritos }
+module.exports = { all }

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 
-const brands = ["All", "Lays", "Pringles", "KitKat", "Doritos", "Pocky", "Nature Valley", "Cheetos", "Snickers", "Oreo", "Hershey"]
+const brands = ["All", "Lays", "Pringles", "KitKat", "Doritos", "Pocky", "Cheetos", "Snickers", "Oreo", "Hershey"]
 
 const BrandChips = (props) => {
   const {filterBrand, handleFilterChange} = props

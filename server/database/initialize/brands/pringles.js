@@ -97,6 +97,6 @@ const pringles_honey = {
   image: "/pringles-honey.png"
 }
 
-const allPringles = [pringles, pringles_bbq, pringles_cheddar, pringles_cheddar_sour, pringles_jalapeno, pringles_pizza, pringles_sour_onion, pringles_salt_vinegar, pringles_chicken, pringles_pickle, pringles_honey]
+const all = [pringles, pringles_bbq, pringles_cheddar, pringles_cheddar_sour, pringles_jalapeno, pringles_pizza, pringles_sour_onion, pringles_salt_vinegar, pringles_chicken, pringles_pickle, pringles_honey]
 
-module.exports = { allPringles }
+module.exports = { all }

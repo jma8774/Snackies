@@ -53,6 +53,6 @@ const snickers_ice_cream = {
 }
 
 
-const allSnickers = [snickers, snickers_milk, snickers_peanut, snickers_white_chocolate, snickers_almond, snickers_ice_cream]
+const all = [snickers, snickers_milk, snickers_peanut, snickers_white_chocolate, snickers_almond, snickers_ice_cream]
 
-module.exports = { allSnickers }
+module.exports = { all }
