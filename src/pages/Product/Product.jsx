@@ -295,7 +295,7 @@ const Product = () => {
                   </Box>
                   <Typography display="flex" alignItems="center" variant="subtitle1" color="text.secondary" > 
                     <EditIcon sx={{mr: 1}}/>
-                    {newReview.created ? `${newReview.created.toDateString().slice(4)}` : ''}
+                    {newReview.created ? `${newReview.created.toDateString().slice(4)}` : 'N/A'}
                   </Typography>
                 </Box>
                 <TextField
