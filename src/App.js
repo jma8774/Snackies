@@ -14,7 +14,7 @@ import Product from './pages/Product/Product';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Reset from './pages/Reset/Reset';
-import Cart from './pages/Cart';
+import Cart from './pages/Cart/Cart';
 import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Cookies from 'universal-cookie';

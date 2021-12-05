@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
@@ -42,7 +42,6 @@ const animateHeartOut = keyframes`
 `;
 
 const Product = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [userWishlist, setUserWishlist] = useState([])
@@ -119,7 +118,7 @@ const Product = () => {
     }
     try {
       setAddLoading(true)
-      const { data } = await axios.post(`/api/cart/add`, { userId: user.id, itemId: item._id, size: item.prices[sizeSelected].size, quantity: quantity });
+      const { data } = await axios.post(`/api/cart/add`, { userId: user.id, itemId: item._id, size: item.prices[sizeSelected].size, quantity: quantity, price: item.prices[sizeSelected].price  });
       dispatch(setCartCount(data))
       setAddLoading(false)
       setSuccessCart(true)
@@ -181,10 +180,12 @@ const Product = () => {
     window.scrollTo({
       top: 0,
     });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     fetchReviews()
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curPage, sortReview])
 
   useEffect(() => {
@@ -200,6 +201,7 @@ const Product = () => {
       }
     }
     fetchWishlist()
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id])
 
   return (

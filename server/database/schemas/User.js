@@ -11,7 +11,7 @@ const addressSchema = Schema({
 
 const cartItemSchema = Schema({
   itemId: { type: ObjectId, ref: 'Item' },
-  quantity: [ { size: String, qty: Number } ]
+  quantity: [ { size: String, qty: Number, price: Number } ]
 })
 
 const userSchema = Schema({
