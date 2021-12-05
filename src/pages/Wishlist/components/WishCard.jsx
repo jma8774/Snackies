@@ -9,6 +9,8 @@ import Rating from '@mui/material/Rating';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
 
 const WishCard = (props) => {
   const history = useHistory()
@@ -20,7 +22,9 @@ const WishCard = (props) => {
       
     }}>
       <Box display="flex"> 
-        <Typography variant="h6" flexGrow={1}> {item.name} </Typography> 
+        <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} flexGrow={1} underline="none" color="inherit" >
+          <Typography variant="h6"> {item.name} </Typography> 
+        </Link>
         <Box flexBasis="auto" > 
           <IconButton color="error" onClick={() => handleRemove(item._id)}> 
             <DeleteIcon color="error" /> 
@@ -35,7 +39,9 @@ const WishCard = (props) => {
       </Box>
       <Box display="flex" flexDirection="row" sx={{height: "150px", mt: 2}}>
         <Box flexGrow={1} sx={{ml :1}}> 
-          <img alt={`${item.name}`} src={loading ? defaultImage : `/snacks${item.image}`} height="100%"/>
+          <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none">
+            <img alt={`${item.name}`} src={loading ? defaultImage : `/snacks${item.image}`} height="100%"/>
+          </Link>
         </Box>
         <Box display="flex" flexDirection="column" justifyContent="flex-end"> 
           <Button
