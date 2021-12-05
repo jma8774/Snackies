@@ -82,7 +82,7 @@ const Home = () => {
     const fetchWishlist = async () => {
       if(user.email === '') return setUserWishlist([])
       try {
-        const params = { email: user.email }
+        const params = { email: user.email, populated: false }
         const { data } = await axios.get(`/api/user/wishlist`, { params: params });
         // console.log(data)
         setUserWishlist(data)

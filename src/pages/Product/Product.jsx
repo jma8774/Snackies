@@ -191,8 +191,9 @@ const Product = () => {
     const fetchWishlist = async () => {
       if(user.id === '') return setUserWishlist([])
       try {
-        const params = { email: user.email }
+        const params = { email: user.email, populated: false }
         const { data } = await axios.get(`/api/user/wishlist`, { params: params });
+        // console.log(data)
         setUserWishlist(data)
       } catch(err) {
         console.log("Fetch Wishlist Error:\n", err.response ? err.response.data : err)
@@ -244,11 +245,13 @@ const Product = () => {
                   <Typography variant="h4" flexGrow={1}>  
                     {item.name}
                   </Typography>
-                  <IconButton color="error" disabled={wishLoading} onClick={handleWishClick}> 
-                    {userWishlist.includes(itemId) 
-                    ? <FavoriteIcon sx={{ animation: `${animateHeart} 0.3s 1 linear`}}/> 
-                    : <FavoriteBorderIcon sx={{ animation: `${animateHeartOut} 0.3s 1 linear` }}/>}
-                  </IconButton>
+                  <Box flexBasis="auto">
+                    <IconButton color="error" disabled={wishLoading} onClick={handleWishClick}> 
+                      {userWishlist.includes(itemId) 
+                      ? <FavoriteIcon sx={{ animation: `${animateHeart} 0.3s 1 linear`}}/> 
+                      : <FavoriteBorderIcon sx={{ animation: `${animateHeartOut} 0.3s 1 linear` }}/>}
+                    </IconButton>
+                  </Box>
                 </Box>
                 <Box display="flex" alignItems="center" mt={1}>
                   <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
