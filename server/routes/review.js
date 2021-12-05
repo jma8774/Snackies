@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require("../database/mongoose")
 const ObjectId = require('mongoose').Types.ObjectId; 
+const jwtAuth = require("../middleware/jwtAuth")
 
 
 // On Success: Get a new review by user id
@@ -27,7 +28,7 @@ router.get('/', async function (req, res) {
 })
 
 // On Success: Post/Update a new review
-router.post('/', async function (req, res) {
+router.post('/', jwtAuth.authenticateToken, async function (req, res) {
   try {
     const { itemId, userId, rating, message } = req.body
     const created = new Date()

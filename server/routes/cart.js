@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require("../database/mongoose")
+const jwtAuth = require("../middleware/jwtAuth")
 
 
 // On Success: Add item/quantity/size to user cart
-router.post('/add', async function (req, res) {
+router.post('/add', jwtAuth.authenticateToken, async function (req, res) {
   try {
     const { userId, itemId, size, quantity } = req.body
     const user = await db.User.findById(userId)

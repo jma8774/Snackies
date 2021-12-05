@@ -1,12 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const jwtAuth = require("../middleware/jwtAuth")
 const db = require("../database/mongoose")
 
 
-router.get('/', async function (req, res) {
+// Given a user, get all their wishlist items
+router.get('/', jwtAuth.authenticateToken, async function (req, res) {
   try {
-    const { email } = req.query
-    const user = await db.User.findOne({email: email}).exec() 
+    const { email, populated } = req.query
+    let user;
+    if(populated === "true")
+      user = await db.User.findOne({email: email}).populate("wishlist").exec()
+    else
+      user = await db.User.findOne({email: email}).exec() 
     res.json(user.wishlist)
   } catch (err) {
     console.log('Get Favorites Error:\n', err)
@@ -14,7 +20,8 @@ router.get('/', async function (req, res) {
   }
 })
 
-router.post('/remove', async function (req, res) {
+
+router.post('/remove', jwtAuth.authenticateToken, async function (req, res) {
   try {
     const { itemId, email } = req.body
     const user = await db.User.findOne({email: email}).exec() 
@@ -27,7 +34,7 @@ router.post('/remove', async function (req, res) {
   }
 })
 
-router.post('/add', async function (req, res) {
+router.post('/add', jwtAuth.authenticateToken, async function (req, res) {
   try {
     const { itemId, email } = req.body
     const user = await db.User.findOne({email: email}).exec() 
