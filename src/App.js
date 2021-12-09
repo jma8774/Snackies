@@ -1,6 +1,7 @@
 import React, { useEffect }from 'react';
 import { lightTheme, darkTheme } from './themes/theme'
 import PrivateRoute from './components/PrivateRoute';
+import CheckoutRoute from './components/CheckoutRoute';
 import Navbar from './components/Navbar';
 import { useSelector, useDispatch } from 'react-redux'
 import { ThemeProvider } from '@mui/material/styles';
@@ -15,15 +16,25 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Reset from './pages/Reset/Reset';
 import Cart from './pages/Cart/Cart';
+import Checkout from './pages/Checkout/Checkout';
 import OrderHistory from './pages/OrderHistory';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Cookies from 'universal-cookie';
 import { initialize, setLoading} from './redux/features/userSlice'
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51K4fV3A8ML82j4L3xjuinxFGtkw5B3J2zed7SXvnCF1BUVXZXo9fkr4zxh9bnmh6N4Ax1EWWSWbz1rUjkpg4LqNy00zhdgEE2f');
 
 const App = () => {
   const cookies = new Cookies();
   const theme = useSelector((state) => state.theme)
   const dispatch = useDispatch()
+
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: '{{CLIENT_SECRET}}',
+  };
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -41,6 +52,7 @@ const App = () => {
   }, []);
 
   return (
+    <Elements stripe={stripePromise} >
     <ThemeProvider theme={theme ? darkTheme : lightTheme}>
       <CssBaseline />
       <Box sx={{overflow: "hidden"}}>
@@ -56,10 +68,13 @@ const App = () => {
               <PrivateRoute path="/cart" component={Cart} exact/>
               <PrivateRoute path="/orders" component={OrderHistory} exact/>
               <PrivateRoute path="/wishlist" component={Wishlist} exact/>
+              <CheckoutRoute path="/checkout" component={Checkout} exact/>
           </Switch>
         </Container>
       </Box>
     </ThemeProvider>
+    </Elements>
+
   )
 }
 

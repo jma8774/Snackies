@@ -28,7 +28,7 @@ const ItemCard = (props) => {
               <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} flexGrow={1} underline="none" color="inherit" >
                 <Typography variant="body1" fontSize="16px"> {item.name} </Typography>
               </Link>
-              <Typography component="span" display="flex" alignItems="center" variant="body1" fontWeight="bold" mt={1}> ${size.price}  <Box mr={1} /> <Chip size="small" label={size.size} /> </Typography>
+              <Typography component="span" display="flex" alignItems="center" variant="body1" fontWeight="bold" mt={1}> ${parseFloat(size.price).toFixed(2)}  <Box mr={1} /> <Chip size="small" label={size.size} /> </Typography>
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={3}>
               <QuantitySelect itemId={item._id} size={size.size} quantity={size.qty} price={size.price} setSubtotal={setSubtotal}  />

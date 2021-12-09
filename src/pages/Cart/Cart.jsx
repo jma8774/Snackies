@@ -9,12 +9,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CartSkeleton from './components/CartSkeleton';
 import ItemCard from './components/ItemCard';
+import { useHistory } from 'react-router-dom';
+
 
 const Cart = () => {
+  const history = useHistory()
   const user = useSelector((state) => state.user)
   const [cart, setCart] = useState([])
   const [subtotal, setSubtotal] = useState(0)
   const [loading, setLoading] = useState(false)
+
+  const handleCheckout = () => {
+    if(user.cartCount === 0) return
+    history.push({pathname: '/checkout', verifyCheckout: true})
+  }
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -43,10 +51,6 @@ const Cart = () => {
     }
     getSubtotal(cart)
   }, [cart])
-
-  // useEffect(() => {
-  //   console.log("SUBTOTAL", subtotal)
-  // }, [subtotal])
 
   return (
     !loading
@@ -96,7 +100,7 @@ const Cart = () => {
                   <Typography variant="body1" flexGrow={1}> Total </Typography>
                   <Typography variant="body1"> ${parseFloat(subtotal * 1.09).toFixed(2)} </Typography>
                 </Box>
-                <Button variant="contained" color="success" sx={{width: "100%", mt: 3}}>
+                <Button variant="contained" color="success" sx={{width: "100%", mt: 3}} disabled={user.cart_count===0} onClick={handleCheckout}>
                   Checkout
                 </Button>
               </Paper>
