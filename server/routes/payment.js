@@ -16,7 +16,8 @@ async function parseSessionItems(items) {
       name: name,
       size: size,
       price: item.prices.filter((x) => x.size === size)[0].price,
-      quantity: el.quantity
+      quantity: el.quantity,
+      image: item.image
     })
   }
   return orderItems
@@ -50,6 +51,8 @@ function parseLineItems(cart, taxRate) {
 router.post('/init', jwt.authenticateToken, async function (req, res) {
   try {
     const user = await db.User.findOne({email: req.email}).populate("cart.itemId", ["name", "image"])
+    if(user.cart.length === 0)
+      return res.redirect(303, process.env.DOMAIN_NAME);
     const taxRate = await stripe.taxRates.create({
       display_name: 'Sales',
       percentage: 8.875,
@@ -78,7 +81,7 @@ router.post('/complete', async function (req, res) {
     const exist = await db.Order.findOne({stripe_session_id: session_id})
     // Check if order from Stripe has been fufilled already or not
     if(exist) 
-      return res.status(400).send({ message: 'Order has already been fufilled' })
+      return res.json(exist);
     const session = await stripe.checkout.sessions.retrieve(session_id);
     if(session.payment_status === "unpaid")
       return res.status(400).send({ message: 'Order not paid yet' })
@@ -94,7 +97,7 @@ router.post('/complete', async function (req, res) {
       tax: parseFloat(session.amount_total - session.amount_subtotal) / 100,
       totalPrice: parseFloat(session.amount_total) / 100,
       items: await parseSessionItems(items.data),
-      status: "Shipped",
+      status: "Processing",
       address: user.address
     })
     await order.save()
@@ -103,7 +106,7 @@ router.post('/complete', async function (req, res) {
     // Send Email Confirmation
     mailer.orderComplete({ to: user.email, name: user.first_name, orderId: order.id.toString() })
 
-    res.json(session);
+    res.json(order);
   } catch (err) {
     console.log('Complete Order Error:\n', err)
     res.status(400).send({ message: 'Error has occurred' })

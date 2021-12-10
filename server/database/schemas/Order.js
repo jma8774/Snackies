@@ -18,6 +18,7 @@ const itemSchema = Schema({
   size: String,
   price: Number,
   quantity: Number,
+  image: String,
 })
 
 const orderSchema = Schema({

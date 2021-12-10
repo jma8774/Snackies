@@ -45,10 +45,10 @@ const PaymentMethod = (props) => {
         Checkout with <Link href="https://stripe.com/docs/testing#cards" target="_blank" rel="noreferrer" color="inherit">Stripe's Visa test card</Link> number 4242 4242 4242 4242 
       </Typography>
       <Divider sx={{mt: 2}} />
-      <Box component="form" action="/api/payment/init" method="POST" sx={{mt: 3, display: "flex", justifyContent: "center"}}>
+      <Box component="form" action="/api/payment/init" method="POST" sx={{mt: 6, display: "flex", justifyContent: "center"}}>
         <Button variant="contained" type="submit" endIcon={<PaymentIcon />} > Initiate Secure Checkout </Button>
       </Box>
-      <Box mt={2}>
+      <Box mt={3}>
         <Typography variant="body1" color="text.secondary"> 
           <Link href="https://stripe.com/docs/security/stripe" target="_blank" rel="noreferrer" color="inherit"> Stripe</Link> has been audited by a PCI-certified auditor and is certified to PCI Service Provider Level 1. This is the most stringent level of certification available in the payments industry. 
         </Typography>

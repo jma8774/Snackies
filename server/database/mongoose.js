@@ -13,6 +13,7 @@ connect().catch(err => console.log(err));
 
 // initSnacks.clearSnacks()
 // initSnacks.addSnacks()
+// Order.deleteMany({}).exec()
 
 function cartCount(cart) {
   let count = 0
