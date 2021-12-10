@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 import defaultImage from '../../../assets/icon.png';
 import Rating from '@mui/material/Rating';
 import Tooltip from '@mui/material/Tooltip';
@@ -18,7 +19,7 @@ const WishCard = (props) => {
 
   return (
     <Paper variant="outlined" sx={{ px: 2, py: 2, mt: 2, mx: "auto", 
-      width: {xs: "100%", sm: "75%", lg: "50%"},
+      width: {xs: "100%", sm: "55%", lg: "45%"},
       
     }}>
       <Box display="flex"> 
@@ -37,23 +38,25 @@ const WishCard = (props) => {
           <Box component={Typography} variant="body1" color="text.secondary" sx={{ ml: 1}}> ({item.reviews.length}) </Box>
         </Tooltip>
       </Box>
-      <Box display="flex" flexDirection="row" sx={{height: "150px", mt: 2}}>
-        <Box flexGrow={1} sx={{ml :1}}> 
+      <Grid container rowSpacing={2} sx={{mt: 2}}>
+        <Grid item xs={12} md={8} sx={{display: "flex", justifyContent: { xs: "center", md: "flex-start"}}}>
           <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none" >
-            <Box component="img" alt={`${item.name}`} src={loading ? defaultImage : `/snacks${item.image}`} sx={{height: "100%", maxWidth: "100%"}}/>
+            <Box component="img" alt={`${item.name}`} src={loading ? defaultImage : `/snacks${item.image}`} sx={{height: "200px ", maxWidth: "100%"}}/>
           </Link>
-        </Box>
-        <Box display="flex" flexDirection="column" justifyContent="flex-end"> 
-          <Button
-            variant="contained"
-            onClick={() => history.push(`product/${item._id}`)}
-            color="secondary" 
-            sx={{mb: 1, mr: 1 }}
-          > 
-            View Item 
-          </Button>
-        </Box>
-      </Box>
+        </Grid>
+        <Grid item xs={12} md={4} display="flex" flexDirection="column" justifyContent="flex-end">
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              variant="contained"
+              onClick={() => history.push(`product/${item._id}`)}
+              color="secondary" 
+              sx={{mb: 1, mr: 1 }}
+            > 
+              View Item 
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
     </Paper>
   )
 }

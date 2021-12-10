@@ -16,8 +16,8 @@ const ItemCard = (props) => {
       <Divider/>
       <Box sx={{mt: 2, mb: 2}}>
         <Grid container columnSpacing={3} rowSpacing={2}>
-          <Grid item xs={12} sm={4} lg={3} >
-            <Paper elevation={0} sx={{backgroundColor: "transparent", display: "flex", justifyContent: "center", px: 1, py: 2, height: "200px"}}>
+          <Grid item xs={12} sm={4} lg={3} display="flex" justifyContent="center">
+            <Paper elevation={0} sx={{backgroundColor: "transparent", px: 1, py: 2, height: "200px"}}>
               <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none">
                 <Box component="img" src={`/snacks${item.image}`} sx={{height: "100%", maxWidth: "100%"}} />
               </Link>
