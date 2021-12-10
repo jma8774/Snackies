@@ -36,7 +36,7 @@ router.post('/login', async function (req, res) {
   const {email, password} = req.body
   // Confirm with database
   const user = await db.User.findOne({email: email}).exec()
-  if(user === null) return res.status(401).send({ message: "Incorrect username/password" })
+  if(user === null || !user.password) return res.status(401).send({ message: "Incorrect username/password" })
   // Compare input password with hash password
   const correct = await bcrypt.compare(password, user.password)
   if(!correct) return res.status(401).send({ message: "Incorrect username/password" })

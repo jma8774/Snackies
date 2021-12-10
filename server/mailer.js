@@ -49,7 +49,7 @@ async function resetPassword(data) {
     subject: "Snackies Password Reset", 
     text: "Here is the link to reset your Snackies password",
     html: `Dear ${data.name}, ` +
-          `<p>Click this <a href=${data.url}">link</a> to reset your password.<p/>` +
+          `<p>Click this <a href=${data.url}>link</a> to reset your password.<p/>` +
           '<p>It will expire in 15 minutes and may only be used once to change your password.</p><br/>' +
           "Best,<br/>Snackies",
   });
