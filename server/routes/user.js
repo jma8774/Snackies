@@ -33,7 +33,8 @@ router.get('/', jwtAuth.authenticateToken, async function (req, res) {
 // User login to check their username and password
 // On Success: Generate a JWT to store in their cookies
 router.post('/login', async function (req, res) {
-  const {email, password} = req.body
+  let {email, password} = req.body
+  email = email.toLowerCase()
   // Confirm with database
   const user = await db.User.findOne({email: email}).exec()
   if(user === null || !user.password) return res.status(401).send({ message: "Incorrect username/password" })
@@ -53,18 +54,18 @@ router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (
     // Get profile info from Google using Token
     const profile = req.payload
     const userData = {
-      email: profile.email,
+      email: profile.email.toLowerCase(),
       password: null,
       first_name: profile.given_name,
       last_name: profile.family_name
     }
     // Check if user email exist, if not we make a new user
-    const user = await db.User.findOne({email: profile.email}).exec()
+    const user = await db.User.findOne({email: userData.email}).exec()
     if(user === null) {
       let newUser = new db.User(userData)
       newUser = await newUser.save()
       // Send email to user about their registration
-      mailer.signup({ to: profile.email, name: profile.given_name } )
+      mailer.signup({ to: userData.email, name: profile.given_name } )
     }
     // Save JWT token in cookies
     const token = jwtAuth.generateAccessToken(userData.email)
@@ -79,7 +80,8 @@ router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (
 // User signup to check that the email doesn't exist in the database
 // On Success: Create a new user in our MongoDB database and generate a JWT to store in their cookies
 router.post('/signup', async function (req, res) {
-  const {email, password, first_name, last_name} = req.body   
+  let {email, password, first_name, last_name} = req.body   
+  email = email.toLowerCase()
   const exist = await db.User.findOne({email: email}).exec() 
   if(exist) return res.status(409).send({ message: "Email already exist" }) // Already Exist Status Code 
   // Generate a hash password to store in database
@@ -104,7 +106,7 @@ router.post('/signup', async function (req, res) {
 // User password reset by inputting an email
 // On Success: Check if email exist in DB, if it does send an email to that email for reset
 router.get('/sendReset', async function (req, res) {
-  const email = req.query.email
+  const email = req.query.email.toLowerCase()
   const user = await db.User.findOne({email: email}).exec() 
   if(!user) return res.status(404).send({ message: "Email not found" })
   // Generate JW token to use to reset password

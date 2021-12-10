@@ -19,7 +19,7 @@ const ItemCard = (props) => {
           <Grid item xs={12} sm={4} lg={3} >
             <Paper elevation={0} sx={{backgroundColor: "transparent", display: "flex", justifyContent: "center", px: 1, py: 2, height: "200px"}}>
               <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none">
-                <Box component="img" src={`/snacks${item.image}`} sx={{height: "100%"}} />
+                <Box component="img" src={`/snacks${item.image}`} sx={{height: "100%", maxWidth: "100%"}} />
               </Link>
             </Paper>
           </Grid>

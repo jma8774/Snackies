@@ -39,8 +39,8 @@ const WishCard = (props) => {
       </Box>
       <Box display="flex" flexDirection="row" sx={{height: "150px", mt: 2}}>
         <Box flexGrow={1} sx={{ml :1}}> 
-          <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none">
-            <img alt={`${item.name}`} src={loading ? defaultImage : `/snacks${item.image}`} height="100%"/>
+          <Link component={RouterLink} to={{ pathname: `/product/${item._id}`}} underline="none" >
+            <Box component="img" alt={`${item.name}`} src={loading ? defaultImage : `/snacks${item.image}`} sx={{height: "100%", maxWidth: "100%"}}/>
           </Link>
         </Box>
         <Box display="flex" flexDirection="column" justifyContent="flex-end"> 

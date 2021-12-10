@@ -305,7 +305,7 @@ const Product = () => {
                 </Box>
                 <TextField
                   label="Comment here"
-                  placeholder="Write something that you like or don't like about about this!"
+                  placeholder="Write something that you like or don't like about about this product!"
                   multiline
                   value={newReview.message}
                   disabled={newReview.noComment}
