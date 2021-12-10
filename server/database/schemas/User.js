@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 const {Schema, model, ObjectId} = mongoose
 
 const addressSchema = Schema({
-  firstName: String,
-  lastName: String,
   street: String,
   apt: String,
   city: String,
   state: String,
-  zip: Number
+  zip: String
 })
 
 const cartItemSchema = Schema({
@@ -24,7 +22,13 @@ const userSchema = Schema({
   cart: [cartItemSchema],
   wishlist: [{ type: ObjectId, ref: 'Item' }],
   history: [{ type: ObjectId, ref: 'Order' }],
-  address: addressSchema,
+  address: { type: addressSchema, default: {
+    street: '',
+    apt: '',
+    city: '',
+    state: '',
+    zip: ''
+  }},
   created: { type: mongoose.Date, default: new Date() },
 });
 

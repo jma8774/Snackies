@@ -93,12 +93,12 @@ const Cart = () => {
                 </Box>
                 <Box display="flex" sx={{mt: 2}}>
                   <Typography variant="body1" flexGrow={1}> Estimated Tax </Typography>
-                  <Typography variant="body1"> ${parseFloat(subtotal * 0.09).toFixed(2)} </Typography>
+                  <Typography variant="body1"> ${parseFloat(subtotal * 0.08875).toFixed(2)} </Typography>
                 </Box>
                 <Divider sx={{mt: 2}} />
                 <Box display="flex" sx={{mt: 2}}>
                   <Typography variant="body1" flexGrow={1}> Total </Typography>
-                  <Typography variant="body1"> ${parseFloat(subtotal * 1.09).toFixed(2)} </Typography>
+                  <Typography variant="body1"> ${parseFloat(subtotal * 1.08875).toFixed(2)} </Typography>
                 </Box>
                 <Button variant="contained" color="success" sx={{width: "100%", mt: 3}} disabled={user.cart_count===0} onClick={handleCheckout}>
                   Checkout

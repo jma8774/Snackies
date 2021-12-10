@@ -15,7 +15,7 @@ import Link from '@mui/material/Link';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import {PaymentElement} from '@stripe/react-stripe-js';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const swipeCard = keyframes`
   0% { transform: translatex(0px); }
@@ -27,7 +27,7 @@ const PaymentMethod = (props) => {
   const { setStep, handlePaymentMethod } = props
   const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
   return (
-    <Box position="relative" pb={50}>
+    <Box position="relative">
       {upMd &&
         <Box position="absolute" sx={{
           width: "100%",
@@ -42,15 +42,17 @@ const PaymentMethod = (props) => {
       }
       <Typography variant="h6"> Payment Method </Typography>
       <Typography variant="body1" color="text.secondary" mt={1}>  
-        Use <Link href="https://stripe.com/docs/testing#cards" target="_blank" rel="noreferrer" color="inherit">Stripe's test card</Link> number 4242 4242 4242 4242 with Visa  
+        Checkout with <Link href="https://stripe.com/docs/testing#cards" target="_blank" rel="noreferrer" color="inherit">Stripe's Visa test card</Link> number 4242 4242 4242 4242 
       </Typography>
       <Divider sx={{mt: 2}} />
-      <Box component="form" onSubmit={handlePaymentMethod} display='flex' mt={2}>
-        <PaymentElement />
-        <Box flexGrow={1} >
-          <Button variant="outlined" startIcon={<NavigateBeforeIcon />} onClick={() => setStep(0)}> Previous </Button>
-        </Box>
-        <Button variant="contained" type="submit" endIcon={<NavigateNextIcon />} > Next </Button>
+      <Box component="form" action="/api/payment/init" method="POST" sx={{mt: 3, display: "flex", justifyContent: "center"}}>
+        <Button variant="contained" type="submit" endIcon={<PaymentIcon />} > Initiate Secure Checkout </Button>
+      </Box>
+      <Box mt={2}>
+        <Typography variant="body1" color="text.secondary"> 
+          <Link href="https://stripe.com/docs/security/stripe" target="_blank" rel="noreferrer" color="inherit"> Stripe</Link> has been audited by a PCI-certified auditor and is certified to PCI Service Provider Level 1. This is the most stringent level of certification available in the payments industry. 
+        </Typography>
+        <Button variant="outlined" startIcon={<NavigateBeforeIcon />} onClick={() => setStep(0)} sx={{mt: 4}}> Previous </Button>
       </Box>
     </Box>
   )

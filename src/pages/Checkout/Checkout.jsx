@@ -9,7 +9,6 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import ShippingAddress from './components/ShippingAddress';
 import PaymentMethod from './components/PaymentMethod';
-import ReviewOrder from './components/ReviewOrder';
 import Typography from '@mui/material/Typography';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -18,7 +17,7 @@ import StepLabel from '@mui/material/StepLabel';
 const steps = [
   'Shipping Address',
   'Payment Method',
-  'Order Review',
+  'Order Summary',
 ];
 
 const Checkout = () => {
@@ -37,9 +36,9 @@ const Checkout = () => {
     // TODO: Fetch Previous Address 
   }, [])
 
-  useEffect(() => {
-    console.log(address)
-  }, [address])
+  // useEffect(() => {
+  //   console.log(address)
+  // }, [address])
 
   const handleShippingAddress = async (e, setError) => {
     e.preventDefault();
@@ -65,13 +64,8 @@ const Checkout = () => {
 
     setAddress(address)
 
-    console.log("SUCCESS")
+    console.log("TODO: UPDATE ADDRESS")
     setStep(1)
-  }
-
-  const handlePaymentMethod = async (e) => {
-    e.preventDefault();
-    setStep(2)
   }
 
   return (
@@ -88,8 +82,7 @@ const Checkout = () => {
             </Stepper>
           </Box>
           {step === 0 && <ShippingAddress address={address} setAddress={setAddress} handleShippingAddress={handleShippingAddress}/>}
-          {step === 1 && <PaymentMethod setStep={setStep} handlePaymentMethod={handlePaymentMethod} />}
-          {step === 2 && <ReviewOrder />}
+          {step === 1 && <PaymentMethod setStep={setStep} />}
         </Paper>
       </Grid>
     </Grid>
