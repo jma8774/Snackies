@@ -128,4 +128,29 @@ router.post('/resetPassword', jwtAuth.authenticateResetToken, async function (re
   res.status(200).send({ message: "Success, password has been reset" })
 })
 
+// Get user address
+router.get('/address', jwtAuth.authenticateToken, async function (req, res) {
+  try {
+    const user = await db.User.findOne({email: req.email})
+    res.json(user.address);
+  } catch (err) {
+    console.log('Get User Address Error:\n', err)
+    res.status(400).send({ message: 'Error has occurred' })
+  }
+})
+
+// Update user address
+router.post('/address', jwtAuth.authenticateToken, async function (req, res) {
+  const {newAddress} = req.body
+  try {
+    const user = await db.User.findOne({email: req.email})
+    user.address = newAddress
+    await user.save()
+    res.json(user.address);
+  } catch (err) {
+    console.log('Update User Address Error:\n', err)
+    res.status(400).send({ message: 'Error has occurred' })
+  }
+})
+
 module.exports = router;

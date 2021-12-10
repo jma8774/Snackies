@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const {Schema, model, ObjectId} = mongoose
 
 const addressSchema = Schema({
+  firstName: String,
+  lastName: String,
   street: String,
   apt: String,
   city: String,
@@ -23,6 +25,8 @@ const userSchema = Schema({
   wishlist: [{ type: ObjectId, ref: 'Item' }],
   history: [{ type: ObjectId, ref: 'Order' }],
   address: { type: addressSchema, default: {
+    firstName: '',
+    lastName: '',
     street: '',
     apt: '',
     city: '',

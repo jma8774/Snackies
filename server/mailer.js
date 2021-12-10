@@ -55,5 +55,17 @@ async function resetPassword(data) {
   });
 }
 
+async function orderComplete(data) {
+  let info = await transporter.sendMail({
+    from: '"Snackies 🍪" ' + process.env.YAHOO_USER, 
+    to: data.to,
+    subject: `Snackies Order Confirmation`, 
+    text: `Order ID ${data.orderId}`,
+    html: `Dear ${data.name}, ` +
+          `<p>Your recent order ${data.orderId} has been confirmed. We will begin shipping your items shortly. </p>` +
+          `<p>Click this <a href=${process.env.DOMAIN_NAME}/orders>link</a> to see your orders.<p/></br>` +
+          "Best,<br/>Snackies",
+  });
+}
 
-module.exports = {signup, resetPassword}
+module.exports = {signup, resetPassword, orderComplete}

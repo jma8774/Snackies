@@ -3,16 +3,21 @@ const moment = require('moment')
 const {Schema, model, ObjectId} = mongoose
 
 const addressSchema = Schema({
+  firstName: String,
+  lastName: String,
   street: String,
   apt: String,
   city: String,
   state: String,
-  zip: Number
+  zip: String
 })
 
-const cartItemSchema = Schema({
+const itemSchema = Schema({
   itemId: { type: ObjectId, ref: 'Item' },
-  quantity: [ { size: String, qty: Number, price: Number } ]
+  name: String,
+  size: String,
+  price: Number,
+  quantity: Number,
 })
 
 const orderSchema = Schema({
@@ -23,7 +28,7 @@ const orderSchema = Schema({
   subTotal: Number,
   tax: Number,
   totalPrice: Number,
-  items: [cartItemSchema],
+  items: [itemSchema],
   status: String,
   address: addressSchema
 });

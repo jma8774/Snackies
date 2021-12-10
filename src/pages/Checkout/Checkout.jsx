@@ -32,8 +32,16 @@ const Checkout = () => {
     zip: ''
   })
 
-  useEffect(() => {
-    // TODO: Fetch Previous Address 
+  useEffect(() => { 
+    const fetchAddress = async () => {
+      try{
+        const {data} = await axios.get('api/user/address')
+        setAddress(data)
+      } catch(err) {
+        console.log("Get Address Error", err.response ? err.response.data : err)
+      }
+    }
+    fetchAddress()
   }, [])
 
   // useEffect(() => {
@@ -64,7 +72,11 @@ const Checkout = () => {
 
     setAddress(address)
 
-    console.log("TODO: UPDATE ADDRESS")
+    try{
+      await axios.post('api/user/address', { newAddress: address })
+    } catch(err) {
+      console.log("Update Address Error", err.response ? err.response.data : err)
+    }
     setStep(1)
   }
 

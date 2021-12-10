@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,17 +15,21 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import PaymentIcon from '@mui/icons-material/Payment';
+import { setCartCount } from '../redux/features/userSlice'
 
 const OrderSummary = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const [error, setError] = useState(false)
   
   useEffect(() => {
     const completeOrder = async () => {
       try{
         const session_id = new URLSearchParams(history.location.search).get('session_id')
-        const { data } = await axios.post("/api/payment/complete", {session_id})
-        console.log(data)
+        await axios.post("/api/payment/complete", {session_id})
+        dispatch(setCartCount(0))
       } catch(err) {
+        setError(true)
         console.log("Complete Order Error", err.response ? err.response.data : err)
       }
     }
