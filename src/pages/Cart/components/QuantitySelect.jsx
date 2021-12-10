@@ -40,6 +40,7 @@ const QuantitySelect = (props) => {
       newOptions.add(Math.max(0, quantity+i))
     }
     setOptions(Array.from(newOptions).sort((a, b) => a > b ? 1 : -1))
+    // eslint-disable-next-line
   }, [quantity])
 
   return (

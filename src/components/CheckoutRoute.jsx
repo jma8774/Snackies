@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Route, Redirect, useHistory } from 'react-router-dom';
 
 
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const CheckoutRoute = ({ component: Component, ...rest }) => {
   const history = useHistory()
-  const [verifyCheckout, setVerifyCheckout] = useState(history.location.verifyCheckout)
 
   return (
     <Route {...rest} render={props => (
-      verifyCheckout
+      history.location.verifyCheckout
         ? <Component {...props} />
         : <Redirect to={{
           pathname: '/',
@@ -18,4 +17,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   )
 }
 
-export default PrivateRoute
+export default CheckoutRoute

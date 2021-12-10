@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
 import axios from 'axios'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
 import ShippingAddress from './components/ShippingAddress';
 import PaymentMethod from './components/PaymentMethod';
-import Typography from '@mui/material/Typography';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';

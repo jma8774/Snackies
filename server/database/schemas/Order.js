@@ -25,7 +25,7 @@ const orderSchema = Schema({
   user: { type: ObjectId, ref: 'User' },
   stripe_session_id: String,
   created: { type: Date, default: new Date() },
-  arrivalDate: { type: Date, default: moment(new Date()).add(30, 'm')  },
+  arrivalDate: { type: Date, default: moment(new Date()).add(28+Math.random(5), 'm')  },
   subTotal: Number,
   tax: Number,
   totalPrice: Number,

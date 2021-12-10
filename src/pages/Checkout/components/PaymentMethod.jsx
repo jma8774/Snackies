@@ -1,11 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
-import axios from 'axios'
-import Grid from '@mui/material/Grid';
+import React from 'react'
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -13,7 +7,6 @@ import { keyframes } from '@mui/system';
 import creditCard from "../../../assets/credit_card.svg"
 import Link from '@mui/material/Link';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import PaymentIcon from '@mui/icons-material/Payment';
 
@@ -24,7 +17,7 @@ const swipeCard = keyframes`
 `;
 
 const PaymentMethod = (props) => {
-  const { setStep, handlePaymentMethod } = props
+  const { setStep  } = props
   const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
   return (
     <Box position="relative">
