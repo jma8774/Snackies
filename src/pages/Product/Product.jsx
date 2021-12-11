@@ -17,6 +17,7 @@ import { setCartCount } from '../../redux/features/userSlice'
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import SortReviews from './components/SortReviews'
+import RelatedItems from './components/RelatedItems'
 import QuantitySelect from './components/QuantitySelect'
 import ProductBreadcrumbs from './components/ProductBreadcrumbs'
 import SizeButton from './components/SizeButton'
@@ -49,6 +50,7 @@ const Product = () => {
   const [error, setError] = useState({error: false, message: ''})
   const { itemId } = useParams()
   const [item, setItem] = useState({})
+  const [relatedItems, setRelatedItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [sizeSelected, setSizeSelected] = useState(0)
   const [quantity, setQuantity] = useState(1)
@@ -167,7 +169,8 @@ const Product = () => {
     try {
       const { data } = await axios.get(`/api/item/getById`, { params: {itemId: itemId} });
       // console.log("Item", data)
-      setItem(data)
+      setItem(data.item)
+      setRelatedItems(data.related)
       setLoading(false)
     } catch(err) {
       console.log("Fetch Product Error:\n", err.response ? err.response.data : err)
@@ -176,17 +179,23 @@ const Product = () => {
 
   useEffect(() => {
     fetchProduct()
-    setCurPage(1)
+    // These are here to that if we click on a related product, it'll reset everything
     window.scrollTo({
       top: 0,
     });
+    setCurPage(1)
+    setWriteReview(false)
+    setQuantity(1)
+    setSortReview(0)
+    // When ItemId changes, we want to fetch product, set everything to default
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [itemId])
 
   useEffect(() => {
     fetchReviews()
+    // When viewing new item, changing the page of review or sorting the review, we fetch new reviews with the new params
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [curPage, sortReview])
+  }, [itemId, curPage, sortReview])
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -277,6 +286,10 @@ const Product = () => {
                 </Box>
               </Grid>
             </Grid>
+            <Divider sx={{mt: 10, mb: 2}} />
+            {/* Related Products */}
+            <Typography variant="h4"> Related Products </Typography>
+            <RelatedItems relatedItems={relatedItems} />
             <Divider sx={{mt: 10, mb: 2}} />
             <Box>
               <Typography variant="h4"> Community Reviews </Typography>

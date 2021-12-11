@@ -24,6 +24,8 @@ const itemSchema = Schema({
   image: String
 });
 
+itemSchema.index({ name: 'text', brand: 'text', description: 'text' })
+
 const Item = model('Item', itemSchema);
 
 module.exports = { Item }

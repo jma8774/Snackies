@@ -4,6 +4,8 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { useSelector, useDispatch} from 'react-redux'
 import { initialize, setLoading} from '../redux/features/userSlice'
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 
 
@@ -34,7 +36,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   // console.log("Authorization User Id", user.id)
   return (
     cookies.get('token') !== undefined && user.loading
-      ? <div>LOADING</div>
+      ? <Box display="flex" justifyContent="center" alignItems="center"height="300px"> <CircularProgress /> </Box>
       : <Route {...rest} render={props => (
           user.id !== ""
             ? <Component {...props} />
