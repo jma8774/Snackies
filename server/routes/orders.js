@@ -15,14 +15,14 @@ router.get('/getAll', jwtAuth.authenticateToken, async function (req, res) {
       const order = await db.Order.findById(user.history[i]._id)
       const now = moment()
       const arrival = moment(user.history[i].arrivalDate)
-      const diff = now.diff(arrival, 'm') // now - arrival
+      const diff = now.diff(arrival, 'seconds') // now - arrival
       if(diff >= 0)
         order.status = "Delivered"
-      else if(diff > -28)
+      else if(diff > -13.5 * 60)
         order.status = "Shipped"
       await order.save()
+      user.history[i] = order
     }
-    await user.save()
     res.json(user.history.sort((order1, order2) => order2.created - order1.created))
   } catch (err) {
     console.log('Get All Orders Error:\n', err)

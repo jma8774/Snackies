@@ -32,7 +32,7 @@ const OrderHistory = () => {
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" sx={{mx: "auto", width: {xs: "100%", md: "70%", lg: "50%"}}}>
       <Typography variant="h3"> Order History </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{mt: 1, mb: 3}}> You view all your orders here </Typography>
+      <Typography variant="body1" color="text.secondary" sx={{mt: 1, mb: 3}}> You can view all your orders here </Typography>
       <Divider />
       { !loading
       ? <OrderHistoryBody orders={orders} setOrders={setOrders} />

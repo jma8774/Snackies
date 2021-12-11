@@ -57,7 +57,8 @@ router.post('/googleAuth', googleOAuth.authenticateGoogleToken, async function (
       email: profile.email.toLowerCase(),
       password: null,
       first_name: profile.given_name,
-      last_name: profile.family_name
+      last_name: profile.family_name,
+      created: new Date()
     }
     // Check if user email exist, if not we make a new user
     const user = await db.User.findOne({email: userData.email}).exec()
@@ -91,7 +92,8 @@ router.post('/signup', async function (req, res) {
     email: email,
     password: passwordHash,
     first_name: first_name,
-    last_name: last_name
+    last_name: last_name,
+    created: new Date()
   })
   await user.save()
   // Send email to user about their registration

@@ -53,7 +53,7 @@ const RequestResetLink = () => {
         autoHideDuration={4000}
         onClose={() => {setSuccessSnack(false)}}
       >
-        <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Success, password reset information will be sent shortly. </Alert>
+        <Alert severity="success" variant="filled" sx={{ width: '100%' }}> Success, password reset information will be sent shortly if the email is valid. </Alert>
       </Snackbar>
       <Typography variant="h4" textAlign="left" sx={{fontWeight: 500, fontFamily: 'GFS Didot , serif'}}> Forgot your password </Typography>
       <Typography variant="body1" textAlign="left" color="text.secondary" sx={{mt:2}}> Please enter the email address you'd like your password reset information sent to </Typography>

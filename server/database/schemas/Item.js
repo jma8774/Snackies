@@ -5,7 +5,7 @@ const reviewSchema = Schema({
   user: { type: ObjectId, ref: 'User' },
   rating: Number,
   message: String,
-  created: { type: Date, default: new Date() }
+  created: Date
 })
 
 const priceSchema = Schema({

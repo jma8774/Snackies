@@ -4,6 +4,7 @@ const db = require("../database/mongoose")
 const jwt = require("../middleware/jwtAuth")
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const mailer = require("../mailer")
+const moment = require('moment')
 
 // Convert stripe item objects to cart items
 async function parseSessionItems(items) {
@@ -98,7 +99,9 @@ router.post('/complete', async function (req, res) {
       totalPrice: parseFloat(session.amount_total) / 100,
       items: await parseSessionItems(items.data),
       status: "Processing",
-      address: user.address
+      address: user.address,
+      created: new Date(),
+      arrivalDate: moment(new Date()).add(15, 'm').toDate()
     })
     await order.save()
     user.history.push(order.id)

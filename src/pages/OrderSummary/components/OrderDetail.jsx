@@ -77,7 +77,7 @@ const OrderDetail = (props) => {
         </Box>
       <Divider sx={{mt: 2}}/>
         <Box sx={{mt: 2}}>
-          <Typography > Your order should arrive in approximately 30 minutes, thanks to our super fast Snackers™ delivery system. </Typography>
+          <Typography > Your order should arrive in approximately 15 minutes, thanks to our super fast Snackers™ delivery system. </Typography>
           <Typography sx={{mt: 2}}> Thank you! </Typography>
           <Typography sx={{mt: 0.5}}> Snackies </Typography>
         </Box>

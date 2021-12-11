@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment')
 const {Schema, model, ObjectId} = mongoose
 
 const addressSchema = Schema({
@@ -24,8 +23,8 @@ const itemSchema = Schema({
 const orderSchema = Schema({
   user: { type: ObjectId, ref: 'User' },
   stripe_session_id: String,
-  created: { type: Date, default: new Date() },
-  arrivalDate: { type: Date, default: moment(new Date()).add(30, 'm').toDate()  },
+  created: Date,
+  arrivalDate: Date,
   subTotal: Number,
   tax: Number,
   totalPrice: Number,

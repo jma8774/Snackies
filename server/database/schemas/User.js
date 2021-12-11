@@ -33,7 +33,7 @@ const userSchema = Schema({
     state: '',
     zip: ''
   }},
-  created: { type: mongoose.Date, default: new Date() },
+  created: mongoose.Date,
 });
 
 

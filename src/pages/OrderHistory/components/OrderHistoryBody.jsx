@@ -61,7 +61,7 @@ const OrderHistoryBody = (props) => {
         <Paper variant="outlined" key={order._id} sx={{px: 2, py: 2, mt: 3}}>
           <Box display="flex">
             <Box flexDirection="column" flexGrow={1}>
-              <Typography color="text.secondary"> DATE PLACED </Typography>
+              <Typography color="text.secondary"> ORDER PLACED </Typography>
               <Typography > {new Date(order.created).toDateString().slice(4)}</Typography>
             </Box>
             <Box flexDirection="column" flexGrow={1}>
@@ -73,11 +73,17 @@ const OrderHistoryBody = (props) => {
               <Box display="flex" alignItems="center">
                 <Tooltip title={
                   <Box>
+                    <Typography fontWeight="bold"> {`${order.address.firstName} ${order.address.lastName}`} </Typography>
                     <Typography> {`${order.address.street} ${order.address.apt}`}</Typography>
                     <Typography> {`${order.address.city}, ${order.address.state} ${order.address.zip}`}</Typography>
                   </Box>
                 }>
-                  <Typography sx={{textDecorationLine: "underline"}}>{`${order.address.firstName} ${order.address.lastName}`}</Typography> 
+                  <Typography sx={{textDecorationLine: "underline"}}>
+                    {`${order.address.firstName} ${order.address.lastName}`.length > 11
+                    ? `${order.address.firstName} ${order.address.lastName}`.slice(0, 11) + '...'
+                    : `${order.address.firstName} ${order.address.lastName}`
+                    }
+                  </Typography> 
                 </Tooltip>
                 <KeyboardArrowDownIcon/>
               </Box>
