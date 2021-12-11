@@ -101,7 +101,7 @@ router.post('/complete', async function (req, res) {
       status: "Processing",
       address: user.address,
       created: new Date(),
-      arrivalDate: moment(new Date()).add(15, 'm').toDate()
+      arrivalDate: moment(new Date()).add(5, 'm').toDate()
     })
     await order.save()
     user.history.push(order.id)

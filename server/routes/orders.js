@@ -18,7 +18,7 @@ router.get('/getAll', jwtAuth.authenticateToken, async function (req, res) {
       const diff = now.diff(arrival, 'seconds') // now - arrival
       if(diff >= 0)
         order.status = "Delivered"
-      else if(diff > -13.5 * 60)
+      else if(diff > -4 * 60)
         order.status = "Shipped"
       await order.save()
       user.history[i] = order
