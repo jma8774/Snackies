@@ -19,7 +19,7 @@ const OrderHistory = () => {
       try{
         setLoading(true)
         const { data } = await axios.get("api/orders/getAll")
-        // setOrders(data)
+        setOrders(data)
         // console.log(data)
         setLoading(false)
       } catch(err) {
