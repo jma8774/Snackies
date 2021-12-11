@@ -32,7 +32,7 @@ const OrderSummary = () => {
         setLoading(true)
         const session_id = new URLSearchParams(history.location.search).get('session_id')
         const {data} = await axios.post("/api/payment/complete", {session_id})
-        console.log(data)
+        // console.log(data)
         setOrder(data)
         dispatch(setCartCount(0))
       } catch(err) {

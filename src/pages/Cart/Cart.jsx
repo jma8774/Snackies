@@ -39,7 +39,7 @@ const Cart = () => {
       }
     }
     fetchCart()
-  }, [user])
+  }, [user.id])
 
   useEffect(() => {
     const getSubtotal = (cart) => {

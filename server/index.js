@@ -28,12 +28,14 @@ const item = require('./routes/item.js');
 const cart = require('./routes/cart.js');
 const review = require('./routes/review.js');
 const payment = require('./routes/payment.js');
+const orders = require('./routes/orders.js');
 app.use('/api/user', user);
 app.use('/api/user/wishlist', wishlist);
 app.use('/api/item', item);
 app.use('/api/cart', cart);
 app.use('/api/review', review);
 app.use('/api/payment', payment);
+app.use('/api/orders', orders);
 
 
 // Needed for Heroku

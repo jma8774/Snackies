@@ -36,7 +36,7 @@ function parseLineItems(cart, taxRate) {
             name: `${name} (${quantity.size})`,
             images: [`https://buy-snacks.herokuapp.com/snacks${image}`],
           },
-          unit_amount_decimal: quantity.price*100,
+          unit_amount_decimal: parseInt(quantity.price*100),
           tax_behavior: "exclusive"
         },
         quantity: quantity.qty,

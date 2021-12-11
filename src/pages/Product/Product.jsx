@@ -157,7 +157,7 @@ const Product = () => {
       const { data } = await axios.get(`/api/review/getAll`, { params: params });
       setReviews(data.reviews)
       setMaxPage(data.numPages)
-      console.log("Reviews", data)
+      // console.log("Reviews", data)
     } catch(err) {
       console.log("Fetch Reviews Error:\n", err.response ? err.response.data : err)
     }
@@ -166,7 +166,7 @@ const Product = () => {
   const fetchProduct = async () => {
     try {
       const { data } = await axios.get(`/api/item/getById`, { params: {itemId: itemId} });
-      console.log("Item", data)
+      // console.log("Item", data)
       setItem(data)
       setLoading(false)
     } catch(err) {
