@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios"
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -9,13 +7,11 @@ import OrderHistorySkeleton from './components/OrderHistorySkeleton'
 import OrderHistoryBody from './components/OrderHistoryBody'
 
 const OrderHistory = () => {
-  const user = useSelector((state) => state.user)
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   
   useEffect(() => {
     const fetchOrders = async () => {
-      if(user.id === '') return
       try{
         setLoading(true)
         const { data } = await axios.get("api/orders/getAll")

@@ -4,28 +4,31 @@ const db = require("../database/mongoose")
 
 
 // Load items to home page
-// On Success: Loads 10 items
 router.get('/', async function (req, res) {
   try {
-    const { itemsPerPage, page, sort, filter } = req.query
-    const items = await db.Item.find(filter === "All" ? {} : { brand: filter })
-      .sort(JSON.parse(sort))
-      .skip((page-1) * parseInt(itemsPerPage)) // how many items to skip
-      .limit(parseInt(itemsPerPage)) // how many items per page
-    res.json(items)
+    let { itemsPerPage, page, search, sort, filter } = req.query
+    sort = {
+      ...JSON.parse(sort),
+      _id: -1 
+    }
+    const matchQuery = {
+      ...(search !== '') && { $text: { $search: search } },
+      ...(filter !== 'All') && { brand: filter }
+    }
+    const queryItems = await db.Item.aggregate([
+      { $match: matchQuery }, // Queries based on filter and search
+      { $facet: {
+        count:  [{ $count: "count" }],
+        applySortSkipLimit: [
+          { $sort: sort },  // Sort base on user
+          { $skip: (page-1) * parseInt(itemsPerPage) }, // How many items to skip
+          { $limit: parseInt(itemsPerPage) } // How many items per page
+        ]
+      }}
+    ])
+    res.json({items: queryItems[0].applySortSkipLimit, totalItems: queryItems[0].count.length > 0 ? queryItems[0].count[0].count : 0 })
   } catch (err) {
     console.log('Get Items Error:\n', err)
-    res.status(400).send({ message: 'Error has occurred' })
-  }
-})
-
-router.get('/length', async function (req, res) {
-  try {
-    const { filter } = req.query
-    const totalItems = await db.Item.find(filter === "All" ? {} : { brand: filter })
-    res.json(totalItems.length)
-  } catch (err) {
-    console.log('Get Length Error:\n', err)
     res.status(400).send({ message: 'Error has occurred' })
   }
 })

@@ -8,13 +8,15 @@ import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux'
 import axios from "axios"
 import ItemCard from './components/ItemCard'
+import ItemSkeleton from './components/ItemSkeleton'
 import BrandChips from './components/BrandChips'
 import SortItemsSelect from './components/SortItemsSelect'
 import Banner from './components/Banner';
 import Brands from './components/Brands';
 import Pagination from '@mui/material/Pagination';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import SearchField from './components/SearchField'
+import ErrorIcon from '@mui/icons-material/Error';
 
 
 
@@ -24,18 +26,20 @@ const Home = () => {
   const history = useHistory()
   const startBrowsingRef = useRef(null)
   const user = useSelector((state) => state.user)
+  const downSm = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+  const downXl = useMediaQuery((theme) => theme.breakpoints.down('xl'));
+  
   const [userWishlist, setUserWishlist] = useState([])
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(8)
+  const [itemsPerPage, setItemsPerPage] = useState(downSm ? 6 : 8)
   const [totalItems, setTotalItems] = useState(50)
+  const [search, setSearch] = useState('')
   const [sort, setSort] = useState(0)
   const [filterBrand, setFilterBrand] = useState("All")
   const [loading, setLoading] = useState(true)
   const [showLogin, setShowLogin] = useState(history.location.loggedIn)
   
-  const downSm = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const downXl = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   
   const executeScroll = () => {
     const top = startBrowsingRef.current.offsetTop - 150
@@ -45,6 +49,11 @@ const Home = () => {
     });
   }
   
+  const handleSearch = (e) => {
+    e.preventDefault()
+    setSearch(e.target[0].value)
+  }
+
   const handlePageChange = (e, newPage) => {
     if(newPage === page) return
     setPage(newPage)
@@ -93,35 +102,23 @@ const Home = () => {
     fetchWishlist()
   }, [user.email])
 
+  // When they change filter, we fetch new items
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const params = { itemsPerPage: itemsPerPage, page: page, sort: sortObjects[sort], filter: filterBrand }
+        setLoading(true)
+        const params = { itemsPerPage: itemsPerPage, page: page, search: search, sort: sortObjects[sort], filter: filterBrand }
         const { data } = await axios.get(`/api/item/`, { params: params });
         // console.log(data)
-        setItems(data)
+        setItems(data.items)
+        setTotalItems(data.totalItems)
       } catch(err) {
         console.log("Fetch Items Error:\n", err.response ? err.response.data : err)
       }
+      setLoading(false)
     }
-    setLoading(true)
     fetchItems()
-    setLoading(false)
-  }, [itemsPerPage, page, sort, filterBrand]);
-
-  useEffect(() => {
-    const fetchTotal = async () => {
-      try {
-        const params = { filter: filterBrand }
-        const { data } = await axios.get(`/api/item/length`, { params: params });
-        // console.log(data)
-        setTotalItems(data)
-      } catch(err) {
-        console.log("Fetch Total Items Error:\n", err.response ? err.response.data : err)
-      }
-    }
-    fetchTotal()
-  }, [filterBrand]);
+  }, [itemsPerPage, page, search, sort, filterBrand]);
 
   return (
     <Box>
@@ -135,33 +132,39 @@ const Home = () => {
       </Snackbar>
       <Banner executeScroll={executeScroll} />
       <Brands handleFilterChange={handleFilterChange} />
-      <Box sx={{mt: 5}}/>
-      <Grid ref={ startBrowsingRef } container width="100%" spacing={2} alignItems="center" >
-        {downSm && <Typography ml={2}> Scroll horizontally to view more brands </Typography>}
-        <Grid item xs={12} lg={9} sx={{overflowX: 'auto', pb: { xs: 2, md: 0}}}>
+      <Grid ref={ startBrowsingRef } container width="100%" spacing={2} alignItems="center" sx={{mt: 15}}>
+        <Grid item xs={12} md>
+          <SearchField handleSearch={handleSearch} />
+        </Grid>
+        <Grid item xs={12} md sx={{ display: "flex", justifyContent: {xs: "flex-start", md: "flex-end"} }}>
+          <SortItemsSelect sort={sort} handleSortChange={handleSortChange} />
+        </Grid>
+        {/* {downSm && <Typography ml={2} textAlign="center"> Scroll horizontally to view more brands </Typography>} */}
+        <Grid item xs={12}  sx={{overflowX: 'auto', pb: { xs: 2, md: 0}}}>
           <Box mt={0.5}>
             <BrandChips filterBrand={filterBrand} handleFilterChange={handleFilterChange} />
           </Box>
         </Grid>
-        <Grid item xs={12} lg={3} display="flex" justifyContent="flex-end">
-          <SortItemsSelect sort={sort} handleSortChange={handleSortChange} />
-        </Grid>
       </Grid>
-      <Box sx={{mt: 4, minHeight: 500}}>
-        {items.length > 0
-        ? <Grid container rowSpacing={3} justifyContent="flex-start" sx={{mx: "auto"}}>
-            {items.map((item) => {
-              return(
+      <Box sx={{display: "flex", flexDirection: "column", mt: 4, minHeight: 600}}>
+        {(items.length === 0 && !loading) &&
+          <Box sx={{ flex: 1, py: 7, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <ErrorIcon color="error" sx={{fontSize: 50}}/>
+            <Typography sx={{mt: 1, textAlign: "center"}}> No items found for this search 😮 </Typography>
+          </Box>
+        }   
+        <Grid container rowSpacing={3} justifyContent="flex-start" sx={{mx: "auto"}} >
+          {loading 
+            ? [...Array(itemsPerPage)].map((x, i) => <ItemSkeleton key={i} /> )
+            : items.map((item) => 
                 <Grid key={item._id} item xs={12} sm={6} md={4} xl={3} > 
-                    <ItemCard item={item} isWish={userWishlist.includes(item._id)} setUserWishlist={setUserWishlist} />
+                  <ItemCard item={item} isWish={userWishlist.includes(item._id)} setUserWishlist={setUserWishlist} />
                 </Grid>
               )
-            })}
-          </Grid>
-        : <Typography variant="h6" textAlign="left" mt={3}> No items found</Typography>
-        }
+          }   
+        </Grid>
       </Box>
-      <Box sx={{mt: 5, pb: 15, display: "flex", justifyContent: "center"}}>
+      <Box sx={{mt: 7, pb: 10, display: "flex", justifyContent: "center"}}>
         <Pagination color="secondary"page={page} onChange={handlePageChange} count={Math.ceil(totalItems/itemsPerPage)} size={downSm ? "small" : "large"} />
       </Box>
     </Box>

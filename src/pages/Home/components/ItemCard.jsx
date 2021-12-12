@@ -2,6 +2,7 @@ import React from 'react'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -89,7 +90,11 @@ const ItemCard = (props) => {
         </Link>
         <Typography variant="body1" color="text.secondary" flexGrow={1} > ${parseFloat(item.basePrice).toFixed(2)} </Typography>
         <Box display="flex" alignItems="center" mt={2}>
-          <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
+          <Tooltip title={`Item has a rating of ${parseFloat(item.rating).toFixed(2)}`} placement="top">
+            <Box>
+              <Rating name="read-only" value={item.rating} precision={0.5} readOnly /> 
+            </Box>
+          </Tooltip>
           <Box component={Typography} variant="body1" color="text.secondary" sx={{ ml: 1}}> ({item.reviews.length}) </Box>
         </Box>
       </Box>

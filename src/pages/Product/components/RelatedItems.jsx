@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
+import React from 'react'
+import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import CircularProgress from '@mui/material/CircularProgress';
 import Rating from '@mui/material/Rating';
 import ErrorIcon from '@mui/icons-material/Error';
 import Link from '@mui/material/Link';

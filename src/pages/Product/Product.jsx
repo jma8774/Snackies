@@ -86,7 +86,7 @@ const Product = () => {
       data.noComment = false
       data.created = data.created ? new Date(data.created) : null
       setNewReview(data)
-      console.log("Previous Review", data)  
+      // console.log("Previous Review", data)  
     } catch(err) {
       console.log("Get Previous Review Error:\n", err.response ? err.response.data : err)
     }
@@ -107,7 +107,7 @@ const Product = () => {
       fetchProduct()
       setCurPage(1)
       setReviewSubmitted(true)
-      console.log("New Review", newReview)
+      // console.log("New Review", newReview)
     } catch(err) {
       console.log("Post Review Error:\n", err.response ? err.response.data : err)
     }
@@ -178,6 +178,7 @@ const Product = () => {
   }
 
   useEffect(() => {
+    setLoading(true)
     fetchProduct()
     // These are here to that if we click on a related product, it'll reset everything
     window.scrollTo({
@@ -188,6 +189,7 @@ const Product = () => {
     setQuantity(1)
     setSortReview(0)
     // When ItemId changes, we want to fetch product, set everything to default
+    // Also runs when the page loads
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemId])
 
@@ -288,7 +290,9 @@ const Product = () => {
             </Grid>
             <Divider sx={{mt: 10, mb: 2}} />
             {/* Related Products */}
-            <Typography variant="h4"> Related Products </Typography>
+            <Box display="flex" >
+              <Typography variant="h4" flexGrow={1}> Related Products </Typography>
+            </Box>
             <RelatedItems relatedItems={relatedItems} />
             <Divider sx={{mt: 10, mb: 2}} />
             <Box>

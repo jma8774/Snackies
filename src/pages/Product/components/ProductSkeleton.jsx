@@ -11,7 +11,7 @@ const ProductSkeleton = () => {
       <Box mb={5} />
       <Grid container rowSpacing={5}>
         <Grid item xs={12} md={5} >
-          <Skeleton sx={{height: 500, width: "90%", mx: "auto"}} />
+          <Skeleton variant="rectangular" sx={{height: 500, width: "90%", mx: "auto"}} />
         </Grid>
         <Grid item xs={12} md={7} display="flex" flexDirection="column">
           <Typography variant="h3">  
