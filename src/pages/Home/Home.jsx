@@ -32,7 +32,7 @@ const Home = () => {
   const [userWishlist, setUserWishlist] = useState([])
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(downSm ? 6 : 8)
+  const [itemsPerPage, setItemsPerPage] = useState(0)
   const [totalItems, setTotalItems] = useState(50)
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState(0)
@@ -105,6 +105,7 @@ const Home = () => {
   // When they change filter, we fetch new items
   useEffect(() => {
     const fetchItems = async () => {
+      if(itemsPerPage === 0) return
       try {
         setLoading(true)
         const params = { itemsPerPage: itemsPerPage, page: page, search: search, sort: sortObjects[sort], filter: filterBrand }
@@ -165,7 +166,7 @@ const Home = () => {
         </Grid>
       </Box>
       <Box sx={{mt: 7, pb: 10, display: "flex", justifyContent: "center"}}>
-        <Pagination color="secondary"page={page} onChange={handlePageChange} count={Math.ceil(totalItems/itemsPerPage)} size={downSm ? "small" : "large"} />
+        <Pagination color="secondary"page={page} onChange={handlePageChange} count={itemsPerPage === 0 ? 0 : Math.ceil(totalItems/itemsPerPage)} size={downSm ? "small" : "large"} />
       </Box>
     </Box>
   )
