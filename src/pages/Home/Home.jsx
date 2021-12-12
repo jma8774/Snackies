@@ -20,6 +20,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 
 
 
+const itemsPerPage = window.innerWidth <= 1536 ? 6 : 8
 const sortObjects = [{ rating: -1}, {rating: 1}, {basePrice: -1}, {basePrice: 1}, {name: 1}, {name: -1}]
 
 const Home = () => {
@@ -27,19 +28,16 @@ const Home = () => {
   const startBrowsingRef = useRef(null)
   const user = useSelector((state) => state.user)
   const downSm = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const downXl = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   
   const [userWishlist, setUserWishlist] = useState([])
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(0)
   const [totalItems, setTotalItems] = useState(50)
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState(0)
   const [filterBrand, setFilterBrand] = useState("All")
   const [loading, setLoading] = useState(true)
   const [showLogin, setShowLogin] = useState(history.location.loggedIn)
-  
   
   const executeScroll = () => {
     const top = startBrowsingRef.current.offsetTop - 150
@@ -84,10 +82,6 @@ const Home = () => {
   }, [history.location])
 
   useEffect(() => {
-    setItemsPerPage(downXl ? 6 : 8)
-  }, [downXl])
-
-  useEffect(() => {
     const fetchWishlist = async () => {
       if(user.email === '') return setUserWishlist([])
       try {
@@ -105,7 +99,6 @@ const Home = () => {
   // When they change filter, we fetch new items
   useEffect(() => {
     const fetchItems = async () => {
-      if(itemsPerPage === 0) return
       try {
         setLoading(true)
         const params = { itemsPerPage: itemsPerPage, page: page, search: search, sort: sortObjects[sort], filter: filterBrand }
@@ -119,7 +112,7 @@ const Home = () => {
       setLoading(false)
     }
     fetchItems()
-  }, [itemsPerPage, page, search, sort, filterBrand]);
+  }, [page, search, sort, filterBrand]);
 
   return (
     <Box>
@@ -166,7 +159,7 @@ const Home = () => {
         </Grid>
       </Box>
       <Box sx={{mt: 7, pb: 10, display: "flex", justifyContent: "center"}}>
-        <Pagination color="secondary"page={page} onChange={handlePageChange} count={itemsPerPage === 0 ? 0 : Math.ceil(totalItems/itemsPerPage)} size={downSm ? "small" : "large"} />
+        <Pagination color="secondary"page={page} onChange={handlePageChange} count={Math.ceil(totalItems/itemsPerPage)} size={downSm ? "small" : "large"} />
       </Box>
     </Box>
   )
