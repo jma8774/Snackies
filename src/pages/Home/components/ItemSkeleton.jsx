@@ -38,8 +38,8 @@ const ItemSkeleton = (props) => {
             : <FavoriteBorderIcon sx={{ animation: `${animateHeartOut} 0.3s 1 linear` }}/>}
           </IconButton>
         </Box>
-        <Box display="flex" justifyContent="center" mt={5} >
-          <Skeleton variant="rectangular" height={175} width="75%" />
+        <Box display="flex" justifyContent="center" >
+          <Skeleton variant="rectangular" height={200} width="75%" />
         </Box>
         <Box sx={{display: "flex", flexDirection: "column", mt: 1, mx: 4, pb: 3, flexGrow: 1 }}>
           <Skeleton height={50} />
