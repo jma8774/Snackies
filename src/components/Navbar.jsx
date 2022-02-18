@@ -48,7 +48,7 @@ const Navbar = (props) => {
 
   const logout = async () => {
     cookies.remove("token", { path: '/' })
-    console.log("Token cookie:", cookies.getAll().token)
+    // console.log("Token cookie:", cookies.getAll().token)
     dispatch(reset())
   }
 

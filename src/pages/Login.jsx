@@ -58,7 +58,7 @@ const Login = (props) => {
     setWaiting(true)
     try {
       await axios.post(`/api/user/login`, loginInfo);
-      console.log("Token cookie:", cookies.getAll().token)
+      // console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
       setPasswordError(false)
@@ -75,7 +75,7 @@ const Login = (props) => {
     const { tokenId } = response
     try {
       await axios.post(`/api/user/googleAuth`, { tokenId: tokenId, });
-      console.log("Token cookie:", cookies.getAll().token)
+      // console.log("Token cookie:", cookies.getAll().token)
       const { data } = await axios.get(`/api/user/`);
       dispatch(initialize(data))
       history.push({pathname: '/', loggedIn: true})
