@@ -104,6 +104,8 @@ const Home = () => {
         const params = { itemsPerPage: itemsPerPage, page: page, search: search, sort: sortObjects[sort], filter: filterBrand }
         const { data } = await axios.get(`/api/item/`, { params: params });
         // console.log(data)
+        if(search) 
+          setPage(1)
         setItems(data.items)
         setTotalItems(data.totalItems)
       } catch(err) {
