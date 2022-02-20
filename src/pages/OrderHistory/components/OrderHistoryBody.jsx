@@ -113,9 +113,9 @@ const OrderHistoryBody = (props) => {
               </Grid>
               <Grid item xs={8} md={9} sx={{display: "flex"}}>
                 <Box display="flex" flexDirection="column" ml={3}>
-                  <Typography>
+                  <Link component={RouterLink} to={{ pathname: `/product/${item.itemId}`}} underline="none" color="inherit" sx={{mx: "auto"}}>
                     {item.name}
-                  </Typography>
+                  </Link>
                   <Box sx={{mt: 0.5}}>
                     <Chip size="small" label={item.size} />
                   </Box>
